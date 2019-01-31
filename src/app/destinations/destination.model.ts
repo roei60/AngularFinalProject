@@ -1,5 +1,5 @@
 export interface Destination {
     Id: Number,
-    Countey: string,
+    Country: string,
     City: string
 }
