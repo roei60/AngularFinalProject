@@ -42,4 +42,21 @@ export class FlightService {
     return this.flightsUpdates.asObservable();
   }
 
+  public AddFlight(takeoff: string, landing: string, price: number, destination: string){
+    console.log("Add flight: ");
+    console.log("/ttakeoff: " + takeoff);
+    console.log("/tlanding: " + landing);
+    console.log("/tprice: " + price);
+    console.log("/tdestination: " + destination);
+  }
+
+  public UpdateFlight(id: string, takeoff: string, landing: string, price: number, destination: string){
+    console.log("Update flight: ");
+    console.log("/tid: " + id);
+    console.log("/ttakeoff: " + takeoff);
+    console.log("/tlanding: " + landing);
+    console.log("/tprice: " + price);
+    console.log("/tdestination: " + destination);
+  }
+
 }
