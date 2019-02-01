@@ -1,0 +1,19 @@
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Destination</th>
+      <th>Takeoff</th>
+      <th>Landing</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let flight of flights">
+      <td>{{flight.destination.City}},{{flight.destination.Country}}</td>
+      <td>{{flight.takeoff}}</td>
+      <td>{{flight.landing}}</td>
+      <td>{{flight.price}}</td>
+    </tr>
+  </tbody>
+</table>
