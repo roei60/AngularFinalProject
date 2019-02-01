@@ -2,8 +2,8 @@ import { Destination } from '../destinations/destination.model';
 
 export interface Flight {
     Id: Number,
-    takeoff: string, 
-    landing: string ,
-    price: Number, 
-    destination: Destination
+    Takeoff: String, 
+    Landing: String,
+    Price: Number, 
+    Destination: Destination
 }

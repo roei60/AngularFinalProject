@@ -1,3 +1,29 @@
-<p>
-  flight-create works!
-</p>
+<mat-card>
+    <mat-form-field>
+      <input matInput [matDatepicker]="TakeOffDatePicker" placeholder="Take Off Date">
+      <mat-datepicker-toggle matSuffix [for]="TakeOffDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #TakeOffDatePicker></mat-datepicker>
+    </mat-form-field>
+    <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Take Off Time">
+      <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="LandingDatePicker" placeholder="Landing Date">
+        <mat-datepicker-toggle matSuffix [for]="LandingDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #LandingDatePicker></mat-datepicker>
+    </mat-form-field>
+    <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Landing Time">
+      <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+    
+    <mat-form-field>
+      <input matInput placeholder="Price">
+    </mat-form-field>
+ 
+    <mat-form-field>
+        <mat-select placeholder="Destination" (selectionChange)="onOptionSelected($event.value)">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let destination of destinations" [value]="destination" >{{destination}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+</mat-card>
