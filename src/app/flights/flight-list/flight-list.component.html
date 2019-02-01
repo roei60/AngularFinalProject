@@ -1,19 +1,41 @@
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="Destination">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.destination.Country}},{{element.destination.City}} </mat-cell>
+  </ng-container>
 
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th>Destination</th>
-      <th>Takeoff</th>
-      <th>Landing</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let flight of flights">
-      <td>{{flight.destination.City}},{{flight.destination.Country}}</td>
-      <td>{{flight.takeoff}}</td>
-      <td>{{flight.landing}}</td>
-      <td>{{flight.price}}</td>
-    </tr>
-  </tbody>
-</table>
+  <!-- Name Column -->
+  <ng-container matColumnDef="takeoff">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> takeoff</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.takeoff}} </mat-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="landing">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> landing</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.landing}} </mat-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> price</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>
+        <button class="btn btn-primary">Update</button>
+        <button class="btn btn-danger"> Delete</button>
+      <div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

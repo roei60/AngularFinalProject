@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from "@angular/forms";
-
+import { ReactiveFormsModule,FormsModule } from "@angular/forms";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSortModule} from '@angular/material/sort';
+import {MatIconModule} from '@angular/material/icon';
 import {HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +15,7 @@ import { FlightListComponent } from './flights/flight-list/flight-list.component
 import {
   MatInputModule,
   MatCardModule,
+  MatTableModule,
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
@@ -36,6 +39,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -50,7 +54,12 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     MatFormFieldModule,
     MatSelectModule,
     OwlDateTimeModule, OwlNativeDateTimeModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule,
+    MatSortModule,
+    MatIconModule,
+    MatTableModule
+ 
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

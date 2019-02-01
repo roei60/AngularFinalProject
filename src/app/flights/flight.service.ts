@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 export class FlightService {
 
   private flights: Flight[] = []
-  private flightsUpdates = new Subject<{ flightsData: Flight[]}>();
+  private flightsUpdates = new Subject<{ flightsData: Flight[] }>();
   constructor(private http: HttpClient, private router: Router) {
     var f: Flight
     f = {
@@ -20,13 +20,17 @@ export class FlightService {
         Country: "Israel",
         Id: 12345
       },
-      landing:"12/12/12",
-      price:1234,
-      takeoff:"30/12/12"
+      landing: "12/12/12",
+      price: 1234,
+      takeoff: "30/12/12"
     }
-
-    this.flights.push(f);
-    this.flights.push(f);
+    for (var i = 0; i < 100; i++) {
+      let copy = JSON.parse(JSON.stringify(f))
+      copy.destination.City=f.destination.City+i;
+     copy.price=i;
+      this.flights.push(copy);
+  
+    }
   }
   /**
    * name
