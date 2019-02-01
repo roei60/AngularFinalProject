@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RegistrationComponent } from './users/registration/registration.component';
 import { LoginComponent } from './users/login/login.component';
+import { FlightListComponent } from "./flights/flight-list/flight-list.component";
+import { FlightCreateComponent } from "./flights/flight-create/flight-create.component";
 
 const routes: Routes = [
   {
@@ -12,8 +14,11 @@ const routes: Routes = [
     path: 'registration',
     component: RegistrationComponent
   },
+  { path: '', component: FlightListComponent },
+  { path: 'create', component: FlightCreateComponent },
+  { path: 'edit/:flightId', component: FlightCreateComponent },
+  { path: 'read', component: FlightListComponent }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
