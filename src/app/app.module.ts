@@ -24,17 +24,25 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatFormFieldModule,
-  MatSelectModule
+  MatSelectModule,
+  MatIconModule
 } from "@angular/material";
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { RegistrationComponent } from './users/registration/registration.component';
+import { LoginComponent } from './users/login/login.component';
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FlightCreateComponent,
-    FlightListComponent
+    FlightListComponent,
+    RegistrationComponent,
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -59,9 +67,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     MatSortModule,
     MatIconModule,
     MatTableModule
- 
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule,AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
