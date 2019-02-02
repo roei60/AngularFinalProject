@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: '', component: FlightListComponent },
   { path: 'create', component: FlightCreateComponent },
   { path: 'edit/:flightId', component: FlightCreateComponent },
-  { path: 'read', component: FlightListComponent }
+  { path: 'get', component: FlightListComponent }
 ];
 
 @NgModule({

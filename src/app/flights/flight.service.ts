@@ -10,11 +10,11 @@ import { Router } from "@angular/router";
 export class FlightService {
 
   private flights: Flight[] = []
-  private flightsUpdates = new Subject<{ flightsData: Flight[] }>();
+  private flightsUpdated = new Subject<{ flightsData: Flight[]}>();
   constructor(private http: HttpClient, private router: Router) {
     var f: Flight
     f = {
-      Id: 1234,
+      id: "1234",
       destination: {
         City: "Jeruslam",
         Country: "Israel",
@@ -29,34 +29,115 @@ export class FlightService {
       copy.destination.City=f.destination.City+i;
      copy.price=i;
       this.flights.push(copy);
-  
+
     }
   }
   /**
    * name
    */
-  public GetFlights() {
-    return this.flights
-  }
+
+   public GetFlights()
+   {
+     return this.flights;
+   }
+  // public GetFlights(flightsPerPage: number, currentPage: number) {
+  //   const queryParams = `?pagesize=${flightsPerPage}&page=${currentPage}`;
+  //   this.http
+  //     .get<{ message: string; flights: any; maxFlights: number }>(
+  //       "http://localhost:3000/api/flights" + queryParams
+  //     )
+  //     .pipe(
+  //       map(flightData => {
+  //         return {
+  //           flights: flightData.flights.map(flight => {
+  //             return {
+  //               takeoff: flight.takeoff,
+  //               landing: flight.landing,
+  //               id: flight._id,
+  //               price: flight.price,
+  //               destination: flight.destination
+  //             };
+  //           }),
+  //           maxFlights: flightData.maxFlights
+  //         };
+  //       })
+  //     )
+  //     .subscribe(transformedFlightData => {
+  //       this.flights = transformedFlightData.flights;
+  //       this.flightsUpdated.next({
+  //         flightsData: [...this.flights],
+  //         flightCount: transformedFlightData.maxFlights
+  //       });
+  //     });
+  // }
   getFlightsUpdateListener() {
-    return this.flightsUpdates.asObservable();
+    return this.flightsUpdated.asObservable();
   }
 
-  public AddFlight(takeoff: string, landing: string, price: number, destination: string){
+  getFlight(id: string) {
+    return this.http.get<{
+      _id: string;
+      takeoff: string;
+      landing: string;
+      price: string;
+      destination: string
+    }>("http://localhost:3000/api/flights/" + id);
+  }
+
+  addFlight(takeoff: string, landing: string, price: number, destination: string){
     console.log("Add flight: ");
-    console.log("/ttakeoff: " + takeoff);
-    console.log("/tlanding: " + landing);
-    console.log("/tprice: " + price);
-    console.log("/tdestination: " + destination);
+    console.log("takeoff: " + takeoff);
+    console.log("landing: " + landing);
+    console.log("price: " + price);
+    console.log("destination: " + destination);
+
+    const flightData = new FormData();
+    flightData.append("takeoff", takeoff);
+    flightData.append("landing", landing);
+    flightData.append("price", price.toString());
+    flightData.append("destination", destination);
+
+    console.log("flightData takeoff: " + flightData.get("takeoff"));
+    console.log("flightData landing: " + flightData.get("landing"));
+    console.log("flightData price: " + flightData.get("price"));
+    console.log("flightData destination: " + flightData.get("destination"));
+
+    this.http
+      .post<{ message: string; flight: Flight }>(
+        "http://localhost:3000/api/flights",
+        flightData
+      )
+      .subscribe(responseData => {
+        this.router.navigate(["/"]);
+      });
   }
 
-  public UpdateFlight(id: string, takeoff: string, landing: string, price: number, destination: string){
+  updateFlight(id: string, takeoff: string, landing: string, price: string, destination: string) {
     console.log("Update flight: ");
-    console.log("/tid: " + id);
-    console.log("/ttakeoff: " + takeoff);
-    console.log("/tlanding: " + landing);
-    console.log("/tprice: " + price);
-    console.log("/tdestination: " + destination);
+    console.log("id: " + id);
+    console.log("takeoff: " + takeoff);
+    console.log("landing: " + landing);
+    console.log("price: " + price);
+    console.log("destination: " + destination);
+
+    let flightData: Flight | FormData;
+
+      flightData = new FormData();
+      flightData.append("id", id);
+      flightData.append("takeoff", takeoff);
+      flightData.append("landing", landing);
+      flightData.append("price", price);
+      flightData.append("destination", destination);
+
+    this.http
+      .put("http://localhost:3000/api/flights/" + id, flightData)
+      .subscribe(response => {
+        this.router.navigate(["/"]);
+      });
   }
 
+  deleteNote(flightId: string) {
+    return this.http
+      .delete("http://localhost:3000/api/flights/" + flightId);
+  }
 }

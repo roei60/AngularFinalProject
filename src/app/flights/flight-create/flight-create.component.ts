@@ -48,35 +48,36 @@ export class FlightCreateComponent implements OnInit {
       landing: ['', Validators.required],
       price: ['', Validators.pattern(/^[0-9]*$/)],
       destination: ['', Validators.required]
-      // price: ['', Validators.required, Validators.pattern(/[1-9][0-9]*/)]
     });
 
     this.isLoading = false;
+    this.mode = "create";
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("flightId")) {
+        // this.mode = "edit";
+        // this.flightId = paramMap.get("flightId");
+        // this.isLoading = true;
+        // this.flightService.getFlight(this.flightId).subscribe(flightData => {
+        //   this.isLoading = false;
 
-    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
-    //   if (paramMap.has("flightId")) {
-    //     this.mode = "edit";
-    //     this.flightId = paramMap.get("flightId");
-    //     this.isLoading = true;
-    //     this.flightService.getNote(this.flightId).subscribe(flightData => {
-    //       this.isLoading = false;
-    //       this.flight = {
-    //         Id: flightData._id,
-    //         title: noteData.title,
-    //         content: noteData.content,
-    //         imagePath: noteData.imagePath
-    //       };
-    //       this.form.setValue({
-    //         title: this.note.title,
-    //         content: this.note.content,
-    //         image: this.note.imagePath
-    //       });
-    //     });
-    //   } else {
-    //     this.mode = "create";
-    //     this.flightId = null;
-    //   }
-    // });
+        //   this.flight = {
+        //     id: flightData._id,
+        //     takeoff: flightData.takeoff,
+        //     landing: flightData.landing,
+        //     price: parseInt(flightData.price),
+        //     destination: {}
+        //   };
+        //   this.form.setValue({
+        //     title: this.note.title,
+        //     content: this.note.content,
+        //     image: this.note.imagePath
+        //   });
+        // });
+      } else {
+        this.mode = "create";
+        this.flightId = null;
+      }
+    });
   }
 
   onSubmit(): void {
@@ -85,16 +86,17 @@ export class FlightCreateComponent implements OnInit {
     // var city = this.destination.split(',')[1];
     
     // this.flight = {destination: {Country: country , City: city}}
+    console.log("mode = " + this.mode);
     if (this.mode === "create") {
     setTimeout(() => {
       this.isLoading = false;
-      this.flightService.AddFlight( this.flightForm.value.takeoff,
+      this.flightService.addFlight( this.flightForm.value.takeoff,
                                     this.flightForm.value.landing, 
                                     this.flightForm.value.price, 
                                     this.flightForm.value.destination);
     }, 3000);
   } else{
-    this.flightService.UpdateFlight(
+    this.flightService.updateFlight(
       this.flightId,
       this.flightForm.value.takeoff,
       this.flightForm.value.landing,
@@ -102,7 +104,7 @@ export class FlightCreateComponent implements OnInit {
       this.flightForm.value.destination
     );
   }
-  this.flightForm.reset();
+  //this.flightForm.reset();
   
 }
 
