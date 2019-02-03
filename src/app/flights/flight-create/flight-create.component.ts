@@ -4,6 +4,7 @@ import { Flight } from '../flight.model';
 import { FlightService } from "../flight.service";
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { DestinationService } from 'src/app/destinations/destination.service';
 
 @Component({
   selector: 'app-flight-create',
@@ -23,7 +24,8 @@ export class FlightCreateComponent implements OnInit {
   private mode = "create";
   private flightId: string;
 
-  destinations = ["Israel", "England", "Australia"];
+  destinations = this.destinationService.GetDestinations().map(obj => {return obj.City + ", " + obj.Country});
+  
   selectedDestination = "None";
   
   onOptionSelected(event: string){
@@ -34,12 +36,14 @@ export class FlightCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public flightService: FlightService,
+    public destinationService: DestinationService,
     public route: ActivatedRoute
-    ) { }
+    ) {
+      
+     }
 
   ngOnInit() {
     console.log("OnInit flight create");
-
     console.log(this.destinations);
     console.log(this.selectedDestination);
 

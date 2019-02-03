@@ -91,30 +91,20 @@ export class FlightService {
     console.log("price: " + price);
     console.log("destination: " + destination);
 
-    const flightData = new FormData();
-    flightData.append("takeoff", takeoff);
-    flightData.append("landing", landing);
-    flightData.append("price", price.toString());
-    flightData.append("destination", destination);
-   var f:Flight ={
-      id: "1234",
-      destination: {
-        City: "Jeruslam",
-        Country: "Israel",
-        Id: 12345
-      },
-      landing: "12/12/12",
-      price: 1234,
-      takeoff: "30/12/12"
+    // var city = destination.split(',')[0].trim();
+    // var country = destination.split(',')[1].trim();
+
+    var f = {
+      // destination: {
+      //   City: city,
+      //   Country: country
+      // },
+      destination: destination,
+      landing: landing,
+      price: price,
+      takeoff: takeoff
     }
-   // var stringFlight= JSON.stringify(f)
-    console.log("flightData takeoff: " + flightData.get("takeoff"));
-    console.log("flightData landing: " + flightData.get("landing"));
-    console.log("flightData price: " + flightData.get("price"));
-    console.log("flightData destination: " + flightData.get("destination"));
- //   let h={headers:new HttpHeaders({"Content-Type":'application/x-www-form-urlencoded'})}
-    
-    
+       
     this.http
       .post<{ message: string; flight: Flight}>(
         "http://localhost:3000/api/flights",

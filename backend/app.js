@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const flightsRoutes = require("./routes/flights");
+const destinationsRoutes = require("./routes/destinations");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/flights", flightsRoutes);
+app.use("/api/destinations", destinationsRoutes);
 app.use((req,res,next) => {
 	res.sendFile(path.join(__dirname,"angular",index.html));
 });

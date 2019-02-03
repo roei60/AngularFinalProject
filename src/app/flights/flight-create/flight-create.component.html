@@ -2,7 +2,7 @@
     <div class="form">
 <form [formGroup]="flightForm" class="flight-container" (ngSubmit)="onSubmit()">
     <mat-form-field>
-        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoff" placeholder="Take Off Date" disabled required>
+        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoff" placeholder="Take Off Date" required>
         <mat-datepicker-toggle matSuffix [for]="TakeOffDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #TakeOffDatePicker disabled="false"></mat-datepicker>
         <mat-error>Takeoff date is empty</mat-error>
@@ -11,7 +11,7 @@
         <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
   
       <mat-form-field>
-          <input matInput [matDatepicker]="LandingDatePicker" formControlName="landing" placeholder="Landing Date" disabled required>
+          <input matInput [matDatepicker]="LandingDatePicker" formControlName="landing" placeholder="Landing Date" required>
           <mat-datepicker-toggle matSuffix [for]="LandingDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #LandingDatePicker disabled="false"></mat-datepicker>
           <mat-error>landing date is empty</mat-error>
