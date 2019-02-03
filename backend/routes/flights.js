@@ -20,7 +20,7 @@ router.post(
       destination: req.body.destination
     });
     console.log("post request flight: " + flight.json);
-    flight.save().then(createdFlight => {
+     flight.save().then(createdFlight => {
       res.status(201).json({
         message: "Flight added successfully",
         flight: {
@@ -43,8 +43,12 @@ router.put(
       destination: req.body.destination
     });
     console.log(flight);
-    Flight.updateOne({ _id: req.params.id }, flight).then(result => {
-      res.status(200).json({ message: "Update successful!" });
+    Flight.updateOne({
+      _id: req.params.id 
+    }, flight).then(result => {
+      res.status(200).json({
+        message: "Update successful!"
+      });
     });
   }
 );
@@ -76,15 +80,21 @@ router.get("/:id", (req, res, next) => {
     if (flight) {
       res.status(200).json(flight);
     } else {
-      res.status(404).json({ message: "Flight not found!" });
+      res.status(404).json({
+        message: "Flight not found!"
+      });
     }
   });
 });
 
 router.delete("/:id", (req, res, next) => {
-  Flight.deleteOne({ _id: req.params.id }).then(result => {
+  Flight.deleteOne({
+    _id: req.params.id
+  }).then(result => {
     console.log(result);
-    res.status(200).json({ message: "Flight deleted!" });
+    res.status(200).json({
+      message: "Flight deleted!"
+    });
   });
 });
 

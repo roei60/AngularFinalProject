@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Flight } from './flight.model';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders,} from "@angular/common/http";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -96,16 +96,29 @@ export class FlightService {
     flightData.append("landing", landing);
     flightData.append("price", price.toString());
     flightData.append("destination", destination);
-
+   var f:Flight ={
+      id: "1234",
+      destination: {
+        City: "Jeruslam",
+        Country: "Israel",
+        Id: 12345
+      },
+      landing: "12/12/12",
+      price: 1234,
+      takeoff: "30/12/12"
+    }
+   // var stringFlight= JSON.stringify(f)
     console.log("flightData takeoff: " + flightData.get("takeoff"));
     console.log("flightData landing: " + flightData.get("landing"));
     console.log("flightData price: " + flightData.get("price"));
     console.log("flightData destination: " + flightData.get("destination"));
-
+ //   let h={headers:new HttpHeaders({"Content-Type":'application/x-www-form-urlencoded'})}
+    
+    
     this.http
-      .post<{ message: string; flight: Flight }>(
+      .post<{ message: string; flight: Flight}>(
         "http://localhost:3000/api/flights",
-        flightData
+        f
       )
       .subscribe(responseData => {
         this.router.navigate(["/"]);
