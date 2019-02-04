@@ -37,7 +37,7 @@ export class FlightListComponent implements OnInit {
   DataSourceHandling()
   {
     this.dataSource = new MatTableDataSource(this.flights);
-    console.log(this.dataSource.data)
+  //  console.log(this.dataSource.data)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
@@ -47,8 +47,15 @@ export class FlightListComponent implements OnInit {
       }
     };
   }
-
-
+  AddToCart(flight: Flight) {
+    console.log(flight.id);
+  }
+  UpdateItem(flight: Flight) {
+    console.log(flight.id);
+  }
+  DeleteItem(flight: Flight) {
+    console.log(flight.id);
+  }
 }
 
 
