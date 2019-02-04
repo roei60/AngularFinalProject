@@ -24,8 +24,8 @@ export class FlightCreateComponent implements OnInit {
   private mode = "create";
   private flightId: string;
 
-  destinations = this.destinationService.GetDestinations().map(obj => {return obj.City + ", " + obj.Country});
   
+  destinations:any[];
   selectedDestination = "None";
   
   onOptionSelected(event: string){
@@ -39,13 +39,14 @@ export class FlightCreateComponent implements OnInit {
     public destinationService: DestinationService,
     public route: ActivatedRoute
     ) {
-      
+      this.destinationService.GetDestinations()
+      .subscribe(transformedDestinationData => {
+        this.destinations = transformedDestinationData.destinations.map(obj => {return obj.City + ", " + obj.Country}); 
+      });
      }
 
   ngOnInit() {
     console.log("OnInit flight create");
-    console.log(this.destinations);
-    console.log(this.selectedDestination);
 
     this.flightForm = this.fb.group({
       takeoff: ['', Validators.required],

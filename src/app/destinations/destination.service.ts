@@ -9,14 +9,11 @@ import { Destination } from './destination.model';
 })
 export class DestinationService {
 
-  private destinations = [];
-  constructor(private http: HttpClient, private router: Router) {
-    this.destinations = this.GetDestinations();
-   }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  public GetDestinations() : Destination[]
+  public GetDestinations() 
   {
-    this.http.get<{ message: string; destinations: any; maxDestinations: number }>("http://localhost:3000/api/destinations")
+    return this.http.get<{ message: string; destinations: any; maxDestinations: number }>("http://localhost:3000/api/destinations")
     .pipe(
       map(destinationData => {
          return {
@@ -31,11 +28,6 @@ export class DestinationService {
          };
        })
      )
-     .subscribe(transformedDestinationData => {
-       this.destinations = transformedDestinationData.destinations; 
-     });
-     console.log(this.destinations);
-     return this.destinations;
   }
 
  getDestination(id: string) {
