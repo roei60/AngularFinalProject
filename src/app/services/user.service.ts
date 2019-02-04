@@ -16,7 +16,10 @@ export class UserService {
             userName: 'userName',
             email: 'email@gmail.com',
             firstName: 'firstName',
-            lastName: 'lastName'
+            lastName: 'lastName',
+            password: 'password',
+            birthdate: 'birthdate',
+            isAdmin: true
         };
     }
 }
