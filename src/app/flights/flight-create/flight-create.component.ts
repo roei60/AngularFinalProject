@@ -13,11 +13,6 @@ import { DestinationService } from 'src/app/destinations/destination.service';
 })
 export class FlightCreateComponent implements OnInit {
 
-  price : number;
-  destination : string;
-  takeoff : string;
-  landing : string;
-
   flight: Flight;
   flightForm: FormGroup;
   isLoading: boolean;
@@ -87,18 +82,22 @@ export class FlightCreateComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    // var country = this.destination.split(',')[0];
-    // var city = this.destination.split(',')[1];
+    var country = this.flightForm.value.destination.split(',')[1].trim();
+    var city = this.flightForm.value.destination.split(',')[0].trim();
     
     // this.flight = {destination: {Country: country , City: city}}
     console.log("mode = " + this.mode);
     if (this.mode === "create") {
     setTimeout(() => {
       this.isLoading = false;
-      this.flightService.addFlight( this.flightForm.value.takeoff,
-                                    this.flightForm.value.landing, 
-                                    this.flightForm.value.price, 
-                                    this.flightForm.value.destination);
+      this.destinationService.getDestinationIdByCountryAndCity(country, city)
+      .subscribe(dest => {
+        console.log("dest.id from query = " + dest._id);
+        this.flightService.addFlight( this.flightForm.value.takeoff,
+        this.flightForm.value.landing, 
+        this.flightForm.value.price, 
+        dest._id)});
+      
     }, 3000);
   } else{
     this.flightService.updateFlight(
