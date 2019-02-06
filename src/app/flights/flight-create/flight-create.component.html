@@ -2,7 +2,7 @@
     <div class="form">
 <form [formGroup]="flightForm" class="flight-container" (ngSubmit)="onSubmit()">
     <mat-form-field>
-        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoff" placeholder="Take Off Date" required>
+        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoff" placeholder="Take Off Date" required readonly>
         <mat-datepicker-toggle matSuffix [for]="TakeOffDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #TakeOffDatePicker disabled="false"></mat-datepicker>
         <mat-error>Takeoff date is empty</mat-error>
@@ -11,12 +11,12 @@
         <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
   
       <mat-form-field>
-          <input matInput [matDatepicker]="LandingDatePicker" formControlName="landing" placeholder="Landing Date" required>
+          <input matInput [matDatepicker]="LandingDatePicker" formControlName="landing" placeholder="Landing Date" required readonly>
           <mat-datepicker-toggle matSuffix [for]="LandingDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #LandingDatePicker disabled="false"></mat-datepicker>
           <mat-error>landing date is empty</mat-error>
       </mat-form-field>
-      <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Landing Time" required>
+      <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Landing Time" required readonly>
         <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
       
       <mat-form-field>
@@ -25,7 +25,7 @@
       </mat-form-field>
     
       <mat-form-field>
-          <mat-select placeholder="Destination" formControlName="destination" (selectionChange)="onOptionSelected($event.value)" required>
+          <mat-select placeholder="Destination" formControlName="destination" (selectionChange)="onOptionSelected($event.value)" required readonly>
             <mat-option>None</mat-option>
             <mat-option *ngFor="let destination of destinations" [value]="destination"> {{destination}} </mat-option>
           </mat-select>

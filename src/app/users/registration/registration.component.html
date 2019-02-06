@@ -31,6 +31,13 @@
     <mat-error>Last name is required</mat-error>
   </mat-form-field>
 
+  <mat-form-field>
+      <input matInput [matDatepicker]="birthdate" formControlName="birthdate" placeholder="Birth date" required readonly>
+      <mat-datepicker-toggle matSuffix [for]="birthdate"></mat-datepicker-toggle>
+      <mat-datepicker #birthdate disabled="false"></mat-datepicker>
+      <mat-error>landing date is empty</mat-error>
+  </mat-form-field>
+
   <button mat-raised-button class="registration-button" type="submit" [disabled]="!registrationForm.valid">
     <span *ngIf="!isLoading">Register</span>
     <mat-spinner *ngIf="isLoading" class="spinner" color="accent" [diameter]="27"></mat-spinner>

@@ -38,7 +38,7 @@ export class DestinationService {
    }>("http://localhost:3000/api/destinations/" + id);
  }
 
- getDestinationIdByCountryAndCity(country: string, city: string) {
+ public getDestinationIdByCountryAndCity(country: string, city: string) {
    console.log("getDestinationIdByCountryAndCity: " + country +"," + city);
   return this.http.get<{
     _id: string;

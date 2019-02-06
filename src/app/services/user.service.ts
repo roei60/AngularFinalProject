@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../users/models/User';
 import { HttpClient, HttpHeaders, } from "@angular/common/http";
 import { Router } from '@angular/router';
+import { MatDatepicker } from '@angular/material';
 
 @Injectable()
 export class UserService {
@@ -21,11 +22,11 @@ export class UserService {
             lastName: 'lastName',
             password: 'password',
             birthdate: 'birthdate',
-            isAdmin: true
+            isAdmin: false
         };
 	}
 
-	AddUser(userName: string, email: string, firstName: string, lastName: string, password: string): void {
+	AddUser(userName: string, email: string, firstName: string, lastName: string, password: string,birthdate:string): void {
 
 		var userToSend = {
 			userName: userName,
@@ -33,8 +34,8 @@ export class UserService {
 			firstName: firstName,
 			lastName: lastName,
 			password: password,
-			birthdate: '1/1/2000',
-			isAdmin: true
+			birthdate: birthdate,
+			isAdmin: false
 		};
 
 		this.http

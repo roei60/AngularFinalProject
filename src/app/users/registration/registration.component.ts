@@ -20,6 +20,7 @@ export class RegistrationComponent implements OnInit {
       email: ['',Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)],
       firstName: ['', Validators.pattern(/^[A-Za-z]+$/)],
       lastName: ['', Validators.pattern(/^[A-Za-z]+$/)],
+      birthdate: ['', Validators.required]
     });
 
     this.isLoading = false;
@@ -32,8 +33,10 @@ export class RegistrationComponent implements OnInit {
 		this.registrationForm.controls["username"].value,
 		this.registrationForm.controls["email"].value,
 		this.registrationForm.controls["firstName"].value,
-		this.registrationForm.controls["lastName"].value,
-		this.registrationForm.controls["password"].value);
+    this.registrationForm.controls["lastName"].value,
+    this.registrationForm.controls["password"].value,
+    this.registrationForm.value.birthdate);
+    //this.registrationForm.controls["birthdate"].value);
     setTimeout(() => this.isLoading = false, 5000);
   }
 
