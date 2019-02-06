@@ -56,7 +56,7 @@ router.put(
 router.get("", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const flightQuery = Flight.find();
+  const flightQuery = Flight.find().populate('destination');
   let fetchedFlights;
   if (pageSize && currentPage) {
     flightQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);

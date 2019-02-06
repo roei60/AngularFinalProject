@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FlightCreateComponent } from './flights/flight-create/flight-create.component';
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
-
+import {CommonModule} from '@angular/common' 
 import {
   MatInputModule,
   MatCardModule,
