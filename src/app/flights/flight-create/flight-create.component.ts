@@ -96,7 +96,7 @@ export class FlightCreateComponent implements OnInit {
         this.flightService.addFlight( this.flightForm.value.takeoff,
         this.flightForm.value.landing, 
         this.flightForm.value.price, 
-        dest._id)});
+        dest._id)});;
       
     }, 3000);
   } else{

@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const usersRoutes = require("./routes/users");
 const flightsRoutes = require("./routes/flights");
 const destinationsRoutes = require("./routes/destinations");
 
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
 
 app.use("/api/flights", flightsRoutes);
 app.use("/api/destinations", destinationsRoutes);
-app.use("/api/users", flightsRoutes);
+app.use("/api/users", usersRoutes);
 app.use((req,res,next) => {
 	res.sendFile(path.join(__dirname,"angular",index.html));
 });
