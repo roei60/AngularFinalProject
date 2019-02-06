@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -8,9 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
-  isLoading: boolean;
+	isLoading: boolean;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private userService: UserService) { }
 
   ngOnInit() {
     this.registrationForm = this.fb.group({
@@ -26,8 +27,13 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-
-    // TODO: Send the info to the server and add it to some DB
+	 
+	this.userService.AddUser(
+		this.registrationForm.controls["username"].value,
+		this.registrationForm.controls["email"].value,
+		this.registrationForm.controls["firstName"].value,
+		this.registrationForm.controls["lastName"].value,
+		this.registrationForm.controls["password"].value);
     setTimeout(() => this.isLoading = false, 5000);
   }
 
