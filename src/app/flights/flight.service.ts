@@ -168,7 +168,8 @@ export class FlightService {
   }
 
   deleteFlight(flightId: String) {
-    return this.http
-      .delete("http://localhost:3000/api/flights/" + flightId);
+    return this.http.delete("http://localhost:3000/api/flights/" + flightId).subscribe(res=>{  
+    this.router.navigate(["/get"]);
+    });
   }
 }
