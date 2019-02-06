@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,9 +7,11 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
+
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
 	isLoading: boolean;
+  @ViewChild('exampleModal') myModal
 
   constructor(private fb: FormBuilder, private userService: UserService) { }
 
@@ -28,14 +30,19 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-	 
+    this.myModal.nativeElement.className = 'modal fade show';
 	this.userService.AddUser(
 		this.registrationForm.controls["username"].value,
 		this.registrationForm.controls["email"].value,
 		this.registrationForm.controls["firstName"].value,
     this.registrationForm.controls["lastName"].value,
     this.registrationForm.controls["password"].value,
-    this.registrationForm.value.birthdate);
+    this.registrationForm.value.birthdate)
+    
+    
+    
+
+    
     //this.registrationForm.controls["birthdate"].value);
     setTimeout(() => this.isLoading = false, 5000);
   }
