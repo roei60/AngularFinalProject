@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../users/models/User';
+import { User } from '../models/User';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpClient, HttpHeaders, } from "@angular/common/http";
 import { Router } from '@angular/router';

@@ -1,4 +1,4 @@
-import { Destination } from '../destinations/destination.model';
+import { Destination } from './destination.model';
 
 export interface Flight {
     id: String,

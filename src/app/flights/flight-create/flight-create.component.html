@@ -16,7 +16,7 @@
           <mat-datepicker #LandingDatePicker disabled="false"></mat-datepicker>
           <mat-error>landing date is empty</mat-error>
       </mat-form-field>
-      <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Landing Time" [(ngModel)]="takeOffTime" required readonly>
+      <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Landing Time" required readonly>
         <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
       
       <mat-form-field>

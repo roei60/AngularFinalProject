@@ -1,7 +1,7 @@
 <mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.destination.Country}},{{element.destination.City}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.destination.country}},{{element.destination.city}} </mat-cell>
   </ng-container>
 
   <!-- Name Column -->

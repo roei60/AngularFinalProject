@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Destination } from './destination.model';
+import { Destination } from '../models/destination.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class DestinationService {
            destinations: destinationData.destinations.map(dest => {
              return {
                 id: dest._id,
-                Country: dest.Country,
-                City: dest.City
+                country: dest.Country,
+                city: dest.City
              };
            }),
            maxDestinations: destinationData.maxDestinations

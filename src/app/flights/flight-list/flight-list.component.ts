@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Flight } from '../flight.model';
-import { FlightService } from '../flight.service';
+import { Flight } from '../../models/flight.model';
+import { FlightService } from "../../services/flight.service";
 import { Subscription } from "rxjs";
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
-import { Destination } from 'src/app/destinations/destination.model';
+import { Destination } from 'src/app/models/destination.model';
 import { Router } from "@angular/router";
 
 @Component({
@@ -45,7 +45,7 @@ export class FlightListComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'Destination': return item.destination.Country
+        case 'Destination': return item.destination.country
         default: return item[property];
       }
     };

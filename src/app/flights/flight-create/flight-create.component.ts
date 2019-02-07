@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { mimeType } from "./mime-type.validator";
-import { Flight } from '../flight.model';
-import { FlightService } from "../flight.service";
+import { Flight } from '../../models/flight.model';
+import { FlightService } from "../../services/flight.service";
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { DestinationService } from 'src/app/destinations/destination.service';
+import { DestinationService } from '../../services/destination.service';
 import { DatePipe } from '@angular/common'
 
 @Component({
@@ -37,7 +37,7 @@ export class FlightCreateComponent implements OnInit {
   ) {
     this.destinationService.GetDestinations()
       .subscribe(transformedDestinationData => {
-        this.destinations = transformedDestinationData.destinations.map(obj => { return obj.City + ", " + obj.Country });
+        this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + ", " + obj.country });
       });
   }
 

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Flight } from './flight.model';
+import { Flight } from '../models/flight.model';
 import { HttpClient, HttpHeaders, } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common'
-import { DestinationService } from '../destinations/destination.service';
-import { Destination } from '../destinations/destination.model';
+import { DestinationService } from '..//services/destination.service';
+import { Destination } from '../models/destination.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,9 +44,9 @@ export class FlightService {
       ).subscribe(obj => {
         this.flights = obj.flights.map(obj => {
           var Dest:Destination={
-            Id:obj.destination._id,
-            City:obj.destination.City,
-            Country:obj.destination.Country
+            id:obj.destination._id,
+            city:obj.destination.City,
+            country:obj.destination.Country
           }
           var pipe = new DatePipe('en-US');
           var _landing = pipe.transform(Date.parse(obj.landing), "short")

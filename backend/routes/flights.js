@@ -1,6 +1,6 @@
 const express = require("express");
 
-const Flight = require("../models/flight");
+const Flight = require("../models/flightSchema");
 
 const router = express.Router();
 

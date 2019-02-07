@@ -1,6 +1,6 @@
 const express = require("express");
 
-const Destination = require("../models/destination");
+const Destination = require("../models/destinationSchema");
 
 const router = express.Router();
 
