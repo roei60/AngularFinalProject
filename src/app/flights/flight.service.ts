@@ -104,11 +104,11 @@ export class FlightService {
 
   getFlight(id: string) {
     return this.http.get<{
-      _id: string;
+      id: string;
       takeoff: string;
       landing: string;
       price: string;
-      destination: string
+      destination:any
     }>("http://localhost:3000/api/flights/" + id);
   }
 

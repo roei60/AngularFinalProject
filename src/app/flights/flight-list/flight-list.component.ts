@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { Destination } from 'src/app/destinations/destination.model';
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'app-flight-list',
   templateUrl: './flight-list.component.html',
@@ -22,7 +24,7 @@ export class FlightListComponent implements OnInit {
        */
   flights: Flight[] = []
   private flightsSubscriber: Subscription;
-  constructor(private FlightService: FlightService) { }
+  constructor(private FlightService: FlightService, private router: Router) { }
 
   ngOnInit() {
     //   this.dataSource.paginator = this.paginator;
@@ -51,6 +53,8 @@ export class FlightListComponent implements OnInit {
   AddToCart(flight: Flight) {
   }
   UpdateItem(flight: Flight) {
+    
+    this.router.navigate(["/create"]);
 
   }
   DeleteItem(flight: Flight) {

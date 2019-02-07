@@ -5,6 +5,7 @@ import { FlightService } from "../flight.service";
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { DestinationService } from 'src/app/destinations/destination.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-flight-create',
@@ -19,13 +20,13 @@ export class FlightCreateComponent implements OnInit {
   private mode = "create";
   private flightId: string;
 
-  
-  destinations:any[];
-  selectedDestination = "None";
-  
-  onOptionSelected(event: string){
-   console.log(event); //option value will be sent as event
-   this.selectedDestination = event;
+
+  destinations: any[];
+  public selectedDestination = "None";
+  public takeOffTime;
+  onOptionSelected(event: string) {
+    console.log(event); //option value will be sent as event
+    this.selectedDestination = event;
   }
 
   constructor(
@@ -33,12 +34,12 @@ export class FlightCreateComponent implements OnInit {
     public flightService: FlightService,
     public destinationService: DestinationService,
     public route: ActivatedRoute
-    ) {
-      this.destinationService.GetDestinations()
+  ) {
+    this.destinationService.GetDestinations()
       .subscribe(transformedDestinationData => {
-        this.destinations = transformedDestinationData.destinations.map(obj => {return obj.City + ", " + obj.Country}); 
+        this.destinations = transformedDestinationData.destinations.map(obj => { return obj.City + ", " + obj.Country });
       });
-     }
+  }
 
   ngOnInit() {
     console.log("OnInit flight create");
@@ -54,25 +55,26 @@ export class FlightCreateComponent implements OnInit {
     this.mode = "create";
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("flightId")) {
-        // this.mode = "edit";
-        // this.flightId = paramMap.get("flightId");
-        // this.isLoading = true;
-        // this.flightService.getFlight(this.flightId).subscribe(flightData => {
-        //   this.isLoading = false;
-
-        //   this.flight = {
-        //     id: flightData._id,
-        //     takeoff: flightData.takeoff,
-        //     landing: flightData.landing,
-        //     price: parseInt(flightData.price),
-        //     destination: {}
-        //   };
-        //   this.form.setValue({
-        //     title: this.note.title,
-        //     content: this.note.content,
-        //     image: this.note.imagePath
-        //   });
-        // });
+        this.mode = "edit";
+        this.flightId = paramMap.get("flightId");
+        this.isLoading = true;
+        this.flightService.getFlight(this.flightId).subscribe(flightData => {
+          this.isLoading = false;
+          this.selectedDestination=flightData.destination.City + ", " 
+                                  + flightData.destination.Country;
+          console.log("selected "+this.selectedDestination);
+          var pipe = new DatePipe('en-US');
+          var _landing = pipe.transform(Date.parse(flightData.landing), "shortTime")
+          this.takeOffTime=_landing
+          this.flightForm.setValue({
+            takeoff: flightData.takeoff,
+            landing: flightData.landing,
+            price: flightData.price,
+            destination: this.selectedDestination
+          });
+          console.log("form value destination: " + this.flightForm.value.destination);
+          console.log("set form value");
+        })
       } else {
         this.mode = "create";
         this.flightId = null;
@@ -84,32 +86,32 @@ export class FlightCreateComponent implements OnInit {
     this.isLoading = true;
     var country = this.flightForm.value.destination.split(',')[1].trim();
     var city = this.flightForm.value.destination.split(',')[0].trim();
-    
-    // this.flight = {destination: {Country: country , City: city}}
+
     console.log("mode = " + this.mode);
     if (this.mode === "create") {
-    setTimeout(() => {
-      this.isLoading = false;
-      this.destinationService.getDestinationIdByCountryAndCity(country, city)
-      .subscribe(dest => {
-        console.log("dest.id from query = " + dest._id);
-        this.flightService.addFlight( this.flightForm.value.takeoff,
-        this.flightForm.value.landing, 
-        this.flightForm.value.price, 
-        dest._id)});;
-      
-    }, 3000);
-  } else{
-    this.flightService.updateFlight(
-      this.flightId,
-      this.flightForm.value.takeoff,
-      this.flightForm.value.landing,
-      this.flightForm.value.price,
-      this.flightForm.value.destination
-    );
+      setTimeout(() => {
+        this.isLoading = false;
+        this.destinationService.getDestinationIdByCountryAndCity(country, city)
+          .subscribe(dest => {
+            console.log("dest.id from query = " + dest._id);
+            this.flightService.addFlight(this.flightForm.value.takeoff,
+              this.flightForm.value.landing,
+              this.flightForm.value.price,
+              dest._id)
+          });;
+
+      }, 3000);
+    } else {
+      this.flightService.updateFlight(
+        this.flightId,
+        this.flightForm.value.takeoff,
+        this.flightForm.value.landing,
+        this.flightForm.value.price,
+        this.flightForm.value.destination
+      );
+    }
+    //this.flightForm.reset();
+
   }
-  //this.flightForm.reset();
-  
-}
 
 }

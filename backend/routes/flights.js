@@ -76,7 +76,7 @@ router.get("", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  Flight.findById(req.params.id).then(flight => {
+  Flight.findById(req.params.id).populate('destination').then(flight => {
     if (flight) {
       res.status(200).json(flight);
     } else {

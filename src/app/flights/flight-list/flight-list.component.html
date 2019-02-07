@@ -27,7 +27,7 @@
     <mat-cell *matCellDef="let element">
       <div>
         <button class="btn btn-success PadRight" (click)="AddToCart(element)">Add to Cart</button>
-        <button class="btn btn-primary PadRight" (click)="UpdateItem(element)">Update</button>
+        <button class="btn btn-primary PadRight" [routerLink]="['/edit', element.id]">Update</button>
         <button class="btn btn-danger PadRight" (click)="DeleteItem(element)">Delete</button>
 
       </div>
