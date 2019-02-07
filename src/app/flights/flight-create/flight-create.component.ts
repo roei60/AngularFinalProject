@@ -63,9 +63,9 @@ export class FlightCreateComponent implements OnInit {
           this.selectedDestination=flightData.destination.City + ", " 
                                   + flightData.destination.Country;
           console.log("selected "+this.selectedDestination);
-          var pipe = new DatePipe('en-US');
-          var _landing = pipe.transform(Date.parse(flightData.landing), "shortTime")
-          this.takeOffTime=_landing
+        //  var pipe = new DatePipe('en-US');
+         // var _landing = pipe.transform(Date.parse(flightData.landing), "shortTime")
+       //   this.takeOffTime=_landing
           this.flightForm.setValue({
             takeoff: flightData.takeoff,
             landing: flightData.landing,
