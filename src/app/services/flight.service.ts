@@ -151,14 +151,14 @@ export class FlightService {
     console.log("price: " + price);
     console.log("destination: " + destination);
 
-    let flightData: Flight | FormData;
+    var flightData = {
 
-    flightData = new FormData();
-    flightData.append("id", id);
-    flightData.append("takeoff", takeoff);
-    flightData.append("landing", landing);
-    flightData.append("price", price);
-    flightData.append("destination", destination);
+      destination: destination,
+      landing: landing,
+      price: price,
+      takeoff: takeoff,
+      id:id
+    }
 
     this.http
       .put("http://localhost:3000/api/flights/" + id, flightData)

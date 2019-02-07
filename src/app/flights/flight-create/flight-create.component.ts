@@ -60,12 +60,12 @@ export class FlightCreateComponent implements OnInit {
         this.isLoading = true;
         this.flightService.getFlight(this.flightId).subscribe(flightData => {
           this.isLoading = false;
-          this.selectedDestination=flightData.destination.City + ", " 
-                                  + flightData.destination.Country;
-          console.log("selected "+this.selectedDestination);
-        //  var pipe = new DatePipe('en-US');
-         // var _landing = pipe.transform(Date.parse(flightData.landing), "shortTime")
-       //   this.takeOffTime=_landing
+          this.selectedDestination = flightData.destination.City + ", "
+            + flightData.destination.Country;
+          console.log("selected " + this.selectedDestination);
+          //  var pipe = new DatePipe('en-US');
+          // var _landing = pipe.transform(Date.parse(flightData.landing), "shortTime")
+          //   this.takeOffTime=_landing
           this.flightForm.setValue({
             takeoff: flightData.takeoff,
             landing: flightData.landing,
@@ -102,13 +102,18 @@ export class FlightCreateComponent implements OnInit {
 
       }, 3000);
     } else {
-      this.flightService.updateFlight(
-        this.flightId,
-        this.flightForm.value.takeoff,
-        this.flightForm.value.landing,
-        this.flightForm.value.price,
-        this.flightForm.value.destination
-      );
+      this.destinationService.getDestinationIdByCountryAndCity(country, city)
+        .subscribe(dest => {
+          console.log("dest.id from query = " + dest._id);
+
+          this.flightService.updateFlight(
+            this.flightId,
+            this.flightForm.value.takeoff,
+            this.flightForm.value.landing,
+            this.flightForm.value.price,
+            dest._id
+          );
+        })
     }
     //this.flightForm.reset();
 
