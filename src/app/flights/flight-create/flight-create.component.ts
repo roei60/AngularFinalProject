@@ -20,6 +20,7 @@ export class FlightCreateComponent implements OnInit {
   private mode = "create";
   private flightId: string;
 
+  public takeOffDate;
 
   destinations: any[];
   public selectedDestination = "None";
@@ -48,7 +49,7 @@ export class FlightCreateComponent implements OnInit {
       takeoff: ['', Validators.required],
       landing: ['', Validators.required],
       price: ['', Validators.pattern(/^[0-9]*$/)],
-      destination: ['', Validators.required]
+      destination: ['', Validators.pattern(/^((?!None).)*$/)]
     });
 
     this.isLoading = false;
