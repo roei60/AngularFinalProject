@@ -1,0 +1,39 @@
+<header class="display-container content" style="max-width:1500px;">
+  <img class="image" src="../../../assets/images/aeroplane-air-aircraft-1004584.jpg" alt="Photo by Oleksandr Pidvalnyi from Pexels">
+  <div class="display-left padding w3-col l6 m8">
+    <div class="container orange">
+      <img class="slideRight" src="../../../assets/images/airplane-11-64.png" alt="plane" align="left" style="width:7%; padding:2px;" />
+      <h2>Order Flight</h2>
+    </div>
+    <div class="container white padding-16">
+      <form [formGroup]="SearchFligthGroup"  (ngSubmit)="onSubmit()">
+        <div class="row-padding" style="margin:0 -16px;">
+          <div class="half margin input">
+            <label class="destSelect">Travel the world with us:</label>
+
+            <select  [(ngModel)]="selectedDestination" formControlName="destination" (ngModelChange)="onOptionSelected($event)" required readonly>
+              <option selected>None</option>
+              <option  *ngFor="let destination of destinations" [value]="destination"> {{destination}}
+              </option>
+            </select>
+            <span></span>
+          </div>
+        </div>
+        <div class="half">
+          <label>Takeoff: </label>
+          <input type="date" class="input" name="Takeoff" id="DateSearchInput" formControlName="takeoff" value="2019-01-08" />
+        </div>
+
+        <div class="half">
+          <label>Price:</label>
+          <input type="number" min="1" class="input" name="price" formControlName="price" placeholder="price range" />
+        </div>
+
+
+        <div class="row-padding" style="margin:8px -16px;"></div>
+        <div class="half margin-bottom"></div>
+        <button class="button dark-grey" type="submit">Search flights</button>
+      </form>
+    </div>
+  </div>
+</header>

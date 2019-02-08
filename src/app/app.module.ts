@@ -32,6 +32,7 @@ import { RegistrationComponent } from './users/registration/registration.compone
 import { LoginComponent } from './users/login/login.component';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
+import { HomeComponent } from './home/home/home.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserService } from './services/user.service';
     FlightListComponent,
     RegistrationComponent,
     LoginComponent,
+    HomeComponent,
     
   ],
   imports: [
