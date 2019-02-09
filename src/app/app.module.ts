@@ -32,7 +32,9 @@ import { RegistrationComponent } from './users/registration/registration.compone
 import { LoginComponent } from './users/login/login.component';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
+import { CartService } from './services/cart.service';
 import { HomeComponent } from './home/home/home.component';
+import { CartListComponent } from './carts/cart-list/cart-list.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { HomeComponent } from './home/home/home.component';
     RegistrationComponent,
     LoginComponent,
     HomeComponent,
+    CartListComponent,
     
   ],
   imports: [
@@ -69,7 +72,7 @@ import { HomeComponent } from './home/home/home.component';
     MatIconModule,
     MatTableModule
   ],
-  providers: [MatDatepickerModule,AuthService, UserService],
+  providers: [MatDatepickerModule,AuthService, UserService, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

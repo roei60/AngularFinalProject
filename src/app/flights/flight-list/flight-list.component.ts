@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Flight } from '../../models/flight.model';
 import { FlightService } from "../../services/flight.service";
+import { CartService } from "../../services/cart.service";
 import { Subscription } from "rxjs";
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
@@ -24,7 +25,9 @@ export class FlightListComponent implements OnInit {
        */
   flights: Flight[] = []
   private flightsSubscriber: Subscription;
-  constructor(private FlightService: FlightService, private router: Router) { }
+
+  
+  constructor(private FlightService: FlightService, private cartService: CartService, private router: Router) { }
 
   ngOnInit() {
     //   this.dataSource.paginator = this.paginator;
@@ -50,7 +53,12 @@ export class FlightListComponent implements OnInit {
       }
     };
   }
+  
   AddToCart(flight: Flight) {
+    var cart = this.cartService.getCart()
+    cart.items.push(flight);
+    this.cartService.setCart(cart);
+    console.log("local cart=" + cart.items.length + " ; storage cart =" +  this.cartService.getCart().items.length);
   }
   UpdateItem(flight: Flight) {
     
@@ -59,6 +67,19 @@ export class FlightListComponent implements OnInit {
   }
   DeleteItem(flight: Flight) {
     this.FlightService.deleteFlight(flight.id);
+  }
+
+  IsItemInCart(flight: Flight){
+    var flag = false;
+    
+    var c = this.cartService.getCart();
+    console.log("IsItemInCart " + c.items.length);
+    c.items.forEach(element => {
+      if (element.id === flight.id)
+        flag = true;
+    });
+    console.log("flag = " + flag);
+    return flag;
   }
 }
 

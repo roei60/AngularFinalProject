@@ -5,6 +5,7 @@ import { LoginComponent } from './users/login/login.component';
 import { FlightListComponent } from "./flights/flight-list/flight-list.component";
 import { FlightCreateComponent } from "./flights/flight-create/flight-create.component";
 import { HomeComponent } from './home/home/home.component';
+import { CartListComponent } from "./carts/cart-list/cart-list.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   { path: 'create', component: FlightCreateComponent },
   { path: 'edit/:flightId', component: FlightCreateComponent },
   { path: 'get', component: FlightListComponent },
+  {
+    path: 'viewCart',
+    component: CartListComponent
+  },
 ];
 
 @NgModule({
