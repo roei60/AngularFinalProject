@@ -20,17 +20,23 @@ export class CartListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   flights: Flight[] = []
-  constructor(private FlightService: FlightService, private cartService: CartService, private router: Router) { }
+  private flightsSubscriber: Subscription;
+  constructor(private flightService: FlightService, private cartService: CartService, private router: Router) { }
 
   ngOnInit() {
-    this.DataSourceHandling();
+     this.flightService.GetAllFlights();
+    this.flightsSubscriber = this.flightService.getFlightsUpdateListener()
+      .subscribe(flightData => {
+        this.flights = flightData.flightsData
+        this.DataSourceHandling()
+
+      })
   }
   
   DataSourceHandling() {
-    var ids = this.cartService.getCart().items;
-    this.flights = this.FlightService.GetFlights().filter(flight => ids.includes(flight.id));
-    this.dataSource = new MatTableDataSource(this.flights);
-    //  console.log(this.dataSource.data)
+    var ids = this.cartService.getCart().items;    
+    this.flights =  this.flightService.GetFlights().filter(flight => ids.includes(flight.id));
+    this.dataSource = new MatTableDataSource(this.flights);    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
