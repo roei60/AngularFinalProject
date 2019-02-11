@@ -55,8 +55,8 @@ export class FlightListComponent implements OnInit {
   }
   
   AddToCart(flight: Flight) {
-    var cart = this.cartService.getCart()
-    cart.items.push(flight);
+    var cart = this.cartService.getCart();
+    cart.items.push(flight.id);
     this.cartService.setCart(cart);
     console.log("local cart=" + cart.items.length + " ; storage cart =" +  this.cartService.getCart().items.length);
   }
@@ -75,7 +75,7 @@ export class FlightListComponent implements OnInit {
     var c = this.cartService.getCart();
     console.log("IsItemInCart " + c.items.length);
     c.items.forEach(element => {
-      if (element.id === flight.id)
+      if (element === flight.id)
         flag = true;
     });
     console.log("flag = " + flag);

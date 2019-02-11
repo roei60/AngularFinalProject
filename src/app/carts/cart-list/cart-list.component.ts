@@ -27,8 +27,8 @@ export class CartListComponent implements OnInit {
   }
   
   DataSourceHandling() {
-    this.flights = this.cartService.getCart().items;
-    console.log("flights items = " + this.flights.length);
+    var ids = this.cartService.getCart().items;
+    this.flights = this.FlightService.GetFlights().filter(flight => ids.includes(flight.id));
     this.dataSource = new MatTableDataSource(this.flights);
     //  console.log(this.dataSource.data)
     this.dataSource.paginator = this.paginator;
@@ -44,7 +44,7 @@ export class CartListComponent implements OnInit {
   RemoveItem(flight: Flight){
     var cart = this.cartService.getCart();
     console.log("flight.id = " + flight.id);
-    var index = cart.items.findIndex(f => f.id === flight.id);
+    var index = cart.items.findIndex(id => id === flight.id);
     console.log("index = " + index);
     cart.items.splice(index, 1);
     this.cartService.setCart(cart);

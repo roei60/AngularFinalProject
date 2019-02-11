@@ -1,5 +1,5 @@
 import { Flight } from './flight.model';
 
 export interface Cart {
-    items: Flight[];
+    items: string[];
 }
