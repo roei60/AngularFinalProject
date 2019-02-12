@@ -14,8 +14,8 @@ router.post(
     console.log("post request req.body: " + req.body.price);
     console.log("post request req.body: " + req.body.destination);
     const flight = new Flight({
-      takeoff: req.body.takeoff,
-      landing: req.body.landing,
+      takeoff: new Date(req.body.takeoff),
+      landing: new Date(req.body.landing),
       price: req.body.price,
       destination: req.body.destination
     });

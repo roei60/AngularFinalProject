@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const usersRoutes = require("./routes/users");
 const flightsRoutes = require("./routes/flights");
 const destinationsRoutes = require("./routes/destinations");
-
+const flightSearchRoutes= require("./routes/flightSearch");
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/flights')
@@ -37,6 +37,8 @@ app.use((req, res, next) => {
 app.use("/api/flights", flightsRoutes);
 app.use("/api/destinations", destinationsRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/flightSearch",flightSearchRoutes)
+
 app.use((req,res,next) => {
 	res.sendFile(path.join(__dirname,"angular",index.html));
 });

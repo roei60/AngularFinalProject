@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { Destination } from 'src/app/models/destination.model';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 
 @Component({
   selector: 'app-flight-list',
@@ -23,24 +23,30 @@ export class FlightListComponent implements OnInit {
   /**
        * Pre-defined columns list for user table
        */
+
+
   flights: Flight[] = []
   private flightsSubscriber: Subscription;
 
-  
+
   constructor(private FlightService: FlightService, private cartService: CartService, private router: Router) { }
 
   ngOnInit() {
-    //   this.dataSource.paginator = this.paginator;
-    this.FlightService.GetAllFlights();
+    if (this.router.url== "/get") {
+      //   this.dataSource.paginator = this.paginator;
+      this.FlightService.GetAllFlights();
+    }
+
     this.flightsSubscriber = this.FlightService.getFlightsUpdateListener()
       .subscribe(flightData => {
         this.flights = flightData.flightsData
         this.DataSourceHandling()
 
       })
-
-
+      console.log(this.flights);
+  
   }
+
   DataSourceHandling() {
     this.dataSource = new MatTableDataSource(this.flights);
     //  console.log(this.dataSource.data)
@@ -53,15 +59,15 @@ export class FlightListComponent implements OnInit {
       }
     };
   }
-  
+
   AddToCart(flight: Flight) {
     var cart = this.cartService.getCart();
     cart.items.push(flight.id);
     this.cartService.setCart(cart);
-    console.log("local cart=" + cart.items.length + " ; storage cart =" +  this.cartService.getCart().items.length);
+    console.log("local cart=" + cart.items.length + " ; storage cart =" + this.cartService.getCart().items.length);
   }
   UpdateItem(flight: Flight) {
-    
+
     this.router.navigate(["/create"]);
 
   }
@@ -69,9 +75,9 @@ export class FlightListComponent implements OnInit {
     this.FlightService.deleteFlight(flight.id);
   }
 
-  IsItemInCart(flight: Flight){
+  IsItemInCart(flight: Flight) {
     var flag = false;
-    
+
     var c = this.cartService.getCart();
     console.log("IsItemInCart " + c.items.length);
     c.items.forEach(element => {

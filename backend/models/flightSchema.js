@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const flightSchema = mongoose.Schema({
-  takeoff: { type: String, required: true },
-  landing: { type: String, required: true },
-  price: { type: String, required: true },
+  takeoff: { type: Date, required: true },
+  landing: { type: Date, required: true },
+  price: { type: Number, required: true },
   destination: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Destination',

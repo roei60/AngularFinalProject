@@ -19,6 +19,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'create', component: FlightCreateComponent },
   { path: 'edit/:flightId', component: FlightCreateComponent },
+  { path: 'search', component: FlightListComponent },
+
   { path: 'get', component: FlightListComponent },
   {
     path: 'viewCart',
