@@ -18,7 +18,8 @@ export class AuthService {
   userDetails = {
     firstName: null,
     lastName: null,
-    email: null
+    email: null,
+    isAdmin:false
   };
 
   constructor(
@@ -53,7 +54,7 @@ export class AuthService {
       this.storeToken(response.accessToken);
       // this.userAuthenticated.emit({ userDetails: response.userDetails });
       this.saveUserDetails(response.firstname,
-        response.lastname, response.email);
+        response.lastname, response.email,response.isAdmin);
       if (this.redirectUrl) {
         this.nextUrl = this.redirectUrl;
         this.redirectUrl = null;
@@ -117,8 +118,9 @@ export class AuthService {
 
   logout(): void {
     this.isLoggedIn = false;
-    this.nextUrl = '/home';
-
+    this.nextUrl = '/login';
+    localStorage.clear();
+    this.userDetails.isAdmin =false;
     this.navigateNext();
   }
 
@@ -144,16 +146,16 @@ export class AuthService {
     return token;
   }
 
-  saveUserDetails(firstName: string, lastName: string, email: string) {
+  saveUserDetails(firstName: string, lastName: string, email: string, isAdmin:boolean) {
     this.userDetails.firstName = firstName;
     this.userDetails.lastName = lastName;
     this.userDetails.email = email;
+    this.userDetails.isAdmin = isAdmin;
   }
 
   getUserDetails() {
     return this.userDetails;
   }
-
 
 }
 interface LoginResponse {
@@ -162,4 +164,5 @@ interface LoginResponse {
   firstname: string;
   lastname: string;
   email: string;
+  isAdmin:boolean;
 }

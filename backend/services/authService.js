@@ -19,7 +19,8 @@ const authService = {
 			username: null,
 			firstname:null,
 			lastname:null,
-			email:null
+			email:null,
+			isAdmin:null
 		};
 
 		[err, found] = await to(this.findByCredentials(username,password));
@@ -36,7 +37,10 @@ const authService = {
 			result.firstname = found.firstname;
 			result.lastname = found.lastname;
 			result.email = found.email;
+			result.isAdmin = found.isAdmin;
 		}
+
+
 		
 		if(err)
 		   throw err;
