@@ -18,6 +18,7 @@ const routes: Routes = [
     component: RegistrationComponent
   },
   { path: '', component: HomeComponent },
+
   { 
     canActivate: [AuthGuard],
      path: 'create',
@@ -32,6 +33,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     path: 'get',
     component: FlightListComponent },
+
   {
     canActivate: [AuthGuard],
     path: 'viewCart',

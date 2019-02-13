@@ -1,0 +1,76 @@
+
+const util = require("util");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const User = require("../models/userSchema");
+
+//import { TokenData, TokenResponse } from "Token";
+const { to } = require('await-to-js');
+
+// const SECRET_KEY = config.JWT_Token.secretKey;
+const SECRET_KEY = "TOMTOMTOMTOMKEY12345";
+
+const authService = {
+
+	login: async function (username, password) {
+		const result= {
+			accessToken: null,
+			userID: null,
+			username: null,
+			firstname:null,
+			lastname:null,
+			email:null
+		};
+
+		[err, found] = await to(this.findByCredentials(username,password));
+				
+		if (found && found.userName) {
+			// Data to encrypt in the token
+			const data = {
+				 username: found.username,
+			};
+			accessToken = this.generateToken(data);
+			result.accessToken = accessToken;
+			result.userID = found.ID;
+			result.username = found.userName;
+			result.firstname = found.firstname;
+			result.lastname = found.lastname;
+			result.email = found.email;
+		}
+		
+		if(err)
+		   throw err;
+
+		return result;
+	},
+
+
+	findByCredentials: async function(username,password){
+		 var query = { userName: username, password:password };
+
+		[err, found] = await to(User.findOne(query));
+		
+		if(found)
+		   return found;
+		
+		throw new Error('User or password is not correct');
+	},
+	generateToken: function (data) {
+		// const EXPIRED_IN = config.JWT_Token.expirationIn;
+		const EXPIRED_IN = 100000;
+
+		const tokenObj = {
+			"access_token": null,
+			"expires_in": EXPIRED_IN
+		};
+		const token = jwt.sign({
+			exp: Math.floor(Date.now() / 1000) + EXPIRED_IN,
+			data: data
+		}, SECRET_KEY);
+		tokenObj.access_token = token;
+		return tokenObj;
+	},
+
+};
+
+module.exports = authService;
