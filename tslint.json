@@ -13,6 +13,11 @@
       true,
       "rxjs/Rx"
     ],
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces"
+    ],
     "interface-name": false,
     "max-classes-per-file": false,
     "max-line-length": [

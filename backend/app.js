@@ -37,6 +37,7 @@ app.use((req, res, next) => {
 app.use("/api/flights", flightsRoutes);
 app.use("/api/destinations", destinationsRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/login", usersRoutes )
 app.use((req,res,next) => {
 	res.sendFile(path.join(__dirname,"angular",index.html));
 });

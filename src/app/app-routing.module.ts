@@ -6,6 +6,7 @@ import { FlightListComponent } from "./flights/flight-list/flight-list.component
 import { FlightCreateComponent } from "./flights/flight-create/flight-create.component";
 import { HomeComponent } from './home/home/home.component';
 import { CartListComponent } from "./carts/cart-list/cart-list.component";
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,10 +18,22 @@ const routes: Routes = [
     component: RegistrationComponent
   },
   { path: '', component: HomeComponent },
-  { path: 'create', component: FlightCreateComponent },
-  { path: 'edit/:flightId', component: FlightCreateComponent },
-  { path: 'get', component: FlightListComponent },
+  { 
+    canActivate: [AuthGuard],
+     path: 'create',
+      component: FlightCreateComponent
+  },
+  { 
+    canActivate: [AuthGuard],
+    path: 'edit/:flightId',
+    component: FlightCreateComponent
+  },
   {
+    canActivate: [AuthGuard],
+    path: 'get',
+    component: FlightListComponent },
+  {
+    canActivate: [AuthGuard],
     path: 'viewCart',
     component: CartListComponent
   },

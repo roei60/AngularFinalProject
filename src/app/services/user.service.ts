@@ -4,11 +4,15 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpClient, HttpHeaders, } from "@angular/common/http";
 import { Router } from '@angular/router';
 import { MatDatepicker } from '@angular/material';
-
+import { query } from '@angular/core/src/render3';
+import { SyncAsync } from '@angular/compiler/src/util';
+import { AuthService } from './auth.service';
+import { to } from 'await-to-js';
 
 @Injectable()
 export class UserService {
-	private user: User;
+private user: User;
+private token: string;
 
 	constructor(private http: HttpClient, private router: Router) { }
 
@@ -16,19 +20,27 @@ export class UserService {
         return this.user;
     }
 
-    loadUser(userName: string, password: string): void {
-        this.user = {
-            userName: 'userName',
-            email: 'email@gmail.com',
-            firstName: 'firstName',
-            lastName: 'lastName',
-            password: 'password',
-            birthdate: 'birthdate',
-            isAdmin: false
-        };
+    loadUser(userName: string, password: string,):void {
+		var userToSend = {
+			userName: userName,
+			password: password,
+		};
+
+		this.http
+			.post<{ message: string, token:string; user: User }>(
+				"http://localhost:3000/api/users/login",
+				({username: userName, password: password}),
+			)
+			.subscribe(responseData => {
+				this.token = responseData.token;
+				console.log("token:" + this.token)
+				this.router.navigate(["/"]);
+			});
+
+
 	}
 
-	 AddUser(userName: string, email: string, firstName: string, lastName: string, password: string,birthdate:string): void {
+	 async AddUser(userName: string, email: string, firstName: string, lastName: string, password: string,birthdate:string) {
 
 		var userToSend = {
 			userName: userName,
@@ -40,29 +52,38 @@ export class UserService {
 			isAdmin: false
 		};
 
-		//this.http.get("http://localhost:3000/api/users").pipe(user=>)
-		this.getUserByUserName(userName)
-		.subscribe(user => {
-		console.log("user name is : " + user.userName);
-		console.log("user is : " + user);
-		if(!user)
-		{
-			this.http
-				.post<{ message: string; user: User }>(
-					"http://localhost:3000/api/users",
-					userToSend
-				)
-				.subscribe(responseData => {
-					this.router.navigate(["/"]);
-				});
-		}
-		else
-		{
-			
-			//this.dialog.openDialog("Error, user name is already registered.");
-		}
 
-	});
+		const url = "http://localhost:3000/api/users";
+		let err, result;
+		[err, result] = await to(this.http.post<User>(url, userToSend).toPromise());
+
+
+		if(result)
+		   this.router.navigate(["/"]);
+
+		// //this.http.get("http://localhost:3000/api/users").pipe(user=>)
+		// this.getUserByUserName(userName)
+		// .subscribe(user => {
+		// console.log("user name is : " + user.userName);
+		// console.log("user is : " + user);
+		// if(!user)
+		// {
+		// 	this.http
+		// 		.post<{ message: string; user: User }>(
+		// 			"http://localhost:3000/api/users",
+		// 			userToSend
+		// 		)
+		// 		.subscribe(responseData => {
+		// 			this.router.navigate(["/"]);
+		// 		});
+		// }
+		// else
+		// {
+			
+		// 	//this.dialog.openDialog("Error, user name is already registered.");
+		// }
+
+	// });
 		
 		
 	}
