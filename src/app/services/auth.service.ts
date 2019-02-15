@@ -16,6 +16,7 @@ export class AuthService {
   private nextUrl: string;
 
   userDetails = {
+    userName:null,
     firstName: null,
     lastName: null,
     email: null,
@@ -54,7 +55,7 @@ export class AuthService {
       this.storeToken(response.accessToken);
       // this.userAuthenticated.emit({ userDetails: response.userDetails });
       this.saveUserDetails(response.firstname,
-        response.lastname, response.email,response.isAdmin);
+        response.lastname, response.email,response.isAdmin,response.username);
       if (this.redirectUrl) {
         this.nextUrl = this.redirectUrl;
         this.redirectUrl = null;
@@ -146,8 +147,9 @@ export class AuthService {
     return token;
   }
 
-  saveUserDetails(firstName: string, lastName: string, email: string, isAdmin:boolean) {
+  saveUserDetails(firstName: string, lastName: string, email: string, isAdmin:boolean,username:string) {
     this.userDetails.firstName = firstName;
+    this.userDetails.userName=username;
     this.userDetails.lastName = lastName;
     this.userDetails.email = email;
     this.userDetails.isAdmin = isAdmin;
@@ -163,6 +165,7 @@ interface LoginResponse {
   accessToken: string;
   firstname: string;
   lastname: string;
+  username:string;
   email: string;
   isAdmin:boolean;
 }
