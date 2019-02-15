@@ -32,10 +32,10 @@ const authService = {
 			};
 			accessToken = this.generateToken(data);
 			result.accessToken = accessToken;
-			result.userID = found.ID;
+			result.userID = found.id;
 			result.username = found.userName;
-			result.firstname = found.firstname;
-			result.lastname = found.lastname;
+			result.firstname = found.firstName;
+			result.lastname = found.lastName;
 			result.email = found.email;
 			result.isAdmin = found.isAdmin;
 		}
