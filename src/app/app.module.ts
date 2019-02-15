@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
@@ -10,7 +11,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FlightCreateComponent } from './flights/flight-create/flight-create.component';
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
-import {CommonModule} from '@angular/common' 
+import {CommonModule} from '@angular/common'
+import { AgmCoreModule } from '@agm/core';
 import {
   MatInputModule,
   MatCardModule,
@@ -49,6 +51,10 @@ import { CartListComponent } from './carts/cart-list/cart-list.component';
     
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyAYk5JhvH29rTW4ZpsgKgiFB5Z59_h10Kk",
+      libraries: ["places"]
+    }),
     BrowserModule,
     AppRoutingModule,
     FormsModule,

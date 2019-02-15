@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <header class="display-container content" style="max-width:1500px;">
   <img class="image" src="../../../assets/images/aeroplane-air-aircraft-1004584.jpg" alt="Photo by Oleksandr Pidvalnyi from Pexels">
   <div class="display-left padding w3-col l6 m8">
@@ -43,7 +44,7 @@
   <h6>Up to <strong>50%</strong> discount.</h6>
 </div>
 <div class="w3-row-padding w3-padding-16 w3-center" id="food">
-  <div class="w3-quarter">
+  <div class="quarter">
       <img src="../../../assets/images/paris.jpg" alt="Paris" style="width:100%">
       <h3>PARIS: The perfect long weekend</h3>
       <p>
@@ -54,7 +55,7 @@
       </p>
       <aside>from 90$</aside>
   </div>
-  <div class="w3-quarter">
+  <div class="quarter">
       <img src="../../../assets/images/amsterdam.jpg" alt="Amsterdam" style="width:100%">
       <h3>AMSTERDAM: Let us tell you about this beuty city</h3>
       <p>
@@ -68,7 +69,7 @@
       </p>
       <aside>from 120$</aside>
   </div>
-  <div class="w3-quarter">
+  <div class="quarter">
       <img src="../../../assets/images/Berlin.jpeg" alt="Berlin" style="width:100%">
       <h3>BERLIN: Thriving art & culture in the new germany</h3>
       <p>
@@ -81,7 +82,7 @@
       </p>
        <aside>from 100$</aside>
   </div>
-  <div class="w3-quarter">
+  <div class="quarter">
       <img src="../../../assets/images/prague.jpg" alt="Pargue" style="width:100%">
       <h3>PRAGUE: A beautiful city by the river</h3>
       <p>
@@ -95,3 +96,19 @@
       <aside>from 90$</aside>
   </div>
 </div>
+
+<!-- GoogleMapsAPI -->
+<div class="container ">
+  <div class="panel padding-16 card ">
+      <h2>Still undecided? Explore our map</h2>
+        <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+          <agm-marker 
+          *ngFor="let m of markers;"
+          [latitude]="m.lat"
+          [longitude]="m.long">
+      </agm-marker>
+        </agm-map>
+  </div>
+</div>
+
+

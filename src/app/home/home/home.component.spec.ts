@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
