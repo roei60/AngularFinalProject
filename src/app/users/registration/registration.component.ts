@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    this.myModal.nativeElement.className = 'modal fade show';
+    // this.myModal.nativeElement.className = 'modal fade show';
 	this.userService.AddUser(
 		this.registrationForm.controls["username"].value,
 		this.registrationForm.controls["email"].value,
@@ -38,9 +38,6 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.controls["lastName"].value,
     this.registrationForm.controls["password"].value,
     this.registrationForm.value.birthdate)
-    
-    
-    
 
     
     //this.registrationForm.controls["birthdate"].value);

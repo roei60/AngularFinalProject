@@ -5,7 +5,7 @@
     <!-- <span class="spacer"></span> -->
     <ul>
       <li>
-        <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Flight</a>
+        <a mat-button routerLink="/create" routerLinkActive="mat-accent" *ngIf="this.authService.getUserDetails().isAdmin" >New Flight</a>
       </li>
       <li>
           <a mat-button routerLink="/get" routerLinkActive="mat-accent">My Flights</a>
@@ -23,7 +23,8 @@
           <a mat-button routerLink="/registration" routerLinkActive="mat-accent">Register</a>
         </li>
         <li>
-            <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+            <a mat-button routerLink="/login" routerLinkActive="mat-accent" *ngIf="!this.authService.isAuthenticated()">Login</a>
+            <a mat-button (click)="this.authService.logout()" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">Logout</a>
         </li>
       </ul>
   </mat-toolbar>

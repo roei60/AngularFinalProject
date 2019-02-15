@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from "../services/cart.service";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   private _subscription: any;
 
-  constructor(private cartService: CartService, private numItems: Number) {
+  constructor(private cartService: CartService, private numItems: Number, private authService:AuthService) {
     this.numItems = cartService.numItems; 
     this._subscription = cartService.cartChange.subscribe((value) => { 
       this.numItems = value; 

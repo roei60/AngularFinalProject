@@ -1,12 +1,24 @@
 const express = require("express");
+const { to } = require('await-to-js');
 
 const User = require("../models/userSchema");
+const authService = require("../services/authService");
 
 const router = express.Router();
 
 router.post(
   "",
-  (req, res, next) => {
+  async (req, res, next) => {
+
+    var qurey = {userName:req.body.userName};
+    [err,result] = await to(User.findOne(qurey));
+
+    if(result)
+    {
+       res.status(409).send({err: 'User is already exist'}); 
+       return;
+    }
+
     const user = new User({
         userName: req.body.userName,
         password: req.body.password,
@@ -20,7 +32,7 @@ router.post(
     console.log("post request user: " + user.json);
      user.save().then(createdUser => {
       res.status(201).json({
-        message: "user added successfully",
+        // message: "user added successfully",
         user: {
           ...createdUser,
           id: createdUser._id
@@ -88,11 +100,12 @@ router.get("", (req, res, next) => {
     User.findOne(query).then(user => {
       if (user) {
         res.status(200).json(user);
-      } else {
-        res.status(404).json({
-          message: "userName not found!"
-        });
+      } 
+      else
+      {
+        res.send({message: "User not exist"});
       }
+      
     });
   }
 });
@@ -120,5 +133,42 @@ router.delete("/:id", (req, res, next) => {
     });
   });
 });
+
+router.post("/login", async (req, res, next) => {
+  
+  username = req.body.username;
+  password = req.body.password;
+  
+  // authService.login(username, password)
+  let err, loginResult;
+  [err, loginResult] = await to(authService.login(username, password));
+
+  /*[err, loginResult] = await to(authService.login(username, password));
+	if (err || !loginResult.accessToken) {
+		res.status(400);
+		return res.send({ "message": "Invalid login parameters" });
+	}
+  const userID = loginResult.userID;
+  const result = {
+    token: loginResult.accessToken,
+    userDetails: {
+      firstName: firstName,
+      lastName: lastName,
+      email: email
+    },
+  };
+  return res.send(result);*/
+
+
+res.send(loginResult);
+
+});
+
+
+
+
+
+
+
 
 module.exports = router;

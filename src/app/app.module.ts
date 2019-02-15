@@ -37,6 +37,7 @@ import { UserService } from './services/user.service';
 import { CartService } from './services/cart.service';
 import { HomeComponent } from './home/home/home.component';
 import { CartListComponent } from './carts/cart-list/cart-list.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import { CartListComponent } from './carts/cart-list/cart-list.component';
     MatIconModule,
     MatTableModule
   ],
-  providers: [MatDatepickerModule,AuthService, UserService, CartService],
+  providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

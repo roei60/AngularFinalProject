@@ -37,6 +37,9 @@ app.use((req, res, next) => {
 app.use("/api/flights", flightsRoutes);
 app.use("/api/destinations", destinationsRoutes);
 app.use("/api/users", usersRoutes);
+
+app.use("/api/login", usersRoutes )
+
 app.use("/api/flightSearch",flightSearchRoutes)
 
 app.use((req,res,next) => {
