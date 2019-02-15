@@ -163,7 +163,7 @@ export class FlightService {
           this.flightsUpdated.next({
             flightsData: [...this.flights],
           })
-          //this.router.navigate(["/search"]);
+        
         })
 
   }

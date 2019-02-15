@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { FlightService } from 'src/app/services/flight.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from "@angular/router";
+
 import { MapsAPILoader } from '@agm/core';
 @Component({
   selector: 'app-home',
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
     public flightService: FlightService,
     public destinationService: DestinationService,
     public route: ActivatedRoute, private mapsAPILoader: MapsAPILoader,
+    private router: Router,
     private ngZone: NgZone) {
     this.destinationService.GetDestinations()
       .subscribe(transformedDestinationData => {
@@ -83,6 +86,7 @@ export class HomeComponent implements OnInit {
           price: price
         }
         this.flightService.searchFlights(searchParams)
+        this.router.navigate(["/search"]);
 
       })
       
