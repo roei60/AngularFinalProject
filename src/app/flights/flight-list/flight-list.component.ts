@@ -86,12 +86,10 @@ export class FlightListComponent implements OnInit {
     var flag = false;
 
     var c = this.cartService.getCart();
-    console.log("IsItemInCart " + c.items.length);
     c.items.forEach(element => {
       if (element === flight.id)
         flag = true;
     });
-    console.log("flag = " + flag);
     return flag;
   }
 }

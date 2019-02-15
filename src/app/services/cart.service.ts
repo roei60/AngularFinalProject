@@ -36,12 +36,18 @@ export class CartService {
 
    public getCart(){
      var c = JSON.parse(sessionStorage.getItem("currentUser"));
-    console.log("get cart items = " + c.items.length);
+    // console.log("get cart items = " + c.items.length);
     return c;
   }
 
+  public removeFlightFromCart(flightId: String){
+    var cart = this.getCart();
+      cart.items.splice(cart.items.findIndex(id => id == flightId), 1);
+      this.setCart(cart);
+  }
+
   change(){
-    console.log("################################################in change!");
+    // console.log("################################################in change!");
     this.cartChange.next(this.numItems);
   }
 }

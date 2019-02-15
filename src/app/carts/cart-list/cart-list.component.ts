@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Flight } from '../../models/flight.model';
+import { Cart } from '../../models/cart.model';
 import { FlightService } from "../../services/flight.service";
 import { CartService } from "../../services/cart.service";
 import { Subscription } from "rxjs";
@@ -57,12 +58,7 @@ export class CartListComponent implements OnInit {
   }
 
   RemoveItem(flight: Flight){
-    var cart = this.cartService.getCart();
-    console.log("flight.id = " + flight.id);
-    var index = cart.items.findIndex(id => id === flight.id);
-    console.log("index = " + index);
-    cart.items.splice(index, 1);
-    this.cartService.setCart(cart);
+    this.cartService.removeFlightFromCart(flight.id);
     this.DataSourceHandling();
   }
 
@@ -76,7 +72,8 @@ export class CartListComponent implements OnInit {
       var city = flightRow.destination.city;
       var country = flightRow.destination.country;
       console.log("from order - Country: " + country + " , City: " + city);
-      this.orderService.addOrder(this.authService.userDetails.userId, flightRow.id, flightRow.quantity);
+      this.orderService.addOrder(this.authService.userDetails.userId, flightRow.id, flightRow.quantity)
+      this.cartService.removeFlightFromCart(flightRow.id);
     }
   }
 
