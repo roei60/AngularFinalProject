@@ -16,6 +16,8 @@ export class AuthService {
   private nextUrl: string;
 
   userDetails = {
+    userId:null,
+    userName:null,
     firstName: null,
     lastName: null,
     email: null,
@@ -52,9 +54,8 @@ export class AuthService {
 
     if (response.accessToken) {
       this.storeToken(response.accessToken);
-      // this.userAuthenticated.emit({ userDetails: response.userDetails });
-      this.saveUserDetails(response.firstname,
-        response.lastname, response.email,response.isAdmin);
+      this.saveUserDetails(response.userID, response.firstname,
+        response.lastname, response.email,response.isAdmin, response.username);
       if (this.redirectUrl) {
         this.nextUrl = this.redirectUrl;
         this.redirectUrl = null;
@@ -69,52 +70,6 @@ export class AuthService {
     const token = this.getToken();
     return token != null;
   }
-
-  // Test(username: string, password: string): Promise<LoginResponse> {
-
-  //   const url = 'http://localhost:3000/api/add-flight-test';
-  //   // const url = this.authAPI + '/admin/login';
-
-  //   const body = {
-  //     username: username,
-  //     password: password,
-  //   };
-
-  //   let err, response: LoginResponse;
-  //   return this.http.post<LoginResponse>(url, body).toPromise();
-
-  // }
-
-  // async Test2() {
-  //   let err, response: LoginResponse;
-  //   [err, response] = await to(this.Test("aaa","ssss"));
-  // }
-
-  // async login2(username:string, password:string): void {
-  //   this.userService.loadUser(username,password);
-  //   this.isLoggedIn = true;
-
-  //   const userToSend = {
-	// 		userName: username,
-	// 		password: password,
-	// 	};
-
-  //   const url = "http://localhost:3000/api/users/login";
-  // await to(this.http.post<{ message: string, token:string; user: User }>(url,({username: userName, password: password})))
-	// 	this.http
-	// 		.post<{ message: string, token:string; user: User }>(
-	// 			"http://localhost:3000/api/users/login",
-	// 			({username: userName, password: password}),
-	// 		)
-	// 		.subscribe(responseData => {
-	// 			this.token = responseData.token;
-	// 			console.log("token:" + this.token)
-	// 			this.router.navigate(["/"]);
-	// 		});
-
-  //   this.nextUrl = '/home';
-  //   this.navigateNext();
-  // }`
 
   logout(): void {
     this.isLoggedIn = false;
@@ -146,11 +101,16 @@ export class AuthService {
     return token;
   }
 
-  saveUserDetails(firstName: string, lastName: string, email: string, isAdmin:boolean) {
+  saveUserDetails(userId:string, firstName: string, lastName: string, email: string, isAdmin:boolean, userName: any) {
+    
+    console.log(firstName +" " +  lastName + " " +userName );
+    this.userDetails.userId = userId;
     this.userDetails.firstName = firstName;
     this.userDetails.lastName = lastName;
     this.userDetails.email = email;
     this.userDetails.isAdmin = isAdmin;
+    this.userDetails.userName = userName;
+    
   }
 
   getUserDetails() {
@@ -161,8 +121,10 @@ export class AuthService {
 interface LoginResponse {
   message: string;
   accessToken: string;
+  userID: string,
   firstname: string;
   lastname: string;
   email: string;
   isAdmin:boolean;
+  username: string;
 }

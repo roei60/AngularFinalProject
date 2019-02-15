@@ -7,7 +7,14 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    isAdmin:{type:Boolean,required:true}
+    isAdmin:{type:Boolean,required:true},
+    orders: {
+        quantity: { type: Number},
+        flight: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Flight'
+        }
+    }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -7,6 +7,9 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { Destination } from 'src/app/models/destination.model';
 import { Router } from "@angular/router";
+import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -14,14 +17,15 @@ import { Router } from "@angular/router";
   styleUrls: ['./cart-list.component.css']
 })
 export class CartListComponent implements OnInit {
-  
+  isLoading: boolean;
   dataSource;
   displayedColumns = ['Destination', 'takeoff', 'landing', 'price', "quantity", "actions"];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  flights: Flight[] = []
+  flights: any[] = []
   private flightsSubscriber: Subscription;
-  constructor(private flightService: FlightService, private cartService: CartService, private router: Router) { }
+  constructor(private flightService: FlightService, private cartService: CartService, private orderService: OrderService, 
+    private userService: UserService,private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
      this.flightService.GetAllFlights();
@@ -36,6 +40,11 @@ export class CartListComponent implements OnInit {
   DataSourceHandling() {
     var ids = this.cartService.getCart().items;    
     this.flights =  this.flightService.GetFlights().filter(flight => ids.includes(flight.id));
+
+    for (var i = 0; i < this.flights.length; i++) {
+      this.flights[i].quantity = 0;
+  }
+
     this.dataSource = new MatTableDataSource(this.flights);    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -55,6 +64,28 @@ export class CartListComponent implements OnInit {
     cart.items.splice(index, 1);
     this.cartService.setCart(cart);
     this.DataSourceHandling();
+  }
+
+  OrderItems(){
+    console.log("Take order");
+    this.isLoading = true;
+    for(var i=0;i<this.dataSource.data.length; i++)
+    {
+      var flightRow = this.dataSource.data[i];
+      console.log(flightRow);
+      var city = flightRow.destination.city;
+      var country = flightRow.destination.country;
+      console.log("from order - Country: " + country + " , City: " + city);
+      this.orderService.addOrder(this.authService.userDetails.userId, flightRow.id, flightRow.quantity);
+    }
+  }
+
+  IsCartEmpty(){
+    return this.cartService.getCart().items.length == 0;
+  }
+
+  setQuantity(order, quantity){
+    order.quantity = quantity;
   }
 
 }

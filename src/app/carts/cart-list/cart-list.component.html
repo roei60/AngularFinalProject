@@ -1,33 +1,33 @@
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="!IsCartEmpty()">
     <ng-container matColumnDef="Destination">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.destination.country}},{{element.destination.city}} </mat-cell>
     </ng-container>
   
     <!-- Name Column -->
     <ng-container matColumnDef="takeoff">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> takeoff</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Takeoff</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.takeoff}} </mat-cell>
     </ng-container>
   
     <!-- Weight Column -->
     <ng-container matColumnDef="landing">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> landing</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Landing</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.landing}} </mat-cell>
     </ng-container>
   
     <!-- Symbol Column -->
     <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> price</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
     </ng-container>
   
     <!-- Symbol Column -->
     <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> quantity</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
         <mat-cell *matCellDef="let element">
             <div>
-              <input type="text"/>
+              <input #quantity type="number" (keyup)="setQuantity(element, quantity.value)" style="text-align: center;width:60px;"/>
             </div>
         </mat-cell>
       </ng-container>
@@ -35,8 +35,8 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <div>
-          <button class="btn btn-danger PadRight" (click)="RemoveItem(element)">Remove from cart</button>
+        <div class="wrapper">
+          <button class="btn btn-danger center" (click)="RemoveItem(element)">Remove from cart</button>
         </div>
       </mat-cell>
     </ng-container>
@@ -47,4 +47,9 @@
   
   
   
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator *ngIf="!IsCartEmpty()" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  <div class="wrapper">
+    <button class="btn btn-primary button center" (click)="OrderItems()" *ngIf="!IsCartEmpty()">Order!</button>
+  </div>
+  <p class="info-text mat-body-1" *ngIf="IsCartEmpty()">No flights added to cart yet!</p>

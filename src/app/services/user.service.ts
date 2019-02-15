@@ -33,6 +33,7 @@ private token: string;
 			)
 			.subscribe(responseData => {
 				this.token = responseData.token;
+				this.user = responseData.user;
 				console.log("token:" + this.token)
 				this.router.navigate(["/"]);
 			});
