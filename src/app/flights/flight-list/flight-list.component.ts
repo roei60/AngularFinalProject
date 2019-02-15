@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ChangeDetectorRef  } from '@angular/core';
 import { Flight } from '../../models/flight.model';
 import { FlightService } from "../../services/flight.service";
 import { CartService } from "../../services/cart.service";
@@ -35,21 +35,23 @@ export class FlightListComponent implements OnInit {
     if (this.router.url== "/get") {
       //   this.dataSource.paginator = this.paginator;
       this.FlightService.GetAllFlights();
+      console.log("get?!");
     }
 
     this.flightsSubscriber = this.FlightService.getFlightsUpdateListener()
       .subscribe(flightData => {
         this.flights = flightData.flightsData
+        console.log(this.flights);
+        
         this.DataSourceHandling()
-
       })
-      console.log(this.flights);
+      
   
   }
 
   DataSourceHandling() {
-    this.dataSource = new MatTableDataSource(this.flights);
-    //  console.log(this.dataSource.data)
+    this.dataSource = [...this.flights];
+     console.log(this.dataSource)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
@@ -58,6 +60,11 @@ export class FlightListComponent implements OnInit {
         default: return item[property];
       }
     };
+    console.log("@#$%^&*()(*&^%")
+    console.log(this.flights);
+    console.log("1234567");
+    console.log(this.dataSource)
+
   }
 
   AddToCart(flight: Flight) {

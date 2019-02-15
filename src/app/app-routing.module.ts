@@ -33,6 +33,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     path: 'get',
     component: FlightListComponent },
+    {
+      canActivate: [AuthGuard],
+      path: 'search',
+      component: FlightListComponent },
 
   {
     canActivate: [AuthGuard],

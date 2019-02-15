@@ -29,7 +29,7 @@ export class AuthService {
     private userService: UserService,
     private http: HttpClient) {
       
-    this.nextUrl = '/get';
+    this.nextUrl = '/';
     localStorage.clear();
   }
 
