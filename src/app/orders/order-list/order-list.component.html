@@ -1,4 +1,4 @@
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort >
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.orders.length != 0">
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.flight.destination.country}},{{element.flight.destination.city}} </mat-cell>
@@ -34,7 +34,7 @@
 
 
 
-<mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons *ngIf="this.orders.length != 0"></mat-paginator>
 
 
-<!-- <p class="info-text mat-body-1" *ngIf="IsCartEmpty()">No orders done yet!</p> -->
+<p class="info-text mat-body-1" *ngIf="this.orders.length == 0">No orders done yet!</p>
