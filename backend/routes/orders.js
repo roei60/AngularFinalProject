@@ -1,6 +1,7 @@
 const express = require("express");
 
 const User = require("../models/userSchema");
+const Flight = require("../models/flightSchema");
 
 const router = express.Router();
 
@@ -31,70 +32,48 @@ router.put(
   }
 );
   
-//   router.put(
-//     "/:id",
-//     (req, res, next) => {
-//       const flight = new Flight({
-//         _id: req.body.id,
-//         takeoff: req.body.takeoff,
-//         landing: req.body.landing,
-//         price: req.body.price,
-//         destination: req.body.destination
-//       });
-//       console.log(flight);
-//       Flight.updateOne({
-//         _id: req.params.id 
-//       }, flight).then(result => {
-//         res.status(200).json({
-//           message: "Update successful!"
-//         });
-//       });
-//     }
-//   );
+
   
-//   router.get("", (req, res, next) => {
-//     const pageSize = +req.query.pagesize;
-//     const currentPage = +req.query.page;
-//     const flightQuery = Flight.find().populate('destination');
-//     let fetchedFlights;
-//     if (pageSize && currentPage) {
-//       flightQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-//     }
-//     flightQuery
-//       .then(documents => {
-//         fetchedFlights = documents;
-//         return Flight.count();
-//       })
-//       .then(count => {
-//         res.status(200).json({
-//           message: "Flights fetched successfully!",
-//           flights: fetchedFlights,
-//           maxFlights: count
-//         });
-//       });
-//   });
+  router.get("", (req, res, next) => {
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+
+    var ordersQuery = User.aggregate([
+      { "$addFields":  { 
+          "orders": { "$ifNull" : [ "$orders", [ ] ] }    
+      } },
+      { "$lookup": {
+          "from": "Flight",
+          "localField": "orders.flight",
+          "foreignField": "_id",
+          "as": "orders.flight"
+      } }
+  ]);
+
+  //var ordersQuery = User.findById(req.user.id).populate("orders.flight").populate("orders.flight.destination");
+  var ordersQuery = User.findById(req.user.id).populate({path:"orders.flight", populate:{path: "destination"}});
+  let fetchedOrders;
+    if (pageSize && currentPage) {
+      ordersQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    }
+    ordersQuery
+    .then(user => {
+      //var user = users.findIndex(user => user._id == req.user.id);
+      console.log(user);
+      return user.orders._doc.orders;
+    })
+      .then(documents => {
+        fetchedOrders = documents;
+        return fetchedOrders.length;
+      })
+      .then(count => {
+        res.status(200).json({
+          message: "User orders fetched successfully!",
+          orders: fetchedOrders,
+          maxOrders: count
+        });
+      });
+  });
   
-//   router.get("/:id", (req, res, next) => {
-//     Flight.findById(req.params.id).populate('destination').then(flight => {
-//       if (flight) {
-//         res.status(200).json(flight);
-//       } else {
-//         res.status(404).json({
-//           message: "Flight not found!"
-//         });
-//       }
-//     });
-//   });
-  
-//   router.delete("/:id", (req, res, next) => {
-//     Flight.deleteOne({
-//       _id: req.params.id
-//     }).then(result => {
-//       console.log(result);
-//       res.status(200).json({
-//         message: "Flight deleted!"
-//       });
-//     });
-//   });
   
   module.exports = router;

@@ -38,6 +38,7 @@ import { CartService } from './services/cart.service';
 import { HomeComponent } from './home/home/home.component';
 import { CartListComponent } from './carts/cart-list/cart-list.component';
 import { AuthGuard } from './auth/auth.guard';
+import { OrderListComponent } from './orders/order-list/order-list.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AuthGuard } from './auth/auth.guard';
     LoginComponent,
     HomeComponent,
     CartListComponent,
+    OrderListComponent,
     
   ],
   imports: [

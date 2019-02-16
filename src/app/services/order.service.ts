@@ -4,40 +4,67 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Order } from '../models/order.model';
 import { stringify } from '@angular/core/src/render3/util';
+import { Destination } from '../models/destination.model';
+import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-
+ orders: Order[];
+ private ordersUpdated = new Subject<{ ordersData: Order[] }>();
   constructor(private http: HttpClient, private router: Router) { }
 
-  public getOrders() 
+  getOrdersUpdateListener() {
+    return this.ordersUpdated.asObservable();
+  }
+
+  public getOrders(userId: string) 
   {
-    return this.http.get<{ message: string; orders: any; maxOrders: number }>("http://localhost:3000/api/orders")
+    return this.http.get<{ message: string; orders: any; maxOrders: number }>("http://localhost:3000/api/users/"+userId+"/orders")
     .pipe(
       map(orderData => {
          return {
            orders: orderData.orders.map(order => {
              return {
-                id: order._id,
                 quantity: order.quantity,
                 flight: order.flight
              };
            }),
-           maxDestinations: orderData.maxOrders
+           maxOrders: orderData.maxOrders
          };
        })
-     )
+     ).subscribe(obj => {
+      this.orders = obj.orders.map(obj => {
+        var Dest: Destination = {
+          id: obj.flight.destination._id,
+          city: obj.flight.destination.City,
+          country: obj.flight.destination.Country
+        }
+        var pipe = new DatePipe('en-US');
+        var _landing = pipe.transform(Date.parse(obj.flight.landing), "short")
+        var _takeoff = pipe.transform(Date.parse(obj.flight.takeoff), "short")
+        
+        var flight = {
+          id: obj.flight._id,
+          takeoff: _takeoff,
+          landing: _landing,
+          price: obj.flight.price,
+          destination: Dest
+        }
+        return {
+          //id: obj.id,
+          flight: flight,
+          quantity: obj.quantity
+        }
+      })
+      this.ordersUpdated.next({
+        ordersData: [...this.orders],
+      })
+    });
   }
 
-  // getOrder(id: string) {
-  //   return this.http.get<{
-  //     _id: string;
-  //     city: string;
-  //     country: string;
-  //   }>("http://localhost:3000/api/orders/" + id);
-  // }
 
   addOrder(userId: string, flightId: string, quantity: number) {
     console.log("Add order: ");
@@ -53,11 +80,12 @@ export class OrderService {
 
     this.http
       .put<{ message: string; order: Order }>(
-        "http://localhost:3000/api/orders",
+        "http://localhost:3000/api/users/"+userId+"/orders",
         order
       )
       .subscribe(responseData => {
         this.router.navigate(["/"]);
       });
   }
+
 }

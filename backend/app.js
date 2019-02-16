@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const User = require("./models/userSchema");
+
 const usersRoutes = require("./routes/users");
 const flightsRoutes = require("./routes/flights");
 const destinationsRoutes = require("./routes/destinations");
@@ -42,7 +44,22 @@ app.use("/api/users", usersRoutes);
 app.use("/api/login", usersRoutes )
 
 app.use("/api/flightSearch",flightSearchRoutes)
-app.use("/api/orders", ordersRoutes);
+
+
+app.param("userId", function(req, res, next, id){
+  User.findById(id, function(err, user){
+    if (err) {
+      next(err);
+    } else if (user) {
+      req.user = user;
+      next();
+    } else {
+      next(new Error('failed to load user'));
+    }
+  });
+});
+
+app.use("/api/users/:userId/orders", ordersRoutes);
 
 app.use((req,res,next) => {
 	res.sendFile(path.join(__dirname,"angular",index.html));

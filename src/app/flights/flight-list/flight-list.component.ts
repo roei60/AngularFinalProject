@@ -51,7 +51,7 @@ export class FlightListComponent implements OnInit {
 
   DataSourceHandling() {
     this.dataSource = [...this.flights];
-     console.log(this.dataSource)
+    //  console.log(this.dataSource)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
@@ -60,10 +60,10 @@ export class FlightListComponent implements OnInit {
         default: return item[property];
       }
     };
-    console.log("@#$%^&*()(*&^%")
-    console.log(this.flights);
-    console.log("1234567");
-    console.log(this.dataSource)
+    // console.log("@#$%^&*()(*&^%")
+    // console.log(this.flights);
+    // console.log("1234567");
+    // console.log(this.dataSource)
 
   }
 
