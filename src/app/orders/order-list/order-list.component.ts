@@ -27,18 +27,13 @@ export class OrderListComponent implements OnInit {
     private userService: UserService,private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    console.log("shit");
      this.orderService.getOrders(this.authService.userDetails.userId)
-
-
      this.ordersSubscriber = this.orderService.getOrdersUpdateListener()      
      .subscribe(ordersData => {
          this.orders = ordersData.ordersData;
          console.log(this.orders);
          this.DataSourceHandling();
        });
-     console.log("fuckkk");
-     
   }
   
   DataSourceHandling() {
@@ -53,4 +48,9 @@ export class OrderListComponent implements OnInit {
       }
     };
   }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this.ordersSubscriber.unsubscribe();
+   }
 }
