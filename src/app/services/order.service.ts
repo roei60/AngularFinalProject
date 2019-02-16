@@ -25,6 +25,12 @@ export class OrderService {
     return this.http.get<{ message: string; orders: any; maxOrders: number }>("http://localhost:3000/api/users/"+userId+"/orders")
     .pipe(
       map(orderData => {
+          console.log(orderData.orders);
+          if (orderData.orders.length == undefined)
+            return {
+              orders: [],
+              maxOrders: 0
+            }
          return {
            orders: orderData.orders.map(order => {
              return {

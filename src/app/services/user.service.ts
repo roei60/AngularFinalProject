@@ -50,7 +50,8 @@ private token: string;
 			lastName: lastName,
 			password: password,
 			birthdate: birthdate,
-			isAdmin: false
+			isAdmin: false,
+			orders: []
 		};
 
 

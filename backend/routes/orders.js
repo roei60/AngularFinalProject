@@ -38,29 +38,14 @@ router.put(
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
 
-    var ordersQuery = User.aggregate([
-      { "$addFields":  { 
-          "orders": { "$ifNull" : [ "$orders", [ ] ] }    
-      } },
-      { "$lookup": {
-          "from": "Flight",
-          "localField": "orders.flight",
-          "foreignField": "_id",
-          "as": "orders.flight"
-      } }
-  ]);
-
-  //var ordersQuery = User.findById(req.user.id).populate("orders.flight").populate("orders.flight.destination");
-  var ordersQuery = User.findById(req.user.id).populate({path:"orders.flight", populate:{path: "destination"}});
-  let fetchedOrders;
+    var ordersQuery = User.findById(req.user.id).populate({path:"orders.flight", populate:{path: "destination"}});
+    let fetchedOrders;
     if (pageSize && currentPage) {
       ordersQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
     }
     ordersQuery
     .then(user => {
-      //var user = users.findIndex(user => user._id == req.user.id);
-      console.log(user);
-      return user.orders._doc.orders;
+        return user.orders._doc.orders;
     })
       .then(documents => {
         fetchedOrders = documents;
