@@ -13,6 +13,9 @@
       <li>
         <a mat-button routerLink="/viewOrders" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">My Orders</a>
     </li>
+    <li>
+      <a mat-button routerLink="/getDestinations" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">All Destinations</a>
+  </li>
     </ul>
     <span class="spacer"></span>
     <ul>

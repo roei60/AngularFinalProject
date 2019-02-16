@@ -27,6 +27,7 @@ router.post(
         firstName:req.body.firstName,
         lastName:req.body.lastName,
         isAdmin:req.body.isAdmin,
+        orders: [],
     });
 
     console.log("post request user: " + user.json);

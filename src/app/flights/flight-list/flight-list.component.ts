@@ -92,6 +92,11 @@ export class FlightListComponent implements OnInit {
     });
     return flag;
   }
+
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+     this.flightsSubscriber.unsubscribe();
+   }
 }
 
 
