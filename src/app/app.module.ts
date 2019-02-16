@@ -39,6 +39,8 @@ import { HomeComponent } from './home/home/home.component';
 import { CartListComponent } from './carts/cart-list/cart-list.component';
 import { AuthGuard } from './auth/auth.guard';
 import { OrderListComponent } from './orders/order-list/order-list.component';
+import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
+import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
     HomeComponent,
     CartListComponent,
     OrderListComponent,
+    DestinationCreateComponent,
+    DestinationListComponent,
     
   ],
   imports: [
