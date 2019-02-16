@@ -17,17 +17,19 @@
     <span class="spacer"></span>
     <ul>
         <li>
-              <a mat-button routerLink="/viewCart" routerLinkActive="mat-accent">
+              <a mat-button routerLink="/viewCart" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">
                 <span [innerText]="numItems"></span>
                  - Items
                 </a>   
         </li>
         <li>
-          <a mat-button routerLink="/registration" routerLinkActive="mat-accent">Register</a>
+          <a mat-button routerLink="/registration" routerLinkActive="mat-accent" *ngIf="!this.authService.isAuthenticated()">Register</a>
+          
         </li>
         <li>
             <a mat-button routerLink="/login" routerLinkActive="mat-accent" *ngIf="!this.authService.isAuthenticated()">Login</a>
             <a mat-button (click)="this.authService.logout()" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">Logout</a>
+            <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">hello '{{authService.getUserDetails().firstName}}' </a>
         </li>
       </ul>
   </mat-toolbar>
