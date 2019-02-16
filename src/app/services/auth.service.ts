@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders, } from "@angular/common/http";
 import { User } from '../models/User';
 import { to } from 'await-to-js';
+import { CartService } from './cart.service';
 
 
 @Injectable()
@@ -27,6 +28,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private userService: UserService,
+    private cartService: CartService,
     private http: HttpClient) {
       
     this.nextUrl = '/';
@@ -75,6 +77,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.nextUrl = '/login';
     localStorage.clear();
+    this.cartService.clearCart();
     this.userDetails.isAdmin =false;
     this.navigateNext();
   }

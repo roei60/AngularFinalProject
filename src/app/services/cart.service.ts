@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cart } from 'src/app/models/cart.model';
 import { Observable, Subject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,13 @@ export class CartService {
     else{
       this.cart = this.getCart();     
     }    
+   }
+
+   public clearCart(){
+    var cart = {
+      items:[]
+    };
+    this.setCart(cart);
    }
 
    public setCart(cart: Cart){
