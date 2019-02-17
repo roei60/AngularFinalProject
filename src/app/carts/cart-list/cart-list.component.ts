@@ -80,9 +80,4 @@ export class CartListComponent implements OnInit {
   IsCartEmpty(){
     return this.cartService.getCart().items.length == 0;
   }
-
-  setQuantity(order, quantity){
-    order.quantity = quantity;
-  }
-
 }

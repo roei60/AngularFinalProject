@@ -15,7 +15,7 @@ router.put(
       User.findById(req.body.userId).then(res => console.log(res));
       
       var updateQuery = { 
-        $addToSet:  { 
+        $push:  { 
               orders: {
                 flight: req.body.flightId, 
                 quantity: req.body.quantity 
