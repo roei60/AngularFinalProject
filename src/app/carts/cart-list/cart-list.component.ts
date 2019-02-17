@@ -43,7 +43,7 @@ export class CartListComponent implements OnInit {
     this.flights =  this.flightService.GetFlights().filter(flight => ids.includes(flight.id));
 
     for (var i = 0; i < this.flights.length; i++) {
-      this.flights[i].quantity = 0;
+      this.flights[i].quantity = 1;
   }
 
     this.dataSource = new MatTableDataSource(this.flights);    
