@@ -14,6 +14,7 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 export class FlightService {
   private flights: Flight[] = []
   private flightsUpdated = new Subject<{ flightsData: Flight[] }>();
+  public GraphData=[];
   constructor(private http: HttpClient, private router: Router) {
     this.GetAllFlights()
 
@@ -69,36 +70,7 @@ export class FlightService {
   public GetFlights() {
     return this.flights;
   }
-  // public GetFlights(flightsPerPage: number, currentPage: number) {
-  //   const queryParams = `?pagesize=${flightsPerPage}&page=${currentPage}`;
-  //   this.http
-  //     .get<{ message: string; flights: any; maxFlights: number }>(
-  //       "http://localhost:3000/api/flights" + queryParams
-  //     )
-  //     .pipe(
-  //       map(flightData => {
-  //         return {
-  //           flights: flightData.flights.map(flight => {
-  //             return {
-  //               takeoff: flight.takeoff,
-  //               landing: flight.landing,
-  //               id: flight._id,
-  //               price: flight.price,
-  //               destination: flight.destination
-  //             };
-  //           }),
-  //           maxFlights: flightData.maxFlights
-  //         };
-  //       })
-  //     )
-  //     .subscribe(transformedFlightData => {
-  //       this.flights = transformedFlightData.flights;
-  //       this.flightsUpdated.next({
-  //         flightsData: [...this.flights],
-  //         flightCount: transformedFlightData.maxFlights
-  //       });
-  //     });
-  // }
+
   getFlightsUpdateListener() {
     return this.flightsUpdated.asObservable();
   }
@@ -111,6 +83,11 @@ export class FlightService {
       price: string;
       destination: any
     }>("http://localhost:3000/api/flights/" + id);
+  }
+  GetGraphData(){
+  return  this.http
+    .get<{ CountFlight: any; }>(
+      "http://localhost:3000/api/CountFlight").pipe()
   }
 
   searchFlights(searchParams: { destination: any; takeoff: any; price: any; }): any {
