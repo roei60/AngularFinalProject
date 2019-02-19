@@ -19,7 +19,7 @@ def parse(source,destination,date):
 			raw_json =json.loads(json_data_xpath[0] if json_data_xpath else '')
 			flight_data = json.loads(raw_json["content"])
 
-			flight_info  = OrderedDict()
+			flight_info  = OrderedDict() 
 			lists=[]
 
 			for i in flight_data['legs'].keys():
@@ -29,12 +29,12 @@ def parse(source,destination,date):
 				departure_location_airport = flight_data['legs'][i].get('departureLocation',{}).get('airportLongName','')
 				departure_location_city = flight_data['legs'][i].get('departureLocation',{}).get('airportCity','')
 				departure_location_airport_code = flight_data['legs'][i].get('departureLocation',{}).get('airportCode','')
-
+				
 				arrival_location_airport = flight_data['legs'][i].get('arrivalLocation',{}).get('airportLongName','')
 				arrival_location_airport_code = flight_data['legs'][i].get('arrivalLocation',{}).get('airportCode','')
 				arrival_location_city = flight_data['legs'][i].get('arrivalLocation',{}).get('airportCity','')
 				airline_name = flight_data['legs'][i].get('carrierSummary',{}).get('airlineName','')
-
+				
 				no_of_stops = flight_data['legs'][i].get("stops","")
 				flight_duration = flight_data['legs'][i].get('duration',{})
 				flight_hour = flight_duration.get('hours','')
@@ -56,7 +56,7 @@ def parse(source,destination,date):
 
 				if not airline_name:
 					airline_name = carrier.get('operatedBy','')
-
+				
 				timings = []
 				for timeline in  flight_data['legs'][i].get('timeline',{}):
 					if 'departureAirport' in timeline.keys():
@@ -85,10 +85,10 @@ def parse(source,destination,date):
 				lists.append(flight_info)
 			sortedlist = sorted(lists, key=lambda k: k['ticket price'],reverse=False)
 			return sortedlist
-
+		
 		except ValueError:
 			print "Rerying..."
-
+			
 	return {"error":"failed to process the page",}
 
 def saveToDB(flight):
@@ -107,11 +107,11 @@ def SaveAndParseToDB(data,destination,date):
             continue
 
         cityID = MapCityToID(destination)
-        takeoff_date_time_str = str(date) +" "+ json_object['timings'][0]['arrival_time']
-        landing_date_time_str = str(date) +" "+ json_object['timings'][0]['departure_time']
+        takeoff_date_time_str = str(date) +" "+ json_object['timings'][0]['departure_time']
+        landing_date_time_str = str(date) +" "+ json_object['timings'][0]['arrival_time']
 
         DBdata = {}
-        DBdata['price'] = json_object['ticket price']
+        DBdata['price'] = float(json_object['ticket price'])
         DBdata['destination'] = cityID
         DBdata['takeoff'] =  datetime.datetime.strptime(takeoff_date_time_str, '%d %m %Y %I:%M%p')
         DBdata['landing'] = datetime.datetime.strptime(landing_date_time_str, '%d %m %Y %I:%M%p')
@@ -133,21 +133,21 @@ def GetCities():
         data = json.load(f)
         data = map(lambda value: value['City'], data)
         return data
-
+    
 
 cities = GetCities()
 source = 'TLV'
 for x in range(0,len(cities)-3):
     destination =cities[x]
-
-    week = datetime.timedelta(weeks=1)
+    
+    week = datetime.timedelta(weeks=1) 
     date1 =  datetime.datetime.today()
     date2 = date1 + week * 52   # The next year
-
+   
     while date1 <= date2:
         date = date1.strftime('%m/%d/%Y')
         date1 = date1 + week
-
+      
         print "Fetching flight details"
         scraped_data = parse(source,destination,date)
 
@@ -162,3 +162,4 @@ for x in range(0,len(cities)-3):
 
         #with open('%s-%s-%s-flight-results.json'%(source,destination,date),'w') as fp:
         #    json.dump(scraped_data,fp,indent = 4)
+
