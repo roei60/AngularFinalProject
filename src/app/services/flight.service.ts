@@ -46,8 +46,8 @@ export class FlightService {
         this.flights = obj.flights.map(obj => {
           var Dest: Destination = {
             id: obj.destination._id,
-            city: obj.destination.City,
-            country: obj.destination.Country
+            city: obj.destination.city,
+            country: obj.destination.country
           }
           var pipe = new DatePipe('en-US');
           var _landing = pipe.transform(Date.parse(obj.landing), "short")

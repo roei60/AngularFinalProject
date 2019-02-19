@@ -1,34 +1,27 @@
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="Destination">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.destination.country}},{{element.destination.city}} </mat-cell>
-  </ng-container>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="destinationID">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> destination ID</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.destinationID}} </mat-cell>
-  </ng-container>
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
 
   <!-- Weight Column -->
-  <ng-container matColumnDef="destinationCountry">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> destination Country</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.destinationCountry}} </mat-cell>
+  <ng-container matColumnDef="Country">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.country}} </mat-cell>
   </ng-container>
 
   <!-- Symbol Column -->
-  <ng-container matColumnDef="destinationCity">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> destination City</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.destinationCity}} </mat-cell>
+  <ng-container matColumnDef="City">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.city}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div>
-        <button class="btn btn-success PadRight" (click)="AddToCart(element)" *ngIf="!IsItemInCart(element)">Add to Cart</button>
-        <button class="btn btn-primary PadRight" [routerLink]="['/edit', element.id]">Update</button>
-        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)">Delete</button>
+        <button class="btn btn-primary PadRight" [routerLink]="['/editDestination', element.id]" *ngIf="authService.getUserDetails().isAdmin">Update</button>
+        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)" *ngIf="authService.getUserDetails().isAdmin">Delete</button>
 
       </div>
     </mat-cell>

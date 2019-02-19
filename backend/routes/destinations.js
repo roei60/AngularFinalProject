@@ -8,10 +8,10 @@ router.get("", (req, res, next) => {
   console.log("get ");
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const Country = req.query.Country;
-  const City = req.query.City;
-  console.log("Country = " + Country);
-  if (!Country){
+  const country = req.query.country;
+  const city = req.query.city;
+  console.log("Country = " + country);
+  if (!country){
     console.log("no Country and City specified");
       const destinationQuery = Destination.find();
     let fetchedDestinations;
@@ -33,7 +33,7 @@ router.get("", (req, res, next) => {
     }
   else{
     console.log("dest get by country and city");
-    var query = { Country: Country, City: City };
+    var query = { country: country, city: city };
     console.log("query = " + query);
 
     Destination.findOne(query).then(dest => {
@@ -61,20 +61,35 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
-// router.get("/?country=:country", (req, res, next) => {
-//   console.log("dest get by country");
-//   var query = { country: req.params.country };
-//   console.log("query = " + query);
+router.put(
+  "/:id",
+  (req, res, next) => {
+    const dest = new Destination({
+      _id: req.body.id,
+      city: req.body.city,
+      country: req.body.country
+    });
+    console.log(dest);
+    Destination.updateOne({
+      _id: req.params.id 
+    }, dest).then(result => {
+      res.status(200).json({
+        message: "Update successful!"
+      });
+    });
+  }
+);
 
-//   Destination.findOne(query).then(dest => {
-//     if (dest) {
-//       res.status(200).json(dest.id);
-//     } else {
-//       res.status(404).json({
-//         message: "Destination not found!"
-//       });
-//     }
-//   });
-// });
+router.delete("/:id", (req, res, next) => {
+  Destination.deleteOne({
+    _id: req.params.id
+  }).then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: "Destination deleted!"
+    });
+  });
+});
+
 
 module.exports = router;

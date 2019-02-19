@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Destination } from 'src/app/models/destination.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DestinationService } from 'src/app/services/destination.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-destination-create',
@@ -16,6 +16,7 @@ export class DestinationCreateComponent implements OnInit {
   isLoading: boolean;
   private mode = "create";
   private destinationID: string;
+  private destinationId;
   
 
   constructor(
@@ -28,46 +29,56 @@ export class DestinationCreateComponent implements OnInit {
     console.log("OnInit destination create");
 
     this.destinationForm = this.fb.group({
-      destinationID: ['', Validators.pattern(/^[0-9]*$/)],
-      destinationCountry: ['', Validators.pattern(/^[A-Za-z]+$/)],
-      destinationCity: ['', Validators.pattern(/^[A-Za-z]+$/)]
+      country: ['', Validators.pattern(/^[A-Za-z]+$/)],
+      city: ['', Validators.pattern(/^[A-Za-z]+$/)]
     });
 
     this.isLoading = false;
     this.mode = "create";
+
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("destinationId")) {
+        this.mode = "edit";
+        this.destinationId = paramMap.get("destinationId");
+        this.isLoading = true;
+        this.destinationService.getDestination(this.destinationId).subscribe(destData => {
+          this.isLoading = false;
+      
+          this.destinationForm.setValue({
+            country: destData.country,
+            city: destData.city,            
+          });          
+          console.log("set form value");
+        })
+      } else {
+        this.mode = "create";
+        this.destinationId = null;
+      }
+    });
+
   }
 
   onSubmit(): void {
     this.isLoading = true;
-    var destinationID = this.destinationForm.value.destinationID;
-    var destinationCountry = this.destinationForm.value.destinationCountry;
-    var destinationCity = this.destinationForm.value.destinationCity;
 
     console.log("mode = " + this.mode);
     if (this.mode === "create") {
       setTimeout(() => {
-        this.isLoading = false;
-        this.destinationService.getDestinationIdByCountryAndCity(destinationCountry, destinationCity)
-          .subscribe(dest => {
-            console.log("dest.id from query = " + dest._id);
-            this.destinationService.addDestination(this.destinationForm.value.destinationID,
-              this.destinationForm.value.destinationCountry,
-              this.destinationForm.value.destination
+            this.destinationService.addDestination(
+              this.destinationForm.value.country,
+              this.destinationForm.value.city
               )
-          });;
-
-      }, 3000);
+          }, 3000);
     } else {
-      this.destinationService.getDestinationIdByCountryAndCity(destinationCountry, destinationCity)
-        .subscribe(dest => {
-          console.log("dest.id from query = " + dest._id);
+      setTimeout(() => {
+          console.log("dest.id from query = " + this.destinationId);
 
           this.destinationService.updateDestination(
-            this.destinationForm.value.destinationID,
-            this.destinationForm.value.destinationCountry,
-            this.destinationForm.value.destinationCity
+            this.destinationId,
+            this.destinationForm.value.country,
+            this.destinationForm.value.city
           );
-        })
+        }, 3000);
     }
   }
 
