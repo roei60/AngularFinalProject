@@ -10,6 +10,7 @@ const flightsRoutes = require("./routes/flights");
 const destinationsRoutes = require("./routes/destinations");
 const flightSearchRoutes = require("./routes/flightSearch");
 const CountFlightRoutes = require("./routes/CountFlight");
+const AvgDestination = require("./routes/AvgDestination");
 
 const ordersRoutes = require("./routes/orders");
 const app = express();
@@ -50,6 +51,7 @@ app.use("/api/login", usersRoutes)
 app.use("/api/flightSearch", flightSearchRoutes)
 
 app.use("/api/CountFlight", CountFlightRoutes)
+app.use("/api/AvgDest", AvgDestination)
 
 
 app.param("userId", function (req, res, next, id) {
