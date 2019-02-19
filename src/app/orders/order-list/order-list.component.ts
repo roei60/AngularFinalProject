@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
 import { map } from 'rxjs/operators';
+import { DestinationService } from 'src/app/services/destination.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-order-list',
@@ -22,17 +24,33 @@ export class OrderListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   flights: any[] = []
   orders: any[] = []
+  destinations =[];
+  selectedDestination = "None";
+  takeoffSearch;
+  searchOrderGroup: FormGroup;
   private ordersSubscriber: Subscription;
-  constructor(private flightService: FlightService,  private orderService: OrderService, 
-    private userService: UserService,private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private flightService: FlightService,  private orderService: OrderService, 
+    private userService: UserService,private authService: AuthService, private router: Router,
+    private destinationService: DestinationService) { }
 
   ngOnInit() {
+    this.searchOrderGroup = this.fb.group({
+      takeoffSearch: ['dsa', Validators.required],
+      price: ['', Validators.pattern(/^[0-9]*$/)],
+      destination: ['', Validators.required]
+    });
+
      this.orderService.getOrders(this.authService.userDetails.userId)
      this.ordersSubscriber = this.orderService.getOrdersUpdateListener()      
      .subscribe(ordersData => {
          this.orders = ordersData.ordersData;
          console.log(this.orders);
          this.DataSourceHandling();
+       });
+
+       this.destinationService.GetDestinations()
+       .subscribe(transformedDestinationData => {
+         this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + "," + obj.country });
        });
   }
   
@@ -47,6 +65,19 @@ export class OrderListComponent implements OnInit {
         default: return item[property];
       }
     };
+  }
+
+  onOptionSelected(event: any) {
+    this.selectedDestination = event;
+  }
+
+  onSubmit() {
+    var country = this.searchOrderGroup.value.destination.split(',')[1].trim();
+    var city = this.searchOrderGroup.value.destination.split(',')[0].trim();
+    var takeoff = this.searchOrderGroup.value.takeoffSearch
+    var price = this.searchOrderGroup.value.price
+    this.orderService.getFilteredOrders(this.authService.userDetails.userId, country, city, takeoff, price);
+      
   }
 
   ngOnDestroy() {

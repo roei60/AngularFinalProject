@@ -7,6 +7,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { Destination } from 'src/app/models/destination.model';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-flight-list',
@@ -29,7 +30,7 @@ export class FlightListComponent implements OnInit {
   private flightsSubscriber: Subscription;
 
 
-  constructor(private FlightService: FlightService, private cartService: CartService, private router: Router) { }
+  constructor(private FlightService: FlightService, private cartService: CartService, private router: Router, private authService:AuthService) { }
 
   ngOnInit() {
     if (this.router.url== "/get") {

@@ -1,4 +1,41 @@
+<div class="container white padding-16">
+  <form [formGroup]="searchOrderGroup"  (ngSubmit)="onSubmit()">
+    <div class="row-padding" style="margin:0 -16px;">
+      <div class="half margin input">
+        <label class="destSelect">Travel the world with us:</label>
+
+        <select  [(ngModel)]="selectedDestination" formControlName="destination" (ngModelChange)="onOptionSelected($event)" required readonly>
+          <option selected>None</option>
+          <option  *ngFor="let destination of destinations" [value]="destination"> {{destination}}
+          </option>
+        </select>
+        <span></span>
+      </div>
+    </div>
+    <div class="half">
+      <label>Takeoff: </label>
+      <!-- <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="takeoffSearch" required readonly>
+        <owl-date-time [pickerType]="'both'" #dt1></owl-date-time> -->
+        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoffSearch" placeholder="Take Off Date" required readonly>
+        <mat-datepicker-toggle matSuffix [for]="TakeOffDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #TakeOffDatePicker disabled="false"></mat-datepicker>
+    </div>
+
+    <div class="half">
+      <label>Price:</label>
+      <input type="number" min="1" class="input" name="price" formControlName="price" placeholder="price range" />
+    </div>
+
+
+    <div class="row-padding" style="margin:8px -16px;"></div>
+    <div class="half margin-bottom"></div>
+    <button class="button dark-grey" type="submit">Search orders</button>
+  </form>
+</div>
+
+
 <mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.orders.length != 0">
+  
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.flight.destination.country}},{{element.flight.destination.city}} </mat-cell>

@@ -38,13 +38,28 @@ router.put(
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
 
-    var ordersQuery = User.findById(req.user.id).populate({path:"orders.flight", populate:{path: "destination"}});
+    var ordersQuery;
+   
+    ordersQuery = User.findById(req.user.id).populate({path:"orders.flight", populate:{path: "destination"}});
+    
     let fetchedOrders;
     if (pageSize && currentPage) {
       ordersQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
     }
     ordersQuery
     .then(user => {
+      if (req.query.destination && req.query.takeoff && req.query.price){
+        var filteredOrders;
+        var takeoffDate = Date.parse(req.query.takeoff);
+        var country = req.query.destination.split(',')[0].trim();
+        var city = req.query.destination.split(',')[1].trim();
+        filteredOrders = user.orders._doc.orders.filter(order => Date.parse(order.flight.takeoff) >= takeoffDate
+                                                                && order.flight.destination._doc.Country === country
+                                                                && order.flight.destination._doc.City === city
+                                                                && order.flight.price <= req.query.price);
+        return filteredOrders;
+      }
+      else
         return user.orders._doc.orders;
     })
       .then(documents => {
