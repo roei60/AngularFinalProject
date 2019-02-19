@@ -45,8 +45,8 @@ export class OrderService {
       this.orders = obj.orders.map(obj => {
         var Dest: Destination = {
           id: obj.flight.destination._id,
-          city: obj.flight.destination.City,
-          country: obj.flight.destination.Country
+          city: obj.flight.destination.city,
+          country: obj.flight.destination.country
         }
         var pipe = new DatePipe('en-US');
         var _landing = pipe.transform(Date.parse(obj.flight.landing), "short")
@@ -97,8 +97,8 @@ export class OrderService {
       this.orders = obj.orders.map(obj => {
         var Dest: Destination = {
           id: obj.flight.destination._id,
-          city: obj.flight.destination.City,
-          country: obj.flight.destination.Country
+          city: obj.flight.destination.city,
+          country: obj.flight.destination.country
         }
         var pipe = new DatePipe('en-US');
         var _landing = pipe.transform(Date.parse(obj.flight.landing), "short")

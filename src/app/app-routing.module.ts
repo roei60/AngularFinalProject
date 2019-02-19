@@ -9,6 +9,7 @@ import { CartListComponent } from "./carts/cart-list/cart-list.component";
 import { AuthGuard } from './auth/auth.guard';
 import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
+import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
@@ -55,6 +56,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     path: 'getDestinations',
     component: DestinationListComponent
+  },
+  { 
+    canActivate: [AuthGuard],
+    path: 'createDestination',
+    component: DestinationCreateComponent
+  },
+  { 
+    canActivate: [AuthGuard],
+    path: 'editDestination/:destinationId',
+    component: DestinationCreateComponent
   },
   {
     path: 'About',

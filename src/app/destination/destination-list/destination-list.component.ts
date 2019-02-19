@@ -5,6 +5,7 @@ import { Destination } from 'src/app/models/destination.model';
 import { CartService } from 'src/app/services/cart.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-destination-list',
@@ -12,8 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./destination-list.component.css']
 })
 export class DestinationListComponent implements OnInit {
-  dataSource;
-  displayedColumns = ['Destination', 'destinationID', 'destinationCountry', 'destinationCity', "actions"];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns = ['Country', 'City', "actions"];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   /**
@@ -28,13 +29,27 @@ export class DestinationListComponent implements OnInit {
   constructor(
     private DestinationService: DestinationService,
      private cartService: CartService,
+     private authService: AuthService,
       private router: Router) { }
 
   ngOnInit() {
 
-    if (this.router.url== "/get") {
+    if (this.router.url== "/getDestinations") {
       //   this.dataSource.paginator = this.paginator;
-      this.DestinationService.GetDestinations();
+      this.DestinationService.GetDestinations()
+      .subscribe(obj => {
+      this.destinations = obj.destinations.map(obj => {
+        return {
+          id: obj.id,
+          city: obj.city,
+          country: obj.country
+        }
+      })
+      console.log("service " + this.destinations)
+      this.DestinationService.destinationsUpdated.next({
+        destinationsData: [...this.destinations],
+      })
+    });
       console.log("get?!");
     }
 
@@ -48,7 +63,7 @@ export class DestinationListComponent implements OnInit {
   }
 
   DataSourceHandling() {
-    this.dataSource = [...this.destinations];
+    this.dataSource =  new MatTableDataSource([...this.destinations]);
     //  console.log(this.dataSource)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -60,30 +75,17 @@ export class DestinationListComponent implements OnInit {
     };
   }
 
-  AddToCart(destination: Destination) {
-    var cart = this.cartService.getCart();
-    cart.items.push(destination.id);
-    this.cartService.setCart(cart);
-    console.log("local cart=" + cart.items.length + " ; storage cart =" + this.cartService.getCart().items.length);
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
   UpdateItem(destination: Destination) {
 
-    this.router.navigate(["/create"]);
+    this.router.navigate(["/createDestination"]);
 
   }
   DeleteItem(destination: Destination) {
     this.DestinationService.deleteDestination(destination.id);
-  }
-
-  IsItemInCart(destination: Destination) {
-    var flag = false;
-
-    var c = this.cartService.getCart();
-    c.items.forEach(element => {
-      if (element === destination.id)
-        flag = true;
-    });
-    return flag;
   }
 
 }

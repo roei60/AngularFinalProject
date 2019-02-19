@@ -3,21 +3,16 @@
 <form [formGroup]="destinationForm" class="destination-container" (ngSubmit)="onSubmit()">
 
     <mat-form-field>
-      <input matInput placeholder="DestinationID" formControlName="destinationID" required>
-      <mat-error>Destination ID should contain only numbers.</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="DestinationCountry" formControlName="destinationCountry" required>
+      <input matInput placeholder="Country" formControlName="country" required>
       <mat-error>Destination country should contain only letters.</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="DestinationCity" formControlName="destinationCity" required>
+      <input matInput placeholder="City" formControlName="city" required>
       <mat-error>Destination city should contain only letters.</mat-error>
     </mat-form-field>
              
-  <button mat-raised-button class="button" type="submit" [disabled]="!flightForm.valid">
+  <button mat-raised-button class="button" type="submit" [disabled]="!destinationForm.valid">
     <span *ngIf="!isLoading">Save Destination</span>
     <mat-spinner *ngIf="isLoading" class="spinner" color="accent" [diameter]="27"></mat-spinner>
   </button>
