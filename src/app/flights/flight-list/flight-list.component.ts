@@ -51,7 +51,7 @@ export class FlightListComponent implements OnInit {
   }
 
   DataSourceHandling() {
-    this.dataSource = [...this.flights];
+    this.dataSource = new MatTableDataSource(this.flights)
     //  console.log(this.dataSource)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

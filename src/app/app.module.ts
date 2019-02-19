@@ -13,6 +13,10 @@ import { FlightCreateComponent } from './flights/flight-create/flight-create.com
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
 import {CommonModule} from '@angular/common'
 import { AgmCoreModule } from '@agm/core';
+
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
+
 import {
   MatInputModule,
   MatCardModule,
@@ -41,6 +45,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,7 @@ import { DestinationListComponent } from './destination/destination-list/destina
     OrderListComponent,
     DestinationCreateComponent,
     DestinationListComponent,
+    AboutComponent,
     
   ],
   imports: [
@@ -83,7 +89,8 @@ import { DestinationListComponent } from './destination/destination-list/destina
     MatMenuModule,
     MatSortModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    NgxChartsModule
   ],
   providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard],
   bootstrap: [AppComponent]
