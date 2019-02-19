@@ -11,7 +11,7 @@ export class AboutComponent implements OnInit {
   single: any[];
   multi: any[];
 
-  view: any[] = [900, 900];
+  view: any[] = [600, 400];
 
   // options
   showXAxis = true;
@@ -36,9 +36,8 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.FlightService.GetGraphData().subscribe(receivedData => {
-      console.log(receivedData.CountFlight);
-      this.single.push(receivedData.CountFlight);
-      console.log(this.single);
+      var a=receivedData.CountFlight;
+     this.single=[...a];
       Object.assign(this, this.single)
 
     })

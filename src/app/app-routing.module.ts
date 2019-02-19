@@ -57,7 +57,6 @@ const routes: Routes = [
     component: DestinationListComponent
   },
   {
-    canActivate: [AuthGuard],
     path: 'About',
     component:AboutComponent
   },
