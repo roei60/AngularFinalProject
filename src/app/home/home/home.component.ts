@@ -34,26 +34,25 @@ export class HomeComponent implements OnInit {
     public destinationService: DestinationService,
     public route: ActivatedRoute, private mapsAPILoader: MapsAPILoader,
     private router: Router,
-    private ngZone: NgZone) {
-    this.destinationService.GetDestinations()
-      .subscribe(transformedDestinationData => {
-        this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + ", " + obj.country });
-      });
-  }
+    private ngZone: NgZone) {}
 
   ngOnInit() {
-
     this.SearchFligthGroup = this.fb.group({
       takeoff: ['', Validators.required],
       price: ['', Validators.pattern(/^[0-9]*$/)],
       destination: ['', Validators.required]
     });
+    this.destinationService.GetDestinations()
+    .subscribe(transformedDestinationData => {
+      this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + ", " + obj.country });
+  
     var mark=[];
     this.mapsAPILoader.load().then(() => {
       let geocoder = new google.maps.Geocoder();
       var mark=[];
-      for(let i in this.destinations){
-        geocoder.geocode({ 'address': this.destinations[i].split(',')[0] }, function (results, status) {
+      this.destinations.forEach(element=> {
+        var city=element.split(',')[0];
+        geocoder.geocode({ 'address': element.split(',')[0] }, function (results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             var newAddress = results[0].geometry.location;
             mark.push({
@@ -63,12 +62,15 @@ export class HomeComponent implements OnInit {
 
           }
         });
-      }
+      })
+
+      
       console.log(mark)
       this.setCurrentPosition();
       this.markers=mark;
       
     })
+  });
 
   }
   onSubmit() {

@@ -19,9 +19,9 @@ export class AboutComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Month';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = 'Flight Amount';
 
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C',
