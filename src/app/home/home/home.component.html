@@ -33,7 +33,7 @@
 
         <div class="row-padding" style="margin:8px -16px;"></div>
         <div class="half margin-bottom"></div>
-        <button class="button dark-grey" type="submit">Search flights</button>
+        <button class="button dark-grey" type="submit" [disabled]="!SearchFligthGroup.valid">Search flights</button>
       </form>
     </div>
   </div>

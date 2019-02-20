@@ -35,8 +35,8 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit() {
     this.searchOrderGroup = this.fb.group({
-      takeoffSearch: ['dsa', Validators.required],
-      price: ['', Validators.pattern(/^[0-9]*$/)],
+      takeoffSearch: ['', Validators.required],
+      price: ['', Validators.required],
       destination: ['', Validators.required]
     });
 

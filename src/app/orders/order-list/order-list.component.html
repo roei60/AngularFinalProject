@@ -15,7 +15,7 @@
     <label class="space">Price:</label>
     <input type="number" min="1" class="input" name="price" formControlName="price" placeholder="Price Max Limit"/>
   
-    <button class="space button dark-grey" type="submit">Search orders</button>
+    <button class="space button dark-grey" type="submit" [disabled]="!searchOrderGroup.valid">Search orders</button>
   </form>
 </div>
 

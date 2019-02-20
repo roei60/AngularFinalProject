@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.SearchFligthGroup = this.fb.group({
       takeoff: ['', Validators.required],
-      price: ['', Validators.pattern(/^[0-9]*$/)],
+      price: ['', Validators.required],
       destination: ['', Validators.required]
     });
     this.destinationService.GetDestinations()
