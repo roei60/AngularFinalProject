@@ -35,25 +35,30 @@ router.get("/", (req, res, next) => {
     Flight.mapReduce(o, function (err, data) {
         data.model.find().populate({
             path: '_id',
-            select: '_id City Country',
+            select: '_id city country',
             model: 'Destination'
         }).then(o => {
-           return o.map(maping => {
-                var country = maping._id.Country;
-                var value=maping.value;
+            return o.map(maping => {
+                var country = maping._id.country;
+                var value = maping.value;
                 return {
                     "name": country,
                     "value": parseInt(value)
                 }
 
             })
-        }).then(o1=>{
-            var sortedResult=o1.sort(function(a, b){return a.value - b.value});
-            sortedResult=sortedResult.slice(0,5)
+        }).then(o1 => {
+            var sortedResult = o1.sort(function (a, b) {
+                return a.value - b.value
+            });
+            sortedResult = sortedResult.slice(0, 5)
+            
             res.status(200).json({
                 AvgDest: sortedResult,
-              }); 
+            });
+           
         })
+
 
     })
 })

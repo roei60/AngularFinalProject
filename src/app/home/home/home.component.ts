@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
       let geocoder = new google.maps.Geocoder();
       var mark=[];
       this.destinations.forEach(element=> {
-        var city=element.split(',')[0];
         geocoder.geocode({ 'address': element.split(',')[0] }, function (results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             var newAddress = results[0].geometry.location;
