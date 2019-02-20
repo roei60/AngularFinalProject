@@ -1,3 +1,5 @@
+<a mat-button routerLink="/create" routerLinkActive="mat-accent" *ngIf="this.authService.getUserDetails().isAdmin">Create New Flight</a>
+
 <mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
