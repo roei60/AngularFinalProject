@@ -124,14 +124,14 @@ def MapCityToID(cityName):
     client = MongoClient('localhost', 27017)
     db = client['flights']
     collection = db['destinations']
-    find = collection.find_one({"City": cityName})
+    find = collection.find_one({"city": cityName})
 
     return find.get('_id')
 
 def GetCities():
     with open('Destinastion.json') as f:
         data = json.load(f)
-        data = map(lambda value: value['City'], data)
+        data = map(lambda value: value['city'], data)
         return data
     
 
