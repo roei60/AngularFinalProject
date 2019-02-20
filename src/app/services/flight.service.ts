@@ -84,10 +84,15 @@ export class FlightService {
       destination: any
     }>("http://localhost:3000/api/flights/" + id);
   }
-  GetGraphData(){
+  GetBarGraphData(){
   return  this.http
     .get<{ CountFlight: any; }>(
       "http://localhost:3000/api/CountFlight").pipe()
+  }
+  GetPieGraphData(){
+    return  this.http
+    .get<{ AvgDest: any; }>(
+      "http://localhost:3000/api/AvgDest").pipe()
   }
 
   searchFlights(searchParams: { destination: any; takeoff: any; price: any; }): any {
