@@ -24,7 +24,7 @@ router.get("/",(req,res,next)=>{
                     "value":va.count
                 };
             })
-        var sortedResult=result.sort(function(a, b){return a.month - b.month});
+        var sortedResult=result.sort(function(a, b){return a.name - b.name});
         res.status(200).json({
             CountFlight: sortedResult,
           }); 
