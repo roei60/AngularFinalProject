@@ -15,6 +15,8 @@ const AvgDestination = require("./routes/AvgDestination");
 const ordersRoutes = require("./routes/orders");
 const app = express();
 
+loggedUsers = 0;
+
 mongoose.connect('mongodb://localhost:27017/flights')
   .then(() => {
     console.log("Connected to database!");
@@ -47,6 +49,7 @@ app.use("/api/destinations", destinationsRoutes);
 app.use("/api/users", usersRoutes);
 
 app.use("/api/login", usersRoutes)
+app.use("/api/logout", usersRoutes)
 
 app.use("/api/flightSearch", flightSearchRoutes)
 

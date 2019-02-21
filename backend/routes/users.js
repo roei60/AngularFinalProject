@@ -166,6 +166,13 @@ res.send(loginResult);
 });
 
 
+router.post("/logout", async (req, res, next) => {
+  console.log("got post on server")
+  await to(authService.logout( req.body.username));
+  console.log("treated post on server")
+});
+
+
 
 
 

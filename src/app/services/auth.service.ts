@@ -73,13 +73,19 @@ export class AuthService {
     return token != null;
   }
 
-  logout(): void {
+  async logout() {
     this.isLoggedIn = false;
     this.nextUrl = '/login';
     localStorage.clear();
     this.cartService.clearCart();
     this.userDetails.isAdmin =false;
+    console.log("$$$$");
+    
+    console.log("@@@@");
     this.navigateNext();
+    //TODO: add request to server that user logged out and decrement counter! 
+    await to(this.http.post("http://localhost:3000/api/users/logout",{username: this.userDetails.userName}).toPromise());
+    
   }
 
   saveUrl(url: string): void {
