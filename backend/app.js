@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const AhoService=require("./services/AhoCorasickService")
 
 const User = require("./models/userSchema");
 
@@ -11,10 +12,11 @@ const destinationsRoutes = require("./routes/destinations");
 const flightSearchRoutes = require("./routes/flightSearch");
 const CountFlightRoutes = require("./routes/CountFlight");
 const AvgDestination = require("./routes/AvgDestination");
-
+const SearchText=require("./routes/SearchText");
 const ordersRoutes = require("./routes/orders");
-const app = express();
 
+const app = express();
+AhoService.construct();
 mongoose.connect('mongodb://localhost:27017/flights')
   .then(() => {
     console.log("Connected to database!");
@@ -52,6 +54,7 @@ app.use("/api/flightSearch", flightSearchRoutes)
 
 app.use("/api/CountFlight", CountFlightRoutes)
 app.use("/api/AvgDest", AvgDestination)
+app.use("/api/SearchText", SearchText)
 
 
 app.param("userId", function (req, res, next, id) {
