@@ -55,6 +55,6 @@
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>
 
-<mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons *ngIf="this.orders.length != 0"></mat-paginator>
+<mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="this.orders.length == 0"></mat-paginator>
 
 <p class="info-text mat-body-1" *ngIf="this.orders.length == 0">No orders done yet!</p>

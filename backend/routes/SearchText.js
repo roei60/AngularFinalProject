@@ -7,14 +7,15 @@ const AhoService = require("../services/AhoCorasickService")
 const {
     to
 } = require('await-to-js');
-router.get("/:text", async(req, res, next) => {
+router.get("/:text", async (req, res, next) => {
     var searchParams = req.params.text;
-    var res = await to(AhoService.FindFlightByDestinations(searchParams))
-
-    console.log(res);
-    router.status(200).json({
-        Flights: res,
-    });
+    [err, result] = await to(AhoService.FindFlightByDestinations(searchParams))
+    if (result) {
+        console.log(result);
+        res.status(200).json({
+            Flights: result,
+        });
+    }
 })
 
 

@@ -65,7 +65,7 @@ const AhoService = {
 
 
             console.log(retVal)
-            return found;
+            return retVal;
         }
     }
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 <mat-toolbar color="primary">
   <span>
     <a routerLink="/">Take A Flight</a>
@@ -17,6 +18,12 @@
     </li>
   </ul>
   <span class="spacer"></span>
+  <div class="d-flex justify-content-center h-100">
+    <div class="searchbar">
+      <input class="search_input" (keyup.enter)="onSearch()" [(ngModel)]="searchText" type="text" name="" placeholder="Search...">
+      <span class="search_icon" (click)="onSearch()"><i class="fas fa-search"></i></span>
+    </div>
+  </div>
   <ul>
       <li>
           <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated() && this.authService.getUserDetails().isAdmin">
