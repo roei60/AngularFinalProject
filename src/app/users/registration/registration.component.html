@@ -35,7 +35,7 @@
       <input matInput [matDatepicker]="birthdate" formControlName="birthdate" placeholder="Birth date" required readonly>
       <mat-datepicker-toggle matSuffix [for]="birthdate"></mat-datepicker-toggle>
       <mat-datepicker #birthdate disabled="false"></mat-datepicker>
-      <mat-error>landing date is empty</mat-error>
+      <mat-error>birthdate is empty</mat-error>
   </mat-form-field>
 
   <button mat-raised-button class="registration-button" type="submit" [disabled]="!registrationForm.valid">
