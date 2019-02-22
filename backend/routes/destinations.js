@@ -48,6 +48,29 @@ router.get("", (req, res, next) => {
   }
 });
 
+router.post(
+  "",
+  (req, res, next) => {
+    console.log("post request req.protocol: " + req.protocol);
+    console.log("post request req.gethost: " + req.get("host"));
+    console.log("post request req.body: " + req.body.country);
+    console.log("post request req.body: " + req.body.city);
+    const Dest = new Destination({
+      country: req.body.country,
+      city:req.body.city
+    });
+    Dest.save().then(createdDest => {
+      res.status(201).json({
+        message: "Flight added successfully",
+        destination: {
+          ...createdDest,
+          id: createdDest._id
+        }
+      });
+    });
+  }
+);
+
 router.get("/:id", (req, res, next) => {
   console.log("dest get by ID");
   Destination.findById(req.params.id).then(dest => {
