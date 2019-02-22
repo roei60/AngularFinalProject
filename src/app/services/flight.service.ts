@@ -14,7 +14,7 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 export class FlightService {
   private flights: Flight[] = []
   private flightsUpdated = new Subject<{ flightsData: Flight[] }>();
-  public GraphData=[];
+  public GraphData = [];
   constructor(private http: HttpClient, private router: Router) {
     this.GetAllFlights()
 
@@ -84,70 +84,112 @@ export class FlightService {
       destination: any
     }>("http://localhost:3000/api/flights/" + id);
   }
-  GetBarGraphData(){
-  return  this.http
-    .get<{ CountFlight: any; }>(
-      "http://localhost:3000/api/CountFlight").pipe()
+  GetBarGraphData() {
+    return this.http
+      .get<{ CountFlight: any; }>(
+        "http://localhost:3000/api/CountFlight").pipe()
   }
-  GetPieGraphData(){
-    return  this.http
-    .get<{ AvgDest: any; }>(
-      "http://localhost:3000/api/AvgDest").pipe()
+  GetPieGraphData() {
+    return this.http
+      .get<{ AvgDest: any; }>(
+        "http://localhost:3000/api/AvgDest").pipe()
   }
+  AhoSearchFlights(searchString: string) {
+    this.http.get<{ Flights: any; }>("http://localhost:3000/api/SearchText/" + searchString)
+      .pipe(
+        map(flightsData => {
+          console.log("obj: " + flightsData.Flights);
+          return {
+            flights: flightsData.Flights.map(flight => {
+              return {
+                id: flight._id,
+                destination: flight.destination,
+                takeoff: flight.takeoff,
+                landing: flight.landing,
+                price: flight.price
 
-  searchFlights(searchParams: { destination: any; takeoff: any; price: any; }): any {
-    this.http
-      .get<{message: string; flights: any; maxflights: number }>(
-        "http://localhost:3000/api/flightSearch/" +
-        JSON.stringify(
-          {
-            "destination": searchParams.destination,
-            "takeoff": searchParams.takeoff,
-            "price": searchParams.price
+              };
+            })
+          };
+        })
+      ).subscribe(obj => {
+        this.flights = obj.flights.map(obj => {
+          var Dest: Destination = {
+            id: obj.destination._id,
+            city: obj.destination.city,
+            country: obj.destination.country
           }
-        ))      .pipe(
-          map(flightsData => {
-            console.log("obj: " + flightsData.flights);
-            return {
-              flights: flightsData.flights.map(flight => {
-                return {
-                  id: flight._id,
-                  destination: flight.destination,
-                  takeoff: flight.takeoff,
-                  landing: flight.landing,
-                  price: flight.price
-  
-                };
-              }),
-              maxDestinations: flightsData.maxflights
-            };
-          })
-        ).subscribe(obj => {
-          this.flights = obj.flights.map(obj => {
-            var Dest: Destination = {
-              id: obj.destination._id,
-              city: obj.destination.city,
-              country: obj.destination.country
-            }
-            var pipe = new DatePipe('en-US');
-            var _landing = pipe.transform(Date.parse(obj.landing), "short")
-            var _takeoff = pipe.transform(Date.parse(obj.takeoff), "short")
-            return {
-              id: obj.id,
-              takeoff: _takeoff,
-              landing: _landing,
-              price: obj.price,
-              destination: Dest
-            }
-          })
-          console.log("service " + this.flights)
-        
-          this.flightsUpdated.next({
-            flightsData: [...this.flights],
-          })
-        
+          var pipe = new DatePipe('en-US');
+          var _landing = pipe.transform(Date.parse(obj.landing), "short")
+          var _takeoff = pipe.transform(Date.parse(obj.takeoff), "short")
+          return {
+            id: obj.id,
+            takeoff: _takeoff,
+            landing: _landing,
+            price: obj.price,
+            destination: Dest
+          }
+        })
+        console.log("service " + this.flights)
+
+        this.flightsUpdated.next({
+          flightsData: [...this.flights],
         })
 
+      })
+    }
+      searchFlights(searchParams: { destination: any; takeoff: any; price: any; }): any {
+        this.http
+          .get<{ message: string; flights: any; maxflights: number }>(
+            "http://localhost:3000/api/flightSearch/" +
+            JSON.stringify(
+              {
+                "destination": searchParams.destination,
+                "takeoff": searchParams.takeoff,
+                "price": searchParams.price
+              }
+            )).pipe(
+              map(flightsData => {
+                console.log("obj: " + flightsData.flights);
+                return {
+                  flights: flightsData.flights.map(flight => {
+                    return {
+                      id: flight._id,
+                      destination: flight.destination,
+                      takeoff: flight.takeoff,
+                      landing: flight.landing,
+                      price: flight.price
+    
+                    };
+                  }),
+                  maxDestinations: flightsData.maxflights
+                };
+              })
+            ).subscribe(obj => {
+              this.flights = obj.flights.map(obj => {
+                var Dest: Destination = {
+                  id: obj.destination._id,
+                  city: obj.destination.city,
+                  country: obj.destination.country
+                }
+                var pipe = new DatePipe('en-US');
+                var _landing = pipe.transform(Date.parse(obj.landing), "short")
+                var _takeoff = pipe.transform(Date.parse(obj.takeoff), "short")
+                return {
+                  id: obj.id,
+                  takeoff: _takeoff,
+                  landing: _landing,
+                  price: obj.price,
+                  destination: Dest
+                }
+              })
+              console.log("service " + this.flights)
+    
+              this.flightsUpdated.next({
+                flightsData: [...this.flights],
+              })
+    
+            })
   }
 
   addFlight(takeoff: string, landing: string, price: number, destination: string) {
