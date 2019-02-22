@@ -10,12 +10,28 @@ import { UserService } from 'src/app/services/user.service';
 
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
-	isLoading: boolean;
+  isLoading: boolean;
+  todayDate;
   @ViewChild('exampleModal') myModal
 
   constructor(private fb: FormBuilder, private userService: UserService) { }
 
+  formatDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear() - 18;
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   ngOnInit() {
+
+    this.todayDate = this.formatDate();
+    console.log(this.todayDate)
     this.registrationForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -39,7 +55,7 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.controls["password"].value,
     this.registrationForm.value.birthdate)
 
-    
+    console.log(this.registrationForm.value.birthdate)
     //this.registrationForm.controls["birthdate"].value);
     setTimeout(() => this.isLoading = false, 5000);
   }
