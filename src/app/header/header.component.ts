@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CartService } from "../services/cart.service";
 import { AuthService } from '../services/auth.service';
 import { FlightService } from '../services/flight.service';
@@ -48,5 +48,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/search"])
     this.searchText = "";
 
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  async beforeunloadHandler(event) {
+      this.authService.logout();
   }
 }

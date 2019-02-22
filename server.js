@@ -76,6 +76,10 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log(`Deleting socket: ${socket.id}`);
     sockets.delete(socket);
+    for (const s of sockets) {
+      console.log(`Emitting value: ${loggedUsers}`);
+      s.emit('message', { data: loggedUsers });
+    }
     console.log(`Remaining sockets: ${sockets.size}`);
   });
 
