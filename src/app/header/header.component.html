@@ -19,6 +19,10 @@
   <span class="spacer"></span>
   <ul>
       <li>
+          <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated() && this.authService.getUserDetails().isAdmin">
+              {{this.authService.counter}} users logged in </a>
+        </li>
+      <li>
           <a mat-button routerLink="/viewOrders" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">My
             Orders</a>
         </li>

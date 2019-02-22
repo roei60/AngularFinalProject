@@ -13,6 +13,11 @@ export class HeaderComponent implements OnInit {
   private _subscription: any;
 
   constructor(private cartService: CartService, private numItems: Number, private authService:AuthService) {
+    
+    this.authService.loggedInClients.subscribe(counter => {
+      console.log("got response from websocket: " + counter);
+    });
+
     this.numItems = cartService.numItems; 
     this._subscription = cartService.cartChange.subscribe((value) => { 
       this.numItems = value; 
@@ -25,7 +30,6 @@ export class HeaderComponent implements OnInit {
 
   getCartNumFromService(){
     this.numItems = this.cartService.getCart().items.length;
-    console.log("dsadsadsadsadsadsadasdsa " + this.numItems);
   }
 
   ngOnDestroy() {

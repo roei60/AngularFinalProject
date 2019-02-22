@@ -168,8 +168,11 @@ res.send(loginResult);
 
 router.post("/logout", async (req, res, next) => {
   console.log("got post on server")
-  await to(authService.logout( req.body.username));
+  let err, logoutResults;
+  [err, logoutResults] = await to(authService.logout( req.body.username));
+  res.send(logoutResults);
   console.log("treated post on server")
+
 });
 
 

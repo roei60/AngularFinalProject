@@ -19,6 +19,8 @@ const app = express();
 AhoService.construct();
 loggedUsers = 0;
 
+
+
 mongoose.connect('mongodb://localhost:27017/flights')
   .then(() => {
     console.log("Connected to database!");
@@ -76,7 +78,7 @@ app.param("userId", function (req, res, next, id) {
 app.use("/api/users/:userId/orders", ordersRoutes);
 
 app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "angular", index.html));
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
 
 module.exports = app;

@@ -19,7 +19,7 @@ const authService = {
 			loggedUsers= loggedUsers-1;
 			console.log("logout : afer loggedUsers = " + loggedUsers);
 		}
-		return true;	
+		return {result: true};	
 	},
 	login: async function (username, password) {
 		const result= {

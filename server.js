@@ -46,7 +46,37 @@ const onListening = () => {
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-const server = http.createServer(app);
+//const server = http.createServer(app);
+var server = app.listen(3000);
 server.on("error", onError);
 server.on("listening", onListening);
-server.listen(port);
+//server.listen(port);
+var io = require('socket.io').listen(server);
+sockets = new Set();
+
+/**
+ *	Handle connnection Websockets
+ */
+
+io.on('connection', socket => {
+
+  sockets.add(socket);
+  console.log(`Socket ${socket.id} added`);
+
+  socket.on('message', data => {
+    console.log(data);
+
+    for (const s of sockets) {
+      console.log(`Emitting value: ${loggedUsers}`);
+      s.emit('message', { data: loggedUsers });
+    }
+
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`Deleting socket: ${socket.id}`);
+    sockets.delete(socket);
+    console.log(`Remaining sockets: ${sockets.size}`);
+  });
+
+});
