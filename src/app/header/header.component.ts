@@ -15,12 +15,11 @@ export class HeaderComponent implements OnInit {
   private _subscription: any;
   searchText: string = ""
 
+  private counter: number = 0;
+
   constructor(private cartService: CartService, private numItems: Number, private authService:AuthService, private FlightService: FlightService, private router: Router) {
     
-    this.authService.loggedInClients.subscribe(counter => {
-      console.log("got response from websocket: " + counter);
-    });
-
+    
     this.numItems = cartService.numItems; 
     this._subscription = cartService.cartChange.subscribe((value) => { 
       this.numItems = value; 

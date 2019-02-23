@@ -25,9 +25,9 @@
     </div>
   </div>
   <ul>
-      <li>
-          <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated() && this.authService.getUserDetails().isAdmin">
-              {{this.authService.counter}} users logged in </a>
+        <li>
+            <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated() && this.authService.getUserDetails().isAdmin">
+                {{counter}} users logged in </a>
         </li>
       <li>
           <a mat-button routerLink="/viewOrders" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">My
@@ -45,7 +45,7 @@
     </li>
     <li>
       <a mat-button routerLink="/login" routerLinkActive="mat-accent" *ngIf="!this.authService.isAuthenticated()">Login</a>
-      <a mat-button (click)="this.authService.logout()" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">Logout</a>
+      <app-user-counter [(counter)]="counter"></app-user-counter>
       <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">hello
         '{{authService.getUserDetails().firstName}}' </a>
     </li>

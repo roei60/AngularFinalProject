@@ -46,6 +46,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 import { AboutComponent } from './about/about.component';
+import { UserCounterComponent } from './header/user-counter/user-counter.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AboutComponent } from './about/about.component';
     DestinationCreateComponent,
     DestinationListComponent,
     AboutComponent,
+    UserCounterComponent,
     
   ],
   imports: [
