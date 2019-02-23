@@ -115,18 +115,13 @@ export class AuthService {
     this.userDetails.token = null;
     sessionStorage.removeItem('CurrentUser');
     
-    console.log("login - before navigate");
     this.navigateNext();
-    console.log("login - after navigate");
     //TODO: add request to server that user logged out and decrement counter! 
     let err, response;
     [err, response] = await to(this.http.post("http://localhost:3000/api/users/logout",{username: this.userDetails.userName}).toPromise());
-    console.log("got response from logout: " + response.result)
     this.counter = response.result
     sessionStorage.setItem('usersCounter', JSON.stringify(this.counter));
-    console.log("login - after await to");
     this.loggedInClients.next();
-    console.log("login - after next");
   }
 
   saveUrl(url: string): void {

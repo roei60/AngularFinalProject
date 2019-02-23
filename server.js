@@ -64,8 +64,6 @@ io.on('connection', socket => {
   console.log(`Socket ${socket.id} added`);
 
   socket.on('message', data => {
-    console.log(data);
-
     for (const s of sockets) {
       console.log(`Emitting value: ${loggedUsers}`);
       s.emit('message', { data: loggedUsers });
