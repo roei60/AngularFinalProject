@@ -15,21 +15,33 @@
           best way to find cheap flights, as well as last minute flights.
       </div>
       <div>
-      <h4 class="padding-16">Watch our amazing variatiy!</h4>
-      <ngx-charts-bar-vertical
+        <h4 class="padding-16 right" >get our best price!</h4>
+      <h4 class="padding-16 half" >Watch our amazing variety!</h4>
+
+      <div id="chart" >
+
+      <ngx-charts-bar-vertical class="half"
       [view]="view"
       [scheme]="colorScheme"
       [results]="single"
       [gradient]="gradient"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"
-      [legend]="showLegend"
       [showXAxisLabel]="showXAxisLabel"
       [showYAxisLabel]="showYAxisLabel"
       [xAxisLabel]="xAxisLabel"
       [yAxisLabel]="yAxisLabel"
       (select)="onSelect($event)">
     </ngx-charts-bar-vertical>
+<div class="half pad" >
+        <ngx-charts-pie-chart
+          [view]="[600, 400]"
+          [results]="multi"
+          [explodeSlices]="false"
+          [doughnut]="false">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
   </div>
   </div>
   </div>

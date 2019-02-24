@@ -19,9 +19,9 @@ export class AboutComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Month';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = 'Flight Amount';
 
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C',
@@ -35,11 +35,16 @@ export class AboutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.FlightService.GetGraphData().subscribe(receivedData => {
-      var a=receivedData.CountFlight;
-     this.single=[...a];
+    this.FlightService.GetBarGraphData().subscribe(receivedData => {
+      var a = receivedData.CountFlight;
+      this.single = [...a];
       Object.assign(this, this.single)
 
+    })
+    this.FlightService.GetPieGraphData().subscribe(receivedData => {
+      var b = receivedData.AvgDest;
+      this.multi = [...b];
+      Object.assign(this, this.multi)
     })
 
 

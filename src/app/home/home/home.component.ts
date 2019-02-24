@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { FlightService } from 'src/app/services/flight.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { CMSService } from 'src/app/services/cms.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 
-  
+
 })
 export class HomeComponent implements OnInit {
   SearchFligthGroup: FormGroup;
@@ -44,33 +44,52 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.SearchFligthGroup = this.fb.group({
       takeoff: ['', Validators.required],
-      price: ['', Validators.pattern(/^[0-9]*$/)],
+      price: ['', Validators.required],
       destination: ['', Validators.required]
     });
+    this.destinationService.GetDestinations()
+    .subscribe(transformedDestinationData => {
+      this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + ", " + obj.country });
     var mark=[];
     this.mapsAPILoader.load().then(() => {
       let geocoder = new google.maps.Geocoder();
       var mark=[];
-      for(let i in this.destinations){
-        geocoder.geocode({ 'address': this.destinations[i].split(',')[0] }, function (results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var newAddress = results[0].geometry.location;
-            mark.push({
-              lat: newAddress.lat(),
-              long: newAddress.lng()
-            })
+      this.destinations.forEach(element=> {
+            var city = element.split(',')[0];
+            var cityInStoragge = JSON.parse(localStorage.getItem(city));
+            if (cityInStoragge == null) {
+              geocoder.geocode({ 'address': city }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var newAddress = results[0].geometry.location;
+                  mark.push({
+                    city: city,
+                    lat: newAddress.lat(),
+                    long: newAddress.lng()
+                  })
+                  localStorage.setItem(city, JSON.stringify({
+                    city: city,
+                    lat: newAddress.lat(),
+                    long: newAddress.lng()
+                  }))
 
-          }
-        });
-      }
-      console.log(mark)
-      this.setCurrentPosition();
-      this.markers=mark;
-      
-    })
+                }
+              });
+            }
+            else
+              mark.push({
+                city: cityInStoragge.city,
+                lat: cityInStoragge.lat,
+                long: cityInStoragge.long
+              })
+          })
+
+          this.setCurrentPosition();
+          this.markers = mark;
+
+        })
+      });
 
   }
   onSubmit() {
@@ -92,7 +111,7 @@ export class HomeComponent implements OnInit {
         this.router.navigate(["/search"]);
 
       })
-      
+
   }
   IsValid() {
 
@@ -110,8 +129,7 @@ export class HomeComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        
+        this.zoom = 3;
       });
     }
   }

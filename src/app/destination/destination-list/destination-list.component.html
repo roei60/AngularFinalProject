@@ -1,5 +1,7 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+<a mat-button routerLink="/createDestination" routerLinkActive="mat-accent" *ngIf="this.authService.getUserDetails().isAdmin">Create New Destination</a>
+<br>
+<mat-form-field style="margin:15px">
+  <input matInput  (keyup)="applyFilter($event.target.value)" placeholder="Serach by values">
 </mat-form-field>
 
 <mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>

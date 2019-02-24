@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cmsService = require("./services/CMSService.js");
+const AhoService=require("./services/AhoCorasickService");
 const User = require("./models/userSchema");
 
 const usersRoutes = require("./routes/users");
@@ -12,8 +13,14 @@ const bestOfferRoutes = require("./routes/bestOffer");
 const flightSearchRoutes = require("./routes/flightSearch");
 const CountFlightRoutes = require("./routes/CountFlight");
 const AvgDestination = require("./routes/AvgDestination");
+const SearchText=require("./routes/SearchText");
 const ordersRoutes = require("./routes/orders");
+
 const app = express();
+AhoService.construct();
+loggedUsers = 0;
+
+
 
 mongoose.connect('mongodb://localhost:27017/flights')
   .then(() => {
@@ -49,9 +56,11 @@ app.use("/api/destinations", destinationsRoutes);
 app.use("/api/bestOffer", bestOfferRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/login", usersRoutes)
-app.use("/api/flightSearch", flightSearchRoutes)
-app.use("/api/CountFlight", CountFlightRoutes)
-app.use("/api/AvgDest", AvgDestination)
+app.use("/api/logout", usersRoutes);
+app.use("/api/flightSearch", flightSearchRoutes);
+app.use("/api/CountFlight", CountFlightRoutes);
+app.use("/api/AvgDest", AvgDestination);
+app.use("/api/SearchText", SearchText);
 
 app.param("userId", function (req, res, next, id) {
   User.findById(id, function (err, user) {
@@ -69,7 +78,7 @@ app.param("userId", function (req, res, next, id) {
 app.use("/api/users/:userId/orders", ordersRoutes);
 
 app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "angular", index.html));
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
 
 

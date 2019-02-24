@@ -80,4 +80,17 @@ export class CartListComponent implements OnInit {
   IsCartEmpty(){
     return this.cartService.getCart().items.length == 0;
   }
+
+  AreQuantitiesValid(){
+    if (this.dataSource == null)
+      return false;
+    for(var i=0; i< this.dataSource.data.length; i++)
+    {
+      var flightRow = this.dataSource.data[i];
+      console.log(flightRow.quantity)
+      if (flightRow.quantity == null)
+        return false;
+    }
+    return true
+  }
 }

@@ -1,3 +1,5 @@
+<mat-card>
+    <div class="form">
 <mat-toolbar>
   <mat-toolbar-row>
     <mat-icon class="header-icon">edit</mat-icon>
@@ -32,10 +34,10 @@
   </mat-form-field>
 
   <mat-form-field>
-      <input matInput [matDatepicker]="birthdate" formControlName="birthdate" placeholder="Birth date" required readonly>
+      <input matInput [matDatepicker]="birthdate" formControlName="birthdate" placeholder="Birth date" [max]="todayDate" required readonly>
       <mat-datepicker-toggle matSuffix [for]="birthdate"></mat-datepicker-toggle>
       <mat-datepicker #birthdate disabled="false"></mat-datepicker>
-      <mat-error>landing date is empty</mat-error>
+      <mat-error>birth date is empty</mat-error>
   </mat-form-field>
 
   <button mat-raised-button class="registration-button" type="submit" [disabled]="!registrationForm.valid">
@@ -43,5 +45,5 @@
     <mat-spinner *ngIf="isLoading" class="spinner" color="accent" [diameter]="27"></mat-spinner>
   </button>
 </form>
-
-
+</div>
+</mat-card>

@@ -2,23 +2,17 @@
     <div class="form">
 <form [formGroup]="flightForm" class="flight-container" (ngSubmit)="onSubmit()">
     <mat-form-field>
-        <input matInput [matDatepicker]="TakeOffDatePicker" formControlName="takeoff" [(ngModel)]="takeOffDate" placeholder="Take Off Date" required readonly>
-        <mat-datepicker-toggle matSuffix [for]="TakeOffDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #TakeOffDatePicker disabled="false"></mat-datepicker>
-        <mat-error>Takeoff date is empty</mat-error>
+      <input matInput [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="takeoff" [(ngModel)]="takeOffDate" placeholder="Take Off Time" required readonly>
+        <owl-date-time [pickerType]="'both'" #dt1></owl-date-time>
+        <mat-error>Takeoff Date not valid</mat-error>
       </mat-form-field>
-      <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="takeoff" placeholder="Take Off Time *" required readonly>
-        <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
-  
-      <mat-form-field>
-          <input matInput [matDatepicker]="LandingDatePicker" formControlName="landing" [min]="takeOffDate" placeholder="Landing Date" required readonly>
-          <mat-datepicker-toggle matSuffix [for]="LandingDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #LandingDatePicker disabled="false"></mat-datepicker>
-          <mat-error>landing date is empty</mat-error>
+
+        <mat-form-field>
+      <input matInput [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" formControlName="landing" [min]="takeOffDate" placeholder="Landing Time" required readonly>
+        <owl-date-time [pickerType]="'both'" #dt2></owl-date-time>
+        <mat-error>Landing Date not valid</mat-error>
       </mat-form-field>
-      <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" formControlName="landing" [min]="takeOffDate" placeholder="Landing Time *" required readonly>
-        <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
-      
+
       <mat-form-field>
         <input matInput placeholder="Price" formControlName="price" required>
         <mat-error>Price must contain digits only</mat-error>

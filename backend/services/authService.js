@@ -11,7 +11,16 @@ const { to } = require('await-to-js');
 const SECRET_KEY = "TOMTOMTOMTOMKEY12345";
 
 const authService = {
-
+	logout: async function (username) {
+		console.log("logging out " + username)
+		if (loggedUsers>0)
+		{
+			console.log("logout : before loggedUsers = " + loggedUsers);
+			loggedUsers= loggedUsers-1;
+			console.log("logout : afer loggedUsers = " + loggedUsers);
+		}
+		return {result: true};	
+	},
 	login: async function (username, password) {
 		const result= {
 			accessToken: null,
@@ -38,6 +47,10 @@ const authService = {
 			result.lastname = found.lastName;
 			result.email = found.email;
 			result.isAdmin = found.isAdmin;
+			
+			console.log("login : before loggedUsers = " + loggedUsers);
+			loggedUsers=loggedUsers+1;
+			console.log("login : after loggedUsers = " + loggedUsers);
 		}
 
 

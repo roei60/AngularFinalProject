@@ -27,7 +27,8 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
         <mat-cell *matCellDef="let element">
             <div>
-              <input #quantity type="number" [(ngModel)]="element.quantity" min="1" oninput="validity.valid||(value='');" style="text-align: center;width:60px;"/>
+              <input #quantity type="number" [(ngModel)]="element.quantity" min="1" oninput="validity.valid||(value='');" 
+              style="text-align: center;width:60px;"/>
             </div>
         </mat-cell>
       </ng-container>
@@ -50,6 +51,6 @@
   <mat-paginator *ngIf="!IsCartEmpty()" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
   <div class="wrapper">
-    <button class="btn btn-primary button center" (click)="OrderItems()" *ngIf="!IsCartEmpty()">Order!</button>
+    <button class="btn btn-primary button center" (click)="OrderItems()" *ngIf="!IsCartEmpty()" [disabled]="!AreQuantitiesValid()">Order!</button>
   </div>
   <p class="info-text mat-body-1" *ngIf="IsCartEmpty()">No flights added to cart yet!</p>

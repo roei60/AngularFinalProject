@@ -46,6 +46,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 import { AboutComponent } from './about/about.component';
+import { UserCounterComponent } from './header/user-counter/user-counter.component';
 import { BestOfferComponent } from './bestOffer/best-offer/best-offer.component';
 import { CMSService } from './services/cms.service';
 import { DestinationPipeModel } from './models/DestinationCustumePipe';
@@ -64,8 +65,10 @@ import { DestinationPipeModel } from './models/DestinationCustumePipe';
     DestinationCreateComponent,
     DestinationListComponent,
     AboutComponent,
+    UserCounterComponent,
     BestOfferComponent,
     DestinationPipeModel
+    
   ],
   imports: [
     AgmCoreModule.forRoot({
