@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { mimeType } from "./mime-type.validator";
 import { Flight } from '../../models/flight.model';
 import { FlightService } from "../../services/flight.service";
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap,Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { DestinationService } from '../../services/destination.service';
 import { DatePipe } from '@angular/common'
+import * as alertify from 'alertify.js'
 
 @Component({
   selector: 'app-flight-create',
@@ -34,7 +35,8 @@ export class FlightCreateComponent implements OnInit {
     private fb: FormBuilder,
     public flightService: FlightService,
     public destinationService: DestinationService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private router: Router
   ) {
     this.destinationService.GetDestinations()
       .subscribe(transformedDestinationData => {
@@ -75,6 +77,9 @@ export class FlightCreateComponent implements OnInit {
           });
           console.log("form value destination: " + this.flightForm.value.destination);
           console.log("set form value");
+        },error=>{
+          alertify.logPosition('bottom right').error(error.error.message);
+          this.router.navigate(["/"]);
         })
       } else {
         this.mode = "create";

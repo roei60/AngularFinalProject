@@ -144,10 +144,9 @@ export class OrderService {
         order
       )
       .subscribe(responseData => {
-
-        if(responseData.message.startsWith("something went wrong")){
-          alertify.logPosition('bottom right').error(responseData.message);
-        }
+        this.router.navigate(["/"]);
+      },error=>{
+        alertify.logPosition('bottom right').error(error.error.message);
         this.router.navigate(["/"]);
       });
   }

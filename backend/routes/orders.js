@@ -33,7 +33,7 @@ router.put(
       });
     }
     else{
-      res.status(200).json({
+      res.status(404).json({
         message: "something went wrong... pls try again later!"
       });
     }
