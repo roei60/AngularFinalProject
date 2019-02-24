@@ -15,7 +15,7 @@ export class CMSService {
   getDestination() {
     console.log("getDestination function from CMSService at client side");
     return this.http.get<{
-      dest: Destination
+      a: any
       /*id: string,
       country: string,
       city:string*/

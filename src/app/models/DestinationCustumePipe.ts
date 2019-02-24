@@ -6,9 +6,9 @@ export class DestinationPipeModel implements PipeTransform {
   transform(dest : any) : any {
     if(dest == undefined )
       return "Germany, Berlin";
-    var ob = JSON.parse(dest);
-    var countryVal = ob.a.country;
-    var cityVal = ob.a.city;
+    var ob = dest;
+    var countryVal = ob.country;
+    var cityVal = ob.city;
     //var countryVal = ((JSON.stringify(dest).split(',')[1].trim()).split(':')[1].trim()).substring(2,(JSON.stringify(dest).split(',')[1].trim()).split(':')[1].trim().length-2) as any;
     //var cityVal = ((JSON.stringify(dest).split(',')[2].trim()).split(':')[1].trim()).substring(2,(JSON.stringify(dest).split(',')[1].trim()).split(':')[1].trim().length-3) as any;
     return countryVal + ", " + cityVal as any; 

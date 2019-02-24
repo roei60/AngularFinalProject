@@ -13,37 +13,31 @@ import { FlightService } from 'src/app/services/flight.service';
 })
 export class BestOfferComponent implements OnInit {
   bestOfferForm: FormGroup;
-  public DestinationValue : string;
+  public DestinationValue: {_id:any,city:string,country:string};
 
-  constructor(private fb: FormBuilder,private router: Router,private cmsService: CMSService,public destinationService: DestinationService,public flightService: FlightService) { }
+  constructor(private fb: FormBuilder, private router: Router, private cmsService: CMSService, public destinationService: DestinationService, public flightService: FlightService) { }
 
   ngOnInit() {
-    if (this.router.url== "/bestOffer") {
-      setTimeout(() => {
-        this.cmsService.getDestination()
-          .subscribe(dest => {
-            this.DestinationValue = JSON.stringify(dest);
-          })});
-        };
+    this.cmsService.getDestination()
+      .subscribe(dest => {
+        var destinaiton = dest.a;
+        this.DestinationValue = destinaiton;
+      })
+  }
+
+  onSubmit() {
+  
+        this.cmsService.setSerchInformation(this.DestinationValue as any);
+
+        var searchParams = {
+          destination: this.DestinationValue._id,
+          takeoff: '1970-01-01',
+          price: Number.MAX_SAFE_INTEGER
+        }
+        this.flightService.searchFlights(searchParams)
+        this.router.navigate(["/search"]);
+
       }
   
-      onSubmit() {
-        var countryVal = ((JSON.stringify(this.DestinationValue).split(',')[1].trim()).split(':')[1].trim()).substring(2,(JSON.stringify(this.DestinationValue).split(',')[1].trim()).split(':')[1].trim().length-2) as any;
-        var cityVal = ((JSON.stringify(this.DestinationValue).split(',')[2].trim()).split(':')[1].trim()).substring(2,(JSON.stringify(this.DestinationValue).split(',')[1].trim()).split(':')[1].trim().length-3) as any;
-        /*var takeoff = this.SearchFligthGroup.value.takeoff
-        var price = this.SearchFligthGroup.value.price*/
-        this.destinationService.getDestinationIdByCountryAndCity(countryVal, cityVal)
-        .subscribe(dest => {
-          //console.log("dest.id from query = " + dest._id);
-          this.cmsService.setSerchInformation(dest as any);
-    
-            var searchParams = {
-              destination: dest._id
-            }
-            this.flightService.searchFlightsByCountryAndCity(searchParams)
-            this.router.navigate(["/search"]);
-    
-          })
-        }
 
 }
