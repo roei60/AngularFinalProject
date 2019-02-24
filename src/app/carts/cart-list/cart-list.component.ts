@@ -29,19 +29,22 @@ export class CartListComponent implements OnInit {
     private userService: UserService,private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-     this.flightService.GetAllFlights();
-    this.flightsSubscriber = this.flightService.getFlightsUpdateListener()
+      
+      this.flightService.GetAllFlights();
+      this.flightsSubscriber = this.flightService.getFlightsUpdateListener()
       .subscribe(flightData => {
         this.flights = flightData.flightsData
-        this.DataSourceHandling()
-
+        this.DataSourceHandling();        
       })
   }
   
   DataSourceHandling() {
     var ids = this.cartService.getCart().items;    
     this.flights =  this.flightService.GetFlights().filter(flight => ids.includes(flight.id));
-
+    if(this.flights.length==0)
+    {
+      this.cartService.clearCart();
+    }
     for (var i = 0; i < this.flights.length; i++) {
       this.flights[i].quantity = 1;
   }
