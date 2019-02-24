@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
 <mat-toolbar color="primary">
-  <span>
+  
     <a routerLink="/">Take A Flight</a>
-  </span>
+
   <!-- <span class="spacer"></span> -->
   <ul>
     <li>
@@ -32,7 +32,7 @@
   <ul>
         <li>
             <a routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated() && this.authService.getUserDetails().isAdmin">
-                {{counter}} <span class="glyphicon glyphicon-user"></span></a> 
+                <mat-icon style="display:inline-block; vertical-align:middle;">portrait</mat-icon> - <span style="display:inline-block; vertical-align:middle;" [innerText]="counter"></span></a> 
         </li>
       <li>
           <a mat-button routerLink="/viewOrders" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">My
@@ -40,7 +40,7 @@
         </li>
     <li>
       <a mat-button routerLink="/viewCart" routerLinkActive="mat-accent" *ngIf="this.authService.isAuthenticated()">
-        <span class="glyphicon glyphicon-shopping-cart"></span> - <span [innerText]="numItems"></span>
+        <mat-icon>shopping_cart</mat-icon> - <span [innerText]="numItems"></span>
       </a>
     </li>
     <li>
