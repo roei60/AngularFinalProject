@@ -2,18 +2,20 @@ const express = require("express");
 
 const User = require("../models/userSchema");
 const Flight = require("../models/flightSchema");
+const { to } = require('await-to-js');
 
 const router = express.Router();
 
 router.put(
   "",
-  (req, res, next) => {
+  async (req, res, next) => {
     console.log("post request req.body.userId: " + req.body.userId);
       console.log("post request req.body.flight: " + req.body.flightId);
       console.log("post request req.body.quantity: " + req.body.quantity);
 
       User.findById(req.body.userId).then(res => console.log(res));
-      
+      [err,flight] =await to(Flight.findById(req.body.flightId));
+      if(flight!=null){
       var updateQuery = { 
         $push:  { 
               orders: {
@@ -29,6 +31,12 @@ router.put(
               message: "Update order successful!"
             });
       });
+    }
+    else{
+      res.status(200).json({
+        message: "something went wrong... pls try again later!"
+      });
+    }
   }
 );
   

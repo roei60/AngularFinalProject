@@ -43,7 +43,8 @@ export class OrderListComponent implements OnInit {
      this.orderService.getOrders(this.authService.userDetails.userId)
      this.ordersSubscriber = this.orderService.getOrdersUpdateListener()      
      .subscribe(ordersData => {
-         this.orders = ordersData.ordersData;
+       var withoutNulls=ordersData.ordersData.filter(obj=>obj!=undefined)
+         this.orders = withoutNulls;
          console.log(this.orders);
          this.DataSourceHandling();
        });

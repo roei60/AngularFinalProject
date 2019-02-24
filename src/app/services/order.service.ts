@@ -7,6 +7,7 @@ import { stringify } from '@angular/core/src/render3/util';
 import { Destination } from '../models/destination.model';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
+import * as alertify from 'alertify.js'
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,8 @@ export class OrderService {
        })
      ).subscribe(obj => {
       this.orders = obj.orders.map(obj => {
+        if(obj.flight==null)
+          return;
         var Dest: Destination = {
           id: obj.flight.destination._id,
           city: obj.flight.destination.city,
@@ -141,6 +144,10 @@ export class OrderService {
         order
       )
       .subscribe(responseData => {
+
+        if(responseData.message.startsWith("something went wrong")){
+          alertify.logPosition('bottom right').error(responseData.message);
+        }
         this.router.navigate(["/"]);
       });
   }
