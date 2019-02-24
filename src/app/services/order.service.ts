@@ -44,7 +44,7 @@ export class OrderService {
        })
      ).subscribe(obj => {
       this.orders = obj.orders.map(obj => {
-        if(obj.flight==null)
+        if(obj.flight==null || obj.flight.destination==null)
           return;
         var Dest: Destination = {
           id: obj.flight.destination._id,
@@ -68,6 +68,7 @@ export class OrderService {
           quantity: obj.quantity
         }
       })
+      this.orders = this.orders.filter(order => order != null);
       this.ordersUpdated.next({
         ordersData: [...this.orders],
       })
