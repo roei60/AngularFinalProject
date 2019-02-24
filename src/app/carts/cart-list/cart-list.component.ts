@@ -29,7 +29,7 @@ export class CartListComponent implements OnInit {
     private userService: UserService,private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-      
+    this.isLoading = true;
       this.flightService.GetAllFlights();
       this.flightsSubscriber = this.flightService.getFlightsUpdateListener()
       .subscribe(flightData => {
@@ -39,6 +39,7 @@ export class CartListComponent implements OnInit {
   }
   
   DataSourceHandling() {
+    
     var ids = this.cartService.getCart().items;    
     this.flights =  this.flightService.GetFlights().filter(flight => ids.includes(flight.id));
     if(this.flights.length==0)
@@ -58,6 +59,7 @@ export class CartListComponent implements OnInit {
         default: return item[property];
       }
     };
+    this.isLoading = false;
   }
 
   RemoveItem(flight: Flight){
