@@ -11,6 +11,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { AboutComponent } from './about/about.component';
+import { BestOfferComponent } from './bestOffer/best-offer/best-offer.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     path: 'editDestination/:destinationId',
     component: DestinationCreateComponent
+  },
+  { 
+    canActivate: [AuthGuard],
+    path: 'bestOffer',
+    component: BestOfferComponent
   },
   {
     path: 'About',

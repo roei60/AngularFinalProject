@@ -47,6 +47,9 @@ import { DestinationCreateComponent } from './destination/destination-create/des
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 import { AboutComponent } from './about/about.component';
 import { UserCounterComponent } from './header/user-counter/user-counter.component';
+import { BestOfferComponent } from './bestOffer/best-offer/best-offer.component';
+import { CMSService } from './services/cms.service';
+import { DestinationPipeModel } from './models/DestinationCustumePipe';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,8 @@ import { UserCounterComponent } from './header/user-counter/user-counter.compone
     DestinationListComponent,
     AboutComponent,
     UserCounterComponent,
+    BestOfferComponent,
+    DestinationPipeModel
     
   ],
   imports: [
@@ -94,7 +99,7 @@ import { UserCounterComponent } from './header/user-counter/user-counter.compone
     MatTableModule,
     NgxChartsModule
   ],
-  providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard],
+  providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard,CMSService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -100,7 +100,6 @@ export class FlightCreateComponent implements OnInit {
               this.flightForm.value.price,
               dest._id)
           });;
-
       }, 3000);
     } else {
       this.destinationService.getDestinationIdByCountryAndCity(country, city)
