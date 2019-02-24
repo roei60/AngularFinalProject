@@ -45,6 +45,8 @@ export class FlightService {
         })
       ).subscribe(obj => {
         this.flights = obj.flights.map(obj => {
+          if (obj.destination == null)
+            return undefined;
           var Dest: Destination = {
             id: obj.destination._id,
             city: obj.destination.city,
@@ -61,6 +63,7 @@ export class FlightService {
             destination: Dest
           }
         })
+        this.flights = this.flights.filter(flight => flight != undefined);
         console.log("service " + this.flights)
         this.flightsUpdated.next({
           flightsData: [...this.flights],

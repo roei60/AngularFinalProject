@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Destination } from 'src/app/models/destination.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DestinationService } from 'src/app/services/destination.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import * as alertify from 'alertify.js'
 
 @Component({
   selector: 'app-destination-create',
@@ -22,7 +23,8 @@ export class DestinationCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public destinationService: DestinationService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -49,6 +51,9 @@ export class DestinationCreateComponent implements OnInit {
             city: destData.city,            
           });          
           console.log("set form value");
+        },error=>{
+          alertify.logPosition('bottom right').error(error.error.message);
+          this.router.navigate(["/"]);
         })
       } else {
         this.mode = "create";
