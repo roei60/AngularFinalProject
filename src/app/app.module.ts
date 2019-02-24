@@ -46,6 +46,9 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { DestinationCreateComponent } from './destination/destination-create/destination-create.component';
 import { DestinationListComponent } from './destination/destination-list/destination-list.component';
 import { AboutComponent } from './about/about.component';
+import { BestOfferComponent } from './bestOffer/best-offer/best-offer.component';
+import { CMSService } from './services/cms.service';
+import { DestinationPipeModel } from './models/DestinationCustumePipe';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,8 @@ import { AboutComponent } from './about/about.component';
     DestinationCreateComponent,
     DestinationListComponent,
     AboutComponent,
-    
+    BestOfferComponent,
+    DestinationPipeModel
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -92,7 +96,7 @@ import { AboutComponent } from './about/about.component';
     MatTableModule,
     NgxChartsModule
   ],
-  providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard],
+  providers: [MatDatepickerModule,AuthService, UserService, CartService,AuthGuard,CMSService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

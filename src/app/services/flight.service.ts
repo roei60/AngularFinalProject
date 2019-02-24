@@ -145,6 +145,59 @@ export class FlightService {
 
   }
 
+  searchFlightsByCountryAndCity(searchParams: { destination: any;}): any {
+    this.http
+      .get<{message: string; flights: any; maxflights: number }>(
+        "http://localhost:3000/api/flightSearch/" +
+        JSON.stringify(
+          {
+            "destination": searchParams.destination
+          }
+        ))      .pipe(
+          map(flightsData => {
+            console.log("obj: " + flightsData.flights);
+            return {
+              flights: flightsData.flights.map(flight => {
+                return {
+                  id: flight._id,
+                  destination: flight.destination,
+                  takeoff: flight.takeoff,
+                  landing: flight.landing,
+                  price: flight.price
+  
+                };
+              }),
+              maxDestinations: flightsData.maxflights
+            };
+          })
+        ).subscribe(obj => {
+          this.flights = obj.flights.map(obj => {
+            var Dest: Destination = {
+              id: obj.destination._id,
+              city: obj.destination.city,
+              country: obj.destination.country
+            }
+            var pipe = new DatePipe('en-US');
+            var _landing = pipe.transform(Date.parse(obj.landing), "short")
+            var _takeoff = pipe.transform(Date.parse(obj.takeoff), "short")
+            return {
+              id: obj.id,
+              takeoff: _takeoff,
+              landing: _landing,
+              price: obj.price,
+              destination: Dest
+            }
+          })
+          console.log("service " + this.flights)
+        
+          this.flightsUpdated.next({
+            flightsData: [...this.flights],
+          })
+        
+        })
+
+  }
+
   addFlight(takeoff: string, landing: string, price: number, destination: string) {
     console.log("Add flight: ");
     console.log("takeoff: " + takeoff);

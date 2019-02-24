@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from "@angular/router";
 
 import { MapsAPILoader } from '@agm/core';
+import { CMSService } from 'src/app/services/cms.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,7 +35,8 @@ export class HomeComponent implements OnInit {
     public destinationService: DestinationService,
     public route: ActivatedRoute, private mapsAPILoader: MapsAPILoader,
     private router: Router,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private cmsService:CMSService) {
     this.destinationService.GetDestinations()
       .subscribe(transformedDestinationData => {
         this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + ", " + obj.country });
@@ -77,8 +79,9 @@ export class HomeComponent implements OnInit {
     var takeoff = this.SearchFligthGroup.value.takeoff
     var price = this.SearchFligthGroup.value.price
     this.destinationService.getDestinationIdByCountryAndCity(country, city)
-      .subscribe(dest => {
-        console.log("dest.id from query = " + dest._id);
+    .subscribe(dest => {
+      //console.log("dest.id from query = " + dest._id);
+      this.cmsService.setSerchInformation(dest as any);
 
         var searchParams = {
           destination: dest._id,
