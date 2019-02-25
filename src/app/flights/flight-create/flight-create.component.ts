@@ -50,7 +50,7 @@ export class FlightCreateComponent implements OnInit {
     this.flightForm = this.fb.group({
       takeoff: ['', Validators.required],
       landing: ['', Validators.required],
-      price: ['', Validators.pattern(/^[0-9]*$/)],
+      price: ['', Validators.pattern(/^\d+(\.\d{1,5})?$/)],
       destination: ['', Validators.pattern(/^((?!None).)*$/)]
     });
 
