@@ -1,7 +1,10 @@
 const express = require("express");
 
 const Destination = require("../models/destinationSchema");
-
+const Flight = require("../models/flightSchema");
+const {
+  to
+} = require('await-to-js');
 const router = express.Router();
 
 router.get("", (req, res, next) => {
@@ -106,8 +109,18 @@ router.put(
 router.delete("/:id", (req, res, next) => {
   Destination.deleteOne({
     _id: req.params.id
-  }).then(result => {
+  }).then(async result => {
     console.log(result);
+
+    [err,found]=await to(Flight.find({"destination":req.params.id}))
+    if(found && found.length>0)
+    {
+      await to(Flight.deleteMany({
+        "destination":{
+          "$in":found.map(obj=>obj.destination)
+        }
+      }));
+    }
     res.status(200).json({
       message: "Destination deleted!"
     });
