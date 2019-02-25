@@ -118,6 +118,9 @@ export class FlightCreateComponent implements OnInit {
             this.flightForm.value.price,
             dest._id
           );
+        },error=>{
+          alertify.logPosition('bottom right').error("Destination not Found!");
+          this.router.navigate(["/"]);
         })
     }
     //this.flightForm.reset();

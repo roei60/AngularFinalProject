@@ -8,6 +8,8 @@ import { DatePipe } from '@angular/common'
 import { DestinationService } from '..//services/destination.service';
 import { Destination } from '../models/destination.model';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
+import * as alertify from 'alertify.js'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -247,6 +249,9 @@ export class FlightService {
     this.http
       .put("http://localhost:3000/api/flights/" + id, flightData)
       .subscribe(response => {
+        this.router.navigate(["/"]);
+      },error=>{
+        alertify.logPosition('bottom right').error("couldnt find flight or destiantion");
         this.router.navigate(["/"]);
       });
   }
