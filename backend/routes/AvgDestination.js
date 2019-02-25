@@ -39,8 +39,16 @@ router.get("/", (req, res, next) => {
             model: 'Destination'
         }).then(o => {
             return o.map(maping => {
-                var country = maping._id.country;
-                var value = maping.value;
+                var country,value;
+                if(maping._id!=null){
+                    var country = maping._id.country;
+                    var value = maping.value;
+                }
+                else
+              {
+                country="Germany"
+                value="10000000"
+              }
                 return {
                     "name": country,
                     "value": parseInt(value)

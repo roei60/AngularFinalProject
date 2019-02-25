@@ -4,6 +4,7 @@ import { FlightService } from 'src/app/services/flight.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from "@angular/router";
+import * as alertify from 'alertify.js'
 
 import { MapsAPILoader } from '@agm/core';
 import { CMSService } from 'src/app/services/cms.service';
@@ -110,6 +111,8 @@ export class HomeComponent implements OnInit {
         this.flightService.searchFlights(searchParams)
         this.router.navigate(["/search"]);
 
+      },error=>{
+        alertify.logPosition('bottom right').error("Destination not found!");
       })
 
   }

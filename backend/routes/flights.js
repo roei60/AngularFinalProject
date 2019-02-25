@@ -1,7 +1,9 @@
 const express = require("express");
 
 const Flight = require("../models/flightSchema");
-
+const {
+  to
+} = require('await-to-js');
 const router = express.Router();
 
 router.post(
@@ -76,10 +78,13 @@ router.get("", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  Flight.findById(req.params.id).populate('destination').then(flight => {
-    if (flight) {
+  Flight.findById(req.params.id).populate('destination').then(async flight => {
+    if (flight &&flight.destination) {
       res.status(200).json(flight);
     } else {
+      await to(Flight.deleteOne({
+        _id: req.params.id
+      }))
       res.status(404).json({
         message: "Flight not found!"
       });
