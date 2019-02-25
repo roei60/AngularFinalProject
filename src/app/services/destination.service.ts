@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Destination } from '../models/destination.model';
 import { Subject } from 'rxjs';
+import * as alertify from 'alertify.js'
 
 @Injectable({
   providedIn: 'root'
@@ -86,11 +87,17 @@ updateDestination(id: string, country: string, city: string) {
     .put("http://localhost:3000/api/destinations/" + id, destinationData)
     .subscribe(response => {
       this.router.navigate(["/"]);
+    },error=>{
+      alertify.logPosition('bottom right').error(error.error.message);
+      this.router.navigate(["/"]);
     });
 }
 
 deleteDestination(destinationID: Number) {
   return this.http.delete("http://localhost:3000/api/destinations/" + destinationID).subscribe(res => {
+    this.router.navigate(["/"]);
+  },error=>{
+    alertify.logPosition('bottom right').error(error.error.message);
     this.router.navigate(["/"]);
   });
 }

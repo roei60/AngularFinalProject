@@ -251,13 +251,16 @@ export class FlightService {
       .subscribe(response => {
         this.router.navigate(["/"]);
       },error=>{
-        alertify.logPosition('bottom right').error("couldnt find flight or destiantion");
+        alertify.logPosition('bottom right').error(error.error.message);
         this.router.navigate(["/"]);
       });
   }
 
   deleteFlight(flightId: String) {
     return this.http.delete("http://localhost:3000/api/flights/" + flightId).subscribe(res => {
+      this.router.navigate(["/"]);
+    },error=>{
+      alertify.logPosition('bottom right').error(error.error.message);
       this.router.navigate(["/"]);
     });
   }

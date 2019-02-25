@@ -48,9 +48,17 @@ router.put(
     Flight.updateOne({
       _id: req.params.id 
     }, flight).then(result => {
-      res.status(200).json({
-        message: "Update successful!"
-      });
+      if(res.n > 0){
+        res.status(200).json({
+          message: "Update successful!"
+        });
+      }
+      else{
+        res.status(404).json({
+          message: "Update failed... flight already deleted by another admin"
+        });
+      }
+      
     });
   }
 );
@@ -97,9 +105,18 @@ router.delete("/:id", (req, res, next) => {
     _id: req.params.id
   }).then(result => {
     console.log(result);
-    res.status(200).json({
-      message: "Flight deleted!"
-    });
+    if (result.n > 0){
+      
+      res.status(200).json({
+        message: "Flight deleted!"
+      });
+    }
+    else{
+      res.status(404).json({
+        message: "Delete failed...Flight already deleted by another admin"
+      });
+    }
+    
   });
 });
 

@@ -81,4 +81,13 @@ io.on('connection', socket => {
     console.log(`Remaining sockets: ${sockets.size}`);
   });
 
+  socket.on('timeout', data => {
+    console.log("Entered timeout!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    for (const s of sockets) {
+      console.log(`Emitting value: ${loggedUsers}`);
+      s.emit('message', { data: loggedUsers });
+    }
+
+  });
+
 });

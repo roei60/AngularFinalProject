@@ -99,9 +99,16 @@ router.put(
     Destination.updateOne({
       _id: req.params.id 
     }, dest).then(result => {
-      res.status(200).json({
-        message: "Update successful!"
-      });
+      if (result.n > 0){
+        res.status(200).json({
+          message: "Update successful!"
+        });
+      }
+      else{
+        res.status(404).json({
+          message: "Update failed... destination already deleted by another admin"
+        });
+      }
     });
   }
 );
@@ -111,19 +118,24 @@ router.delete("/:id", (req, res, next) => {
     _id: req.params.id
   }).then(async result => {
     console.log(result);
-
-    [err,found]=await to(Flight.find({"destination":req.params.id}))
-    if(found && found.length>0)
-    {
-      await to(Flight.deleteMany({
-        "destination":{
-          "$in":found.map(obj=>obj.destination)
-        }
-      }));
+    if (result.n >0){
+      [err,found]=await to(Flight.find({"destination":req.params.id}))
+      if(found && found.length>0){
+        await to(Flight.deleteMany({
+          "destination":{
+            "$in":found.map(obj=>obj.destination)
+          }
+        }));
+      }
+      res.status(200).json({
+        message: "Destination deleted!"
+      });
     }
-    res.status(200).json({
-      message: "Destination deleted!"
-    });
+    else{
+      res.status(404).json({
+        message: "Delete failed... destination already deleted by another admin"
+      });
+    }
   });
 });
 
