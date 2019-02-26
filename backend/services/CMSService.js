@@ -1,6 +1,8 @@
 var createCountMin = require("../models/count-min-sketch.js")
 var sketch = createCountMin()
-
+const {
+    to
+  } = require('await-to-js');
 const CMSService = {
     getMax: function () {
         //Check the insert to the sketch
@@ -25,7 +27,7 @@ const CMSService = {
 
         
     },
-    updateKey:function(key){
+    updateKey:async function(key){
         sketch.update(key,1);
     },
 

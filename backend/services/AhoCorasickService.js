@@ -1,6 +1,7 @@
 const AhoCorasick = require('node-aho-corasick');
 const Destination = require("../models/destinationSchema");
 const Flight = require("../models/flightSchema");
+const cmsService = require('../services/CMSService.js')
 
 const mongoose = require("mongoose");
 const {
@@ -67,6 +68,34 @@ const AhoService = {
             console.log(retVal)
             return retVal;
         }
+    },
+    AddDestination: async function (dest) {
+        Dest.add(dest.city);
+        Dest.add(dest.country);
+        Dest.build();
+    },
+    UpdateCms: async function (destArr) {
+        var destInText = (Dest.search(destArr));
+        let unique = [...new Set(destInText)];
+        [err, result] = await to(Destination.aggregate([{
+            "$match": {
+                "$or": [{
+                        "city": {
+                            "$in": unique
+                        }
+                    },
+                    {
+                        "country": {
+                            "$in": unique
+                        }
+                    }
+                ]
+            }
+        }]));
+        result.forEach(async element => {
+            await to(cmsService.updateKey(element));
+        });
+        console.log(result);
     }
 }
 

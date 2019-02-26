@@ -6,6 +6,7 @@ const {
   to
 } = require('await-to-js');
 const router = express.Router();
+const AhoService = require("../services/AhoCorasickService")
 
 router.get("", (req, res, next) => {
   console.log("get ");
@@ -62,7 +63,9 @@ router.post(
       country: req.body.country,
       city:req.body.city
     });
-    Dest.save().then(createdDest => {
+    Dest.save().then(async createdDest => {
+      await to(AhoService.AddDestination({"city": req.body.city,
+    "country":req.body.country}));
       res.status(201).json({
         message: "Flight added successfully",
         destination: {
@@ -98,8 +101,10 @@ router.put(
     console.log(dest);
     Destination.updateOne({
       _id: req.params.id 
-    }, dest).then(result => {
+    }, dest).then(async result => {
       if (result.n > 0){
+        await to(AhoService.AddDestination({"city": req.body.city,
+        "country":req.body.country}));
         res.status(200).json({
           message: "Update successful!"
         });
