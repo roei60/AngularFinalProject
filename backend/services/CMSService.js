@@ -28,7 +28,7 @@ const CMSService = {
         
     },
     updateKey:async function(key){
-        sketch.update(key,1);
+        sketch.update(key._id,1);
     },
 
     getSketch:function(){

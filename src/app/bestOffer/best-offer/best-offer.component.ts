@@ -13,14 +13,14 @@ import { FlightService } from 'src/app/services/flight.service';
 })
 export class BestOfferComponent implements OnInit {
   bestOfferForm: FormGroup;
-  public DestinationValue: {_id:any,city:string,country:string};
+  public DestinationValue:any
 
   constructor(private fb: FormBuilder, private router: Router, private cmsService: CMSService, public destinationService: DestinationService, public flightService: FlightService) { }
 
   ngOnInit() {
     this.cmsService.getDestination()
       .subscribe(dest => {
-        var destinaiton = dest.a;
+        var destinaiton = dest;
         this.DestinationValue = destinaiton;
       })
   }
