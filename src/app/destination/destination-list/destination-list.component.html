@@ -1,10 +1,10 @@
 <a mat-button routerLink="/createDestination" routerLinkActive="mat-accent" *ngIf="this.authService.getUserDetails().isAdmin">Create New Destination</a>
 <br>
-<mat-form-field style="margin:15px">
+<mat-form-field style="margin:15px" *ngIf="this.destinations.length != 0">
   <input matInput  (keyup)="applyFilter($event.target.value)" placeholder="Serach by values">
 </mat-form-field>
 
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort>
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.destinations.length != 0">
 
   <!-- Weight Column -->
   <ng-container matColumnDef="Country">
@@ -35,4 +35,5 @@
 
 
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="this.destinations.length == 0"></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="this.destinations.length == 0">No destinations available in system!</p>
