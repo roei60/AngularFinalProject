@@ -4,16 +4,16 @@
   <input matInput  (keyup)="applyFilter($event.target.value)" placeholder="Serach by values">
 </mat-form-field>
 
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.destinations.length != 0">
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort [hidden]="this.destinations.length == 0">
 
   <!-- Weight Column -->
-  <ng-container matColumnDef="Country">
+  <ng-container matColumnDef="country">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.country}} </mat-cell>
   </ng-container>
 
   <!-- Symbol Column -->
-  <ng-container matColumnDef="City">
+  <ng-container matColumnDef="city">
     <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.city}} </mat-cell>
   </ng-container>
@@ -22,8 +22,8 @@
     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div>
-        <button class="btn btn-primary PadRight" [routerLink]="['/editDestination', element.id]" *ngIf="authService.getUserDetails().isAdmin">Update</button>
-        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)" *ngIf="authService.getUserDetails().isAdmin">Delete</button>
+        <button class="btn btn-primary PadRight" [routerLink]="['/editDestination', element.id]" [hidden]="authService.getUserDetails().isAdmin">Update</button>
+        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)" [hidden]="authService.getUserDetails().isAdmin">Delete</button>
 
       </div>
     </mat-cell>

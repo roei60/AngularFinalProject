@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Flight } from 'src/app/models/flight.model';
@@ -24,13 +25,13 @@ export class OrderListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   flights: any[] = []
   orders: any[] = []
-  destinations =[];
+  destinations = [];
   selectedDestination = "None";
   takeoffSearch;
   searchOrderGroup: FormGroup;
   private ordersSubscriber: Subscription;
-  constructor(private fb: FormBuilder, private flightService: FlightService,  private orderService: OrderService, 
-    private userService: UserService,private authService: AuthService, private router: Router,
+  constructor(private fb: FormBuilder, private flightService: FlightService, private orderService: OrderService,
+    private userService: UserService, private authService: AuthService, private router: Router,
     private destinationService: DestinationService) { }
 
   ngOnInit() {
@@ -40,30 +41,31 @@ export class OrderListComponent implements OnInit {
       destination: ['', Validators.required]
     });
 
-     this.orderService.getOrders(this.authService.userDetails.userId)
-     this.ordersSubscriber = this.orderService.getOrdersUpdateListener()      
-     .subscribe(ordersData => {
-       var withoutNulls=ordersData.ordersData.filter(obj=>obj!=undefined)
-         this.orders = withoutNulls;
-         console.log(this.orders);
-         this.DataSourceHandling();
-       });
+    this.orderService.getOrders(this.authService.userDetails.userId)
+    this.ordersSubscriber = this.orderService.getOrdersUpdateListener()
+      .subscribe(ordersData => {
+        var withoutNulls = ordersData.ordersData.filter(obj => obj != undefined)
+        this.orders = withoutNulls;
+        console.log(this.orders);
+        this.DataSourceHandling();
+      });
 
-       this.destinationService.GetDestinations()
-       .subscribe(transformedDestinationData => {
-         this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + "," + obj.country });
-       });
+    this.destinationService.GetDestinations()
+      .subscribe(transformedDestinationData => {
+        this.destinations = transformedDestinationData.destinations.map(obj => { return obj.city + "," + obj.country });
+      });
   }
-  
+
   DataSourceHandling() {
-    
-    this.dataSource = new MatTableDataSource(this.orders);    
-    this.dataSource.paginator = this.paginator;
+
+    this.dataSource = new MatTableDataSource(this.orders);
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'Destination': return item.destination.country
-        default: return item[property];
+        case 'Destination': return item.flight.destination.country
+        case 'quantity': return item.quantity
+        default: return item.flight[property];
       }
     };
   }
@@ -78,11 +80,11 @@ export class OrderListComponent implements OnInit {
     var takeoff = this.searchOrderGroup.value.takeoffSearch
     var price = this.searchOrderGroup.value.price
     this.orderService.getFilteredOrders(this.authService.userDetails.userId, country, city, takeoff, price);
-      
+
   }
 
   ngOnDestroy() {
     //prevent memory leak when component destroyed
-     this.ordersSubscriber.unsubscribe();
-   }
+    this.ordersSubscriber.unsubscribe();
+  }
 }

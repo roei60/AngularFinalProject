@@ -20,7 +20,7 @@
 </div>
 
 
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.orders.length != 0">
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort [hidden]="this.orders.length == 0">
   
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>

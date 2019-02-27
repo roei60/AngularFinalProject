@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class DestinationListComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['Country', 'City', "actions"];
+  displayedColumns = ['country', 'city', "actions"];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   /**
@@ -63,16 +63,10 @@ export class DestinationListComponent implements OnInit {
   }
 
   DataSourceHandling() {
-    this.dataSource =  new MatTableDataSource([...this.destinations]);
+    this.dataSource =  new MatTableDataSource(this.destinations);
     //  console.log(this.dataSource)
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'Destination': return item.destination.country
-        default: return item[property];
-      }
-    };
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(filterValue: string) {

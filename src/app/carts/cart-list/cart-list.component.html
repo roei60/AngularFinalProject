@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="!IsCartEmpty() && !isLoading">
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort [hidden]="IsCartEmpty() || isLoading">
     <ng-container matColumnDef="Destination">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.destination.country}},{{element.destination.city}} </mat-cell>
@@ -49,9 +49,9 @@
   
   
   
-  <mat-paginator *ngIf="!IsCartEmpty() && !isLoading" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [hidden]="IsCartEmpty() || isLoading" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
   <div class="wrapper">
-    <button class="btn btn-primary button center" (click)="OrderItems()" *ngIf="!IsCartEmpty() && !isLoading" [disabled]="!AreQuantitiesValid()">Order!</button>
+    <button class="btn btn-primary button center" (click)="OrderItems()" [hidden]="IsCartEmpty() || isLoading" [disabled]="!AreQuantitiesValid()">Order!</button>
   </div>
   <p class="info-text mat-body-1" *ngIf="IsCartEmpty() && !isLoading">No flights added to cart yet!</p>

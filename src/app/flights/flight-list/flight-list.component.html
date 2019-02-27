@@ -1,6 +1,6 @@
 <a mat-button routerLink="/create" routerLinkActive="mat-accent" *ngIf="this.authService.getUserDetails().isAdmin">Create New Flight</a>
 
-<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort *ngIf="this.flights.length != 0">
+<mat-table #table mat-elevation-z8 [dataSource]="dataSource" matSort [hidden]="this.flights.length == 0">
   <ng-container matColumnDef="Destination">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Destination</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.destination.country}},{{element.destination.city}} </mat-cell>
@@ -25,7 +25,7 @@
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div>
         <button class="btn btn-success PadRight" (click)="AddToCart(element)" *ngIf="!IsItemInCart(element)">Add to Cart</button>
