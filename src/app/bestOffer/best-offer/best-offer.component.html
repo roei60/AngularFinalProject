@@ -1,6 +1,6 @@
 <mat-card>
   <div class="form">
-<form class="bestOffer-container" (ngSubmit)="onSubmit()">
+<form class="bestOffer-container" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
   <!-- <div class="quarter"> -->
   <div class="wrapper center">
     <img class="center" src="../../../assets/images/Berlin.jpeg" alt="Berlin" style="width:50%;">
@@ -23,5 +23,6 @@
   </button>
   
 </form>
+<mat-spinner *ngIf="isLoading" class="spinner" color="accent" [diameter]="27"></mat-spinner>
 </div>
 </mat-card>

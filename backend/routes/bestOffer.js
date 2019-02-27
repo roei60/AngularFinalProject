@@ -11,11 +11,19 @@ const router = express.Router();
 router.get("", async (req, res, next) => {
   console.log("get by bestOFFER");
   var a = cmsService.getMax();
-  if (a != null)
+  var isDestFound = false;
+  if (a != null){
     [err,response]=await to(Destination.findById(a));
-  else
+    if (response != null){
+      isDestFound = true;
+      res.status(200).json(response);
+    }
+  }    
+  if (!isDestFound){
     [err,response]=await to(Destination.findOne());
-  res.status(200).json(response);
+    res.status(200).json(response);
+  }
+    
 });
 
 router.post("", (req, res, next) => {

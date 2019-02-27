@@ -4,8 +4,6 @@ import { Destination } from './destination.model';
 @Pipe({ name: 'DestinationCustumePipe' })
 export class DestinationPipeModel implements PipeTransform {
   transform(dest : any) : any {
-    if(dest == undefined )
-      return "Germany, Berlin";
     var ob = dest;
     var countryVal = ob.country;
     var cityVal = ob.city;
