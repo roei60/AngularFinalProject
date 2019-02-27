@@ -61,7 +61,8 @@ router.put(
         var takeoffDate = Date.parse(req.query.takeoff);
         var country = req.query.destination.split(',')[0].trim();
         var city = req.query.destination.split(',')[1].trim();
-        filteredOrders = user.orders._doc.orders.filter(order => Date.parse(order.flight.takeoff) >= takeoffDate
+        filteredOrders = user.orders._doc.orders.filter(order =>  order.flight != null 
+                                                                &&  Date.parse(order.flight.takeoff) >= takeoffDate
                                                                 && order.flight.destination._doc.country === country
                                                                 && order.flight.destination._doc.city === city
                                                                 && order.flight.price <= req.query.price);
