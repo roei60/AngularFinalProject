@@ -22,8 +22,8 @@
     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div>
-        <button class="btn btn-primary PadRight" [routerLink]="['/editDestination', element.id]" [hidden]="authService.getUserDetails().isAdmin">Update</button>
-        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)" [hidden]="authService.getUserDetails().isAdmin">Delete</button>
+        <button class="btn btn-primary PadRight" [routerLink]="['/editDestination', element.id]" [hidden]="!authService.getUserDetails().isAdmin">Update</button>
+        <button class="btn btn-danger PadRight" (click)="DeleteItem(element)" [hidden]="!authService.getUserDetails().isAdmin">Delete</button>
 
       </div>
     </mat-cell>
