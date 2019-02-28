@@ -8,6 +8,7 @@ import { query } from '@angular/core/src/render3';
 import { SyncAsync } from '@angular/compiler/src/util';
 import { AuthService } from './auth.service';
 import { to } from 'await-to-js';
+import * as alertify from 'alertify.js'
 
 @Injectable()
 export class UserService {
@@ -62,7 +63,9 @@ private token: string;
 
 		if(result)
 		   this.router.navigate(["/"]);
-
+		if (err) {
+				alertify.logPosition('bottom right').error(err.error.err);
+			}
 		// //this.http.get("http://localhost:3000/api/users").pipe(user=>)
 		// this.getUserByUserName(userName)
 		// .subscribe(user => {
